@@ -3,7 +3,7 @@ require 'ostruct'
 module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
-    STRING_OPTS = %i[resizing_type gravity watermark_position cachebuster
+    STRING_OPTS = %i[resizing_type gravity watermark_position style cachebuster
                      format].freeze
 
     INT_OPTS = %i[width height quality watermark_x_offset
@@ -35,6 +35,7 @@ module Imgproxy
       group_resizing_opts(opts)
       group_gravity_opts(opts)
       group_watermark_opts(opts)
+      encode_style(opts)
 
       Hash[opts.sort_by { |k, _| OPTS_PRIORITY.fetch(k, 99) }]
     end
@@ -101,6 +102,12 @@ module Imgproxy
       )
 
       opts[:watermark] = watermark unless watermark[0].nil?
+    end
+
+    def encode_style(opts)
+      return if opts[:style].nil?
+
+      opts[:style] = Base64.urlsafe_encode64(opts[:style]).tr('=', '')
     end
 
     def trim_nils(value)
