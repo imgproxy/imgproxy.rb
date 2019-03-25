@@ -13,7 +13,8 @@ module Imgproxy
   #     sharpen: 0.5
   #   )
   #
-  #   builder.url_for("http://imgproxy.example.com")
+  #   builder.url_for("http://images.example.com/images/image1.jpg")
+  #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
