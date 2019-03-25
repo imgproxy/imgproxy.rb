@@ -82,15 +82,27 @@ module Imgproxy
     end
 
     def sign_path(path)
-      return 'unsafe' if config.key.nil? || config.salt.nil?
+      return 'unsafe' if signature_key.nil? || signature_salt.nil?
 
-      Base64.urlsafe_encode64(
-        OpenSSL::HMAC.digest(
-          OpenSSL::Digest.new('sha256'),
-          config.key,
-          "#{config.salt}/#{path}"
-        )
-      ).tr('=', '')
+      digest = OpenSSL::HMAC.digest(
+        OpenSSL::Digest.new('sha256'),
+        signature_key,
+        "#{signature_salt}/#{path}"
+      )[0, signature_size]
+
+      Base64.urlsafe_encode64(digest).tr('=', '')
+    end
+
+    def signature_key
+      config.key
+    end
+
+    def signature_salt
+      config.salt
+    end
+
+    def signature_size
+      config.signature_size
     end
 
     def config

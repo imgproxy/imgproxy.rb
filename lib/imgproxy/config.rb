@@ -8,12 +8,15 @@ module Imgproxy
     attr_accessor :key
     # @return [String] imgproxy signature salt
     attr_accessor :salt
+    # @return [Integer] imgproxy signature size. Defaults to 32
+    attr_accessor :signature_size
     # @return [Boolean] use short processing option names
     #   (`rs` for `resize`, `g` for `gravity`, etc).
     #   Defaults to true
     attr_accessor :use_short_options
 
     def initialize
+      self.signature_size = 32
       self.use_short_options = true
     end
 
