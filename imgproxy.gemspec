@@ -7,6 +7,6 @@ Gem::Specification.new do |s|
   s.authors     = ['Sergey Alexandrovich']
   s.email       = 'darthsim@gmail.com'
   s.files       = ['lib/imgproxy.rb']
-  s.homepage    = 'https://github.com/DarthSim/imgproxy.rb'
+  s.homepage    = 'https://github.com/imgproxy/imgproxy.rb'
   s.license     = 'MIT'
 end
