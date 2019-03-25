@@ -1,5 +1,7 @@
 # imgproxy.rb
 
+[![Gem](https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge)](https://rubygems.org/gems/imgproxy) [![rubydoc.org](https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge)](https://www.rubydoc.info/gems/imgproxy/)
+
 Gem for [imgproxy](https://github.com/DarthSim/imgproxy) URLs generation.
 
 [imgproxy](https://github.com/DarthSim/imgproxy) is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
