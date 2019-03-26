@@ -1,3 +1,4 @@
+require 'imgproxy/version'
 require 'imgproxy/config'
 require 'imgproxy/builder'
 

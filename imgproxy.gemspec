@@ -1,12 +1,18 @@
-Gem::Specification.new do |s|
-  s.name        = 'imgproxy'
-  s.version     = '0.0.1'
-  s.date        = '2019-03-25'
-  s.summary     = 'imgproxy URL generator'
-  s.description = 'A gem that easily generates imgproxy URLs for your images'
-  s.authors     = ['Sergey Alexandrovich']
-  s.email       = 'darthsim@gmail.com'
-  s.files       = ['lib/imgproxy.rb']
-  s.homepage    = 'https://github.com/imgproxy/imgproxy.rb'
-  s.license     = 'MIT'
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'imgproxy/version'
+
+Gem::Specification.new do |spec|
+  spec.name        = 'imgproxy'
+  spec.version     = Imgproxy::VERSION
+  spec.date        = '2019-03-25'
+  spec.summary     = 'imgproxy URL generator'
+  spec.description = 'A gem that easily generates imgproxy URLs for your images'
+  spec.authors     = ['Sergey Alexandrovich']
+  spec.email       = 'darthsim@gmail.com'
+  spec.homepage    = 'https://github.com/imgproxy/imgproxy.rb'
+  spec.license     = 'MIT'
+
+  spec.files         = `git ls-files README.md LICENSE CHANGELOG.md lib`.split
+  spec.require_paths = ['lib']
 end
