@@ -53,7 +53,7 @@ jobs:
           command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Bundle Install
-          command: bundle check || bundle install --frozen --with test
+          command: bundle check || bundle install --with test
       - save_cache:
           key: imgproxy-rb-bundle-{{ checksum "imgproxy.gemspec" }}-{{ .Environment.CIRCLE_CACHE_VER }}
           paths:
