@@ -63,7 +63,7 @@ module Imgproxy
 
     def processing_options
       @processing_options ||=
-        @options.build.map do |key, value|
+        @options.reject { |k, _| k == :format }.map do |key, value|
           "#{option_alias(key)}:#{wrap_array(value).join(':')}"
         end
     end

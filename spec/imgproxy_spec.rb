@@ -36,7 +36,7 @@ RSpec.describe Imgproxy do
       "http://imgproxy.test/unsafe/"\
       "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
       "sh:0.7/wm:0.5:noea:10:5:0.1/pr:preset1:preset2/cb:qwerty/"\
-      "plain/https://images.test/image.jpg",
+      "plain/https://images.test/image.jpg@webp",
     )
   end
 
@@ -47,7 +47,7 @@ RSpec.describe Imgproxy do
       "http://imgproxy.test/unsafe/"\
       "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/quality:80/background:abcdfe/blur:0.5/"\
       "sharpen:0.7/watermark:0.5:noea:10:5:0.1/preset:preset1:preset2/cachebuster:qwerty/"\
-      "plain/https://images.test/image.jpg",
+      "plain/https://images.test/image.jpg@webp",
     )
   end
 
@@ -97,7 +97,7 @@ RSpec.describe Imgproxy do
     let(:src_url) { "https://images.test/image.jpg?version=123" }
 
     it "escapes source URL" do
-      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg%3Fversion%3D123"
+      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg%3Fversion%3D123@webp"
     end
   end
 end
