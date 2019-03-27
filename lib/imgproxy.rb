@@ -1,6 +1,6 @@
-require 'imgproxy/version'
-require 'imgproxy/config'
-require 'imgproxy/builder'
+require "imgproxy/version"
+require "imgproxy/config"
+require "imgproxy/builder"
 
 # @see Imgproxy::ClassMethods
 module Imgproxy

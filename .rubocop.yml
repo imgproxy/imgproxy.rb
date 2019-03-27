@@ -1,0 +1,69 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'spec/dummy/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/Alias:
+  Enabled: false # `alias_method` and `alias` have diferent behaviour
+
+Style/FrozenStringLiteralComment:
+  Enabled: false # not to be used before migration to Ruby 3+
+
+Style/DoubleNegation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Style/TrailingCommaInArguments:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - "*file" # Rakefile, etc
+
+Layout/AlignHash:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+RSpec/LeadingSubject:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/NestedGroups:
+  Max: 3
+RSpec/SubjectStub:
+  Enabled: false # Need this ime by time
+RSpec/MultipleExpectations:
+  Max: 5
+RSpec/ExampleLength:
+  Max: 10
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: false # This works wrong somatimes

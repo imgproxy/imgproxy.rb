@@ -1,7 +1,7 @@
-require 'openssl'
-require 'base64'
+require "openssl"
+require "base64"
 
-require 'imgproxy/options'
+require "imgproxy/options"
 
 module Imgproxy
   # Builds imgproxy URL
@@ -31,8 +31,8 @@ module Imgproxy
     # @param [String] image Source image URL
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, 'plain', escape_url(image)].join('/')
-      path = "#{path}@#{options[:format]}" if @options[:format]
+      path = [*processing_options, "plain", url(image)].join("/")
+      path = "#{path}@#{@options[:format]}" if @options[:format]
 
       signature = sign_path(path)
 
@@ -56,10 +56,10 @@ module Imgproxy
       sharpen: :sh,
       watermark: :wm,
       preset: :pr,
-      cachebuster: :cb
+      cachebuster: :cb,
     }.freeze
 
-    NEED_ESCAPE_RE = /@\?%/.freeze
+    NEED_ESCAPE_RE = /[@?%]/.freeze
 
     def processing_options
       @processing_options ||=
@@ -78,20 +78,20 @@ module Imgproxy
       value.is_a?(Array) ? value : [value]
     end
 
-    def escape_url(url)
-      url =~ NEED_ESCAPE_RE ? CGI.escape(url) : url
+    def url(image)
+      NEED_ESCAPE_RE.match?(image) ? CGI.escape(image) : image
     end
 
     def sign_path(path)
-      return 'unsafe' if signature_key.nil? || signature_salt.nil?
+      return "unsafe" if signature_key.nil? || signature_salt.nil?
 
       digest = OpenSSL::HMAC.digest(
-        OpenSSL::Digest.new('sha256'),
+        OpenSSL::Digest.new("sha256"),
         signature_key,
-        "#{signature_salt}/#{path}"
+        "#{signature_salt}/#{path}",
       )[0, signature_size]
 
-      Base64.urlsafe_encode64(digest).tr('=', '')
+      Base64.urlsafe_encode64(digest).tr("=", "")
     end
 
     def signature_key

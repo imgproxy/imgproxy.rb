@@ -1,25 +1,15 @@
-require 'ostruct'
-
 module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
-    STRING_OPTS = %i[resizing_type gravity watermark_position style cachebuster
-                     format].freeze
-
-    INT_OPTS = %i[width height quality watermark_x_offset
-                  watermark_y_offset].freeze
-
-    FLOAT_OPTS = %i[dpr gravity_x gravity_y blur sharpen watermark_opacity
-                    watermark_scale].freeze
-
+    STRING_OPTS = %i[resizing_type gravity watermark_position style cachebuster].freeze
+    INT_OPTS = %i[width height quality watermark_x_offset watermark_y_offset].freeze
+    FLOAT_OPTS = %i[dpr gravity_x gravity_y blur sharpen watermark_opacity watermark_scale].freeze
     BOOL_OPTS = %i[enlarge extend].freeze
-
     ARRAY_OPTS = %i[background preset].freeze
+    ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
 
-    ALL_OPTS =
-      (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
-
-    OPTS_PRIORITY = { resize: 1, size: 2 }.freeze
+    OPTS_PRIORITY = %i[ resize size resizing_type width height dpr enlarge extend gravity quality
+                        background blur sharpen watermark preset cachebuster ].freeze
 
     # @param options [Hash] raw processing options
     def initialize(options)
@@ -37,7 +27,7 @@ module Imgproxy
       group_watermark_opts(opts)
       encode_style(opts)
 
-      Hash[opts.sort_by { |k, _| OPTS_PRIORITY.fetch(k, 99) }]
+      Hash[opts.sort_by { |k, _| OPTS_PRIORITY.index(k) || 99 }]
     end
 
     private
@@ -56,7 +46,7 @@ module Imgproxy
     end
 
     def bool(value)
-      value && value != 0 && value != '0' ? 1 : 0
+      value && value != 0 && value != "0" ? 1 : 0
     end
 
     def wrap_array(value)
@@ -67,13 +57,10 @@ module Imgproxy
       return opts unless opts[:width] && opts[:height]
 
       opts[:size] = trim_nils(
-        [opts.delete(:width), opts.delete(:height),
-         opts.delete(:enlarge), opts.delete(:extend)]
+        [opts.delete(:width), opts.delete(:height), opts.delete(:enlarge), opts.delete(:extend)],
       )
 
-      if opts[:resizing_type]
-        opts[:resize] = [opts.delete(:resizing_type), *opts.delete(:size)]
-      end
+      opts[:resize] = [opts.delete(:resizing_type), *opts.delete(:size)] if opts[:resizing_type]
 
       opts
     end
@@ -83,8 +70,8 @@ module Imgproxy
         [
           opts.delete(:gravity),
           opts.delete(:gravity_x),
-          opts.delete(:gravity_y)
-        ]
+          opts.delete(:gravity_y),
+        ],
       )
 
       opts[:gravity] = gravity unless gravity[0].nil?
@@ -97,8 +84,8 @@ module Imgproxy
           opts.delete(:watermark_position),
           opts.delete(:watermark_x_offset),
           opts.delete(:watermark_y_offset),
-          opts.delete(:watermark_scale)
-        ]
+          opts.delete(:watermark_scale),
+        ],
       )
 
       opts[:watermark] = watermark unless watermark[0].nil?
@@ -107,7 +94,7 @@ module Imgproxy
     def encode_style(opts)
       return if opts[:style].nil?
 
-      opts[:style] = Base64.urlsafe_encode64(opts[:style]).tr('=', '')
+      opts[:style] = Base64.urlsafe_encode64(opts[:style]).tr("=", "")
     end
 
     def trim_nils(value)
