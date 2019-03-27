@@ -1,3 +1,5 @@
+require "imgproxy/url_adapters"
+
 module Imgproxy
   # Imgproxy config
   # @see Imgproxy.configure
@@ -36,6 +38,20 @@ module Imgproxy
 
     def endpoint=(value)
       @endpoint = value.end_with?("/") ? value[0..-2] : value
+    end
+
+    # URL adapters config. Allows to use this gem with ActiveStorage, Shrine, etc.
+    #
+    #   Imgproxy.configure do |config|
+    #     config.url_adapters.add Imgproxy::UrlAdapters::ActiveStorage.new
+    #   end
+    #
+    #   Imgproxy.url_for(user.avatar)
+    #
+    # @return [Imgproxy::UrlAdapters]
+    # @see Imgproxy::UrlAdapters
+    def url_adapters
+      @url_adapters ||= Imgproxy::UrlAdapters.new
     end
   end
 end

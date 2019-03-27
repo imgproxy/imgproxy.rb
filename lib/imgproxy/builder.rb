@@ -28,7 +28,8 @@ module Imgproxy
     # Genrates imgproxy URL
     #
     # @return [String] imgproxy URL
-    # @param [String] image Source image URL
+    # @param [String,URI, Object] image Source image URL or object applicable for
+    #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
       path = [*processing_options, "plain", url(image)].join("/")
@@ -79,7 +80,8 @@ module Imgproxy
     end
 
     def url(image)
-      NEED_ESCAPE_RE.match?(image) ? CGI.escape(image) : image
+      url = config.url_adapters.url_of(image)
+      url.match?(NEED_ESCAPE_RE) ? CGI.escape(url) : url
     end
 
     def sign_path(path)

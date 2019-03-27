@@ -4,5 +4,6 @@ tmp/
 
 *.gem
 *.log
+*.sqlite3
 
 Gemfile.lock

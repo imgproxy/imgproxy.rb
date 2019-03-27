@@ -51,6 +51,14 @@ RSpec.describe Imgproxy do
     )
   end
 
+  context "when source image is an URI" do
+    let(:src_url) { URI.parse("https://images.test/image.jpg") }
+
+    it "builds URL" do
+      expect(url).to end_with "/plain/https://images.test/image.jpg@webp"
+    end
+  end
+
   describe "resize/size grouping" do
     context "when only width/height is set" do
       let(:options) { { width: 200, enlarge: true } }

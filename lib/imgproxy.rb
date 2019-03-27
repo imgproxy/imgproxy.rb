@@ -39,7 +39,8 @@ module Imgproxy
     #   )
     #
     # @return [String] imgproxy URL
-    # @param [String] image Source image URL
+    # @param [String,URI, Object] image Source image URL or object applicable for
+    #   the configured URL adapters
     # @param [Hash] options Processing options
     # @option options [String] :resizing_type
     # @option options [Integer] :width
