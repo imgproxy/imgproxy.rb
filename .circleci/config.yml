@@ -15,9 +15,6 @@ workflows:
       - rubocop:
           requires:
             - bundle_install
-      - bundle_audit:
-          requires:
-            - bundle_install
 
 executors:
   ruby:
@@ -86,12 +83,3 @@ jobs:
       - run:
           name: Run Rubocop
           command: bundle exec rubocop
-
-  bundle_audit:
-    executor: ruby
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Run bundled gems audit
-          command: bundle exec bundle-audit update && bundle exec bundle-audit check
