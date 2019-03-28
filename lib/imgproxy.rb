@@ -80,11 +80,15 @@ module Imgproxy
     # @param use_gcs [Boolean] enable Google Cloud Storage source URLs
     # @param gcs_bucket [String] Google Cloud Storage bucket name
     def extend_active_storage(use_s3: false, use_gcs: false, gcs_bucket: nil)
-      ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
+      ActiveSupport.on_load(:active_storage_blob) do
+        ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
 
-      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageS3.new) if use_s3
-      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageGCS.new(gcs_bucket)) if use_gcs
-      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
+        url_adapters = Imgproxy.config.url_adapters
+
+        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageS3.new) if use_s3
+        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageGCS.new(gcs_bucket)) if use_gcs
+        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
+      end
     end
   end
 end
