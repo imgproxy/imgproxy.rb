@@ -13,16 +13,15 @@ module Imgproxy
       # @param [String] bucket_name Google Cloud Storage bucket name
       def initialize(bucket_name)
         @bucket_name = bucket_name
-
-        return if defined?(::ActiveStorage::Service::GCSService) &&
-                  ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::GCSService)
-
-        raise Imgproxy::UrlAdapters::NotConfigured,
-              "ActiveStorage is not configuted to work with Google Cloud Storage"
       end
 
       # @return [String] Google Cloud Storage bucket name
       attr_reader :bucket_name
+
+      def applicable?(image)
+        super &&
+          ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::GCSService)
+      end
 
       def url(image)
         "gs://#{bucket_name}/#{image.key}"

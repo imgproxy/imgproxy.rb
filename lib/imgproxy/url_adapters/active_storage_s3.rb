@@ -10,12 +10,9 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class ActiveStorageS3 < Imgproxy::UrlAdapters::ActiveStorage
-      def initialize
-        return if defined?(::ActiveStorage::Service::S3Service) &&
-                  ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::S3Service)
-
-        raise Imgproxy::UrlAdapters::NotConfigured,
-              "ActiveStorage is not configuted to work with S3"
+      def applicable?(image)
+        super &&
+          ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::S3Service)
       end
 
       def url(image)
