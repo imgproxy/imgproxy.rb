@@ -42,4 +42,17 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorageS3 do
     expect(Imgproxy.url_for(user.avatar.attachment.blob)).to end_with \
       "/plain/s3://uploads/#{user.avatar.key}"
   end
+
+  describe "extension" do
+    before do
+      Imgproxy.config.url_adapters.clear!
+      Imgproxy.extend_active_storage(use_s3: true)
+    end
+
+    it "build URL with ActiveStorage extension" do
+      expect(user.avatar.imgproxy_url(width: 200)).to eq(
+        "http://imgproxy.test/unsafe/w:200/plain/s3://uploads/#{user.avatar.key}",
+      )
+    end
+  end
 end

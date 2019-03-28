@@ -40,4 +40,17 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorageGCS do
     expect(Imgproxy.url_for(user.avatar.attachment.blob)).to end_with \
       "/plain/gs://uploads/#{user.avatar.key}"
   end
+
+  describe "extension" do
+    before do
+      Imgproxy.config.url_adapters.clear!
+      Imgproxy.extend_active_storage(use_gcs: true, gcs_bucket: "uploads")
+    end
+
+    it "build URL with ActiveStorage extension" do
+      expect(user.avatar.imgproxy_url(width: 200)).to eq(
+        "http://imgproxy.test/unsafe/w:200/plain/gs://uploads/#{user.avatar.key}",
+      )
+    end
+  end
 end

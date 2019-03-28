@@ -2,6 +2,8 @@ require "imgproxy/version"
 require "imgproxy/config"
 require "imgproxy/builder"
 
+require "imgproxy/extensions/active_storage"
+
 # @see Imgproxy::ClassMethods
 module Imgproxy
   class << self
@@ -68,6 +70,21 @@ module Imgproxy
     #   imgproxy URL format documentation
     def url_for(image, options = {})
       Imgproxy::Builder.new(options).url_for(image)
+    end
+
+    # Extends ActiveStorage::Blob with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
+    # and adds URL adapters for ActiveStorage
+    #
+    # @return [void]
+    # @param use_s3 [Boolean] enable Amazon S3 source URLs
+    # @param use_gcs [Boolean] enable Google Cloud Storage source URLs
+    # @param gcs_bucket [String] Google Cloud Storage bucket name
+    def extend_active_storage(use_s3: false, use_gcs: false, gcs_bucket: nil)
+      ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
+
+      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageS3.new) if use_s3
+      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageGCS.new(gcs_bucket)) if use_gcs
+      config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
     end
   end
 end
