@@ -37,6 +37,7 @@ module Imgproxy
     end
 
     def endpoint=(value)
+      value = value.to_s
       @endpoint = value.end_with?("/") ? value[0..-2] : value
     end
 
