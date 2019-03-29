@@ -67,3 +67,5 @@ RSpec/ExampleLength:
   Max: 10
 RSpec/EmptyLineAfterFinalLet:
   Enabled: false # This works wrong somatimes
+RSpec/BeforeAfterAll:
+  Enabled: false # Not suitable here

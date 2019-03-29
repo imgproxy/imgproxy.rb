@@ -3,6 +3,7 @@ require "imgproxy/config"
 require "imgproxy/builder"
 
 require "imgproxy/extensions/active_storage"
+require "imgproxy/extensions/shrine"
 
 # @see Imgproxy::ClassMethods
 module Imgproxy
@@ -89,6 +90,20 @@ module Imgproxy
         url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageGCS.new(gcs_bucket)) if use_gcs
         url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
       end
+    end
+
+    # Extends Shrine::UploadedFile with {Imgproxy::Extensions::Shrine.imgproxy_url} method
+    # and adds URL adapters for Shrine
+    #
+    # @return [void]
+    # @param use_s3 [Boolean] enable Amazon S3 source URLs
+    def extend_shrine(use_s3: false)
+      ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
+
+      url_adapters = Imgproxy.config.url_adapters
+
+      url_adapters.add(Imgproxy::UrlAdapters::ShrineS3.new) if use_s3
+      url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
     end
   end
 end

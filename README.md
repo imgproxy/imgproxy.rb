@@ -118,6 +118,39 @@ You can do the same for Google Cloud Storage:
 Imgproxy.extend_active_storage(use_gcs: true, gcs_bucket: "my_bucket")
 ```
 
+### Using with Shrine
+
+If you use [Shrine](https://shrinerb.com/), you can configure imgproxy gem to work with `Shrine::UploadedFile`:
+
+```ruby
+Imgproxy.extend_shrine
+
+# Now you can use Shrine::UploadedFile as a source URL
+Imgproxy.url_for(user.avatar, width: 250, height: 250)
+# or you can use #imgproxy_url method of an Shrine::UploadedFile
+user.avatar.imgproxy_url(width: 250, height: 250)
+```
+
+**Note:** If you use `Shrine::Storage::FileSystem` as a storage, uploaded file URLs won't include host and imgproxy server won't have access to them. To fix this, initialize `Shrine::Storage::FileSystem` with `host` option:
+
+```ruby
+Shrine.storages = {
+  store: Shrine::Storage::FileSystem.new("public", host: "http://your-host.test")
+}
+```
+
+Or you can launch your imgproxy server with `IMGPROXY_BASE_URL` setting:
+
+```
+IMGPROXY_BASE_URL="http://your-host.test" imgproxy
+```
+
+If you configured both your imgproxy server and ActiveStorage for working with Amazon S3, you may want to use short and beautiful `s3://...` source URLs:
+
+```ruby
+Imgproxy.extend_shrine(use_s3: true)
+```
+
 ### URL adapters
 
 By default, `Imgproxy.url_for` accepts only `String` or `URI` as source URL, but you can extend this by using URL adapters. URL adapter is a simple class that implements `applicable?` and `url` methods. See the example below:
@@ -142,7 +175,7 @@ end
 
 **Note:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use `prepend` method instead of `add`.
 
-imgproxy gem provides adapters for ActiveStorage that are automatically added by `Imgproxy.extend_active_storage`.
+imgproxy gem provides adapters for ActiveStorage and Shrine that are automatically added by `Imgproxy.extend_active_storage` and `Imgproxy.extend_shrine`.
 
 ## Contributing
 
