@@ -108,4 +108,25 @@ RSpec.describe Imgproxy do
       expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg%3Fversion%3D123@webp"
     end
   end
+
+  context "when key and salt are provided" do
+    before do
+      described_class.configure do |config|
+        config.key = "Hello"
+        config.salt = "World"
+      end
+    end
+
+    it "signs the URL" do
+      expect(url).to start_with "http://imgproxy.test/Xae8OWR8LlQnbgKodfdyWQCp4gcLUaVM-vGn-LYPjrE/"
+    end
+
+    context "when signature is truncated" do
+      before { described_class.config.signature_size = 5 }
+
+      it "signs the URL with truncated signature" do
+        expect(url).to start_with "http://imgproxy.test/Xae8OWQ/"
+      end
+    end
+  end
 end
