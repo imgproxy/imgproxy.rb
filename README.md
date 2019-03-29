@@ -145,7 +145,7 @@ Or you can launch your imgproxy server with `IMGPROXY_BASE_URL` setting:
 IMGPROXY_BASE_URL="http://your-host.test" imgproxy
 ```
 
-If you configured both your imgproxy server and ActiveStorage for working with Amazon S3, you may want to use short and beautiful `s3://...` source URLs:
+If you configured both your imgproxy server and Shrine for working with Amazon S3, you may want to use short and beautiful `s3://...` source URLs:
 
 ```ruby
 Imgproxy.extend_shrine(use_s3: true)

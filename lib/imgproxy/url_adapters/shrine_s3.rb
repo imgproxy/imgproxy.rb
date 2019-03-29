@@ -1,6 +1,6 @@
 module Imgproxy
   class UrlAdapters
-    # Adapter for Shrinew ith S3 storage
+    # Adapter for Shrine with S3 storage
     #
     #   Imgproxy.configure do |config|
     #     config.url_adapters.add Imgproxy::UrlAdapters::ShrineS3.new
