@@ -2,9 +2,9 @@
 
 [![CircleCI branch](https://img.shields.io/circleci/project/github/imgproxy/imgproxy.rb/master.svg?style=for-the-badge)](https://circleci.com/gh/imgproxy/imgproxy.rb) [![Gem](https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge)](https://rubygems.org/gems/imgproxy) [![rubydoc.org](https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge)](https://www.rubydoc.info/github/imgproxy/imgproxy.rb/master)
 
-Gem for [imgproxy](https://github.com/DarthSim/imgproxy) URLs generation with Active Storage and Shrine support.
+Gem for [imgproxy](https://github.com/imgproxy/imgproxy) URLs generation with Active Storage and Shrine support.
 
-[imgproxy](https://github.com/DarthSim/imgproxy) is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
+[imgproxy](https://github.com/imgproxy/imgproxy) is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
 
 ## Installation
 
@@ -156,26 +156,26 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 
 ### Available options
 
-* `resizing_type` - defines how imgproxy will resize the image. See [URL format guide](https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md#resizing-type) for available values.
+* `resizing_type` - defines how imgproxy will resize the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#resizing-type) for available values.
 * `width` - defines the width of the resulting image.
 * `height` - defines the height of the resulting image.
 * `dpr` - when set, imgproxy will multiply the image dimensions according to this factor for HiDPI (Retina) devices.
 * `enlarge` - when true, imgproxy will enlarge the image if it is smaller than the given size.
 * `extend` - when true, imgproxy will extend the image if the resizing result is smaller than the given size.
-* `gravity` - defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
+* `gravity` - defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
 * `gravity_x`, `gravity_y` - floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image when `fp` gravity is used.
 * `quality` - defines the quality of the resulting image, percentage.
 * `background` - when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
 * `blur` - when set, imgproxy will apply the gaussian blur filter to the resulting image. Value is the size of a mask imgproxy will use.
 * `sharpen` - when set, imgproxy will apply the sharpen filter to the resulting image. Value is the size of a mask imgproxy will use.
-* `watermark_opacity` - when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.com/DarthSim/imgproxy/blob/master/docs/watermark.md) for more info.
-* `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` - additional watermark options described in the [watermars guide](https://github.com/DarthSim/imgproxy/blob/master/docs/watermark.md).
-* `preset` - array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/DarthSim/imgproxy/blob/master/docs/presets.md) for more info.
+* `watermark_opacity` - when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.comimgproxym/imgproxy/blob/master/docs/watermark.md) for more info.
+* `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` - additional watermark options described in the [watermars guide](https://github.com/imgproxy/imgproxy/blob/master/docs/watermark.md).
+* `preset` - array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
 * `cachebuster` - defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
 * `format` - specifies the resulting image format (`jpg`, `png`, `webp`, etc).
 * `use_short_options` - per-call redefinition of `use_short_options` config.
 
-_See [imgproxy URL format guide](https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info_
+_See [imgproxy URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info_
 
 ### URL adapters
 
