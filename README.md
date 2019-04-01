@@ -6,6 +6,10 @@ Gem for [imgproxy](https://github.com/imgproxy/imgproxy) URLs generation with Ac
 
 [imgproxy](https://github.com/imgproxy/imgproxy) is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
 
+<a href="https://evilmartians.com/?utm_source=imgproxy">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
+
 ## Installation
 
 ```
