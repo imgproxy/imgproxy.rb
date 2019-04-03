@@ -85,8 +85,7 @@ module Imgproxy
     end
 
     def sign_path(path)
-      return "unsafe" if signature_key.nil? || signature_salt.nil? ||
-                         signature_key.empty? || signature_salt.empty?
+      return "unsafe" unless ready_to_sign?
 
       digest = OpenSSL::HMAC.digest(
         OpenSSL::Digest.new("sha256"),
@@ -95,6 +94,11 @@ module Imgproxy
       )[0, signature_size]
 
       Base64.urlsafe_encode64(digest).tr("=", "")
+    end
+
+    def ready_to_sign?
+      !(signature_key.nil? || signature_salt.nil? ||
+        signature_key.empty? || signature_salt.empty?)
     end
 
     def signature_key
