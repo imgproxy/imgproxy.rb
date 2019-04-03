@@ -3,7 +3,7 @@
 <img align="right" width="200" height="200" title="imgproxy logo"
      src="https://cdn.rawgit.com/DarthSim/imgproxy/master/logo.svg">
 
-[![CircleCI branch](https://img.shields.io/circleci/project/github/imgproxy/imgproxy.rb/master.svg?style=for-the-badge)](https://circleci.com/gh/imgproxy/imgproxy.rb) [![Gem](https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge)](https://rubygems.org/gems/imgproxy) [![rubydoc.org](https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge)](https://www.rubydoc.info/github/imgproxy/imgproxy.rb/master)
+[![CircleCI branch](https://img.shields.io/circleci/project/github/imgproxy/imgproxy.rb/master.svg?style=for-the-badge)](https://circleci.com/gh/imgproxy/imgproxy.rb) [![Gem](https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge)](https://rubygems.org/gems/imgproxy) [![rubydoc.org](https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge)](https://www.rubydoc.info/gems/imgproxy)
 
 **[imgproxy](https://github.com/imgproxy/imgproxy)** is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
 
