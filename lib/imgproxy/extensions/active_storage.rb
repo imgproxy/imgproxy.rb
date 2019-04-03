@@ -1,7 +1,7 @@
 module Imgproxy
   module Extensions
     # Extension for ActiveStorage
-    # @see Imgproxy.extend_active_storage
+    # @see Imgproxy.extend_active_storage!
     module ActiveStorage
       # Returns imgproxy URL for an attachment
       #

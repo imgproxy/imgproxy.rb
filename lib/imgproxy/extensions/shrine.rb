@@ -1,7 +1,7 @@
 module Imgproxy
   module Extensions
     # Extension for Shrine::UploadedFile
-    # @see Imgproxy.extend_shrine
+    # @see Imgproxy.extend_shrine!
     module Shrine
       # Returns imgproxy URL for a Shrine::UploadedFile instance
       #

@@ -31,7 +31,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!
-      Imgproxy.extend_active_storage
+      Imgproxy.extend_active_storage!
     end
 
     it "build URL with ActiveStorage extension" do

@@ -80,7 +80,7 @@ module Imgproxy
     # @param use_s3 [Boolean] enable Amazon S3 source URLs
     # @param use_gcs [Boolean] enable Google Cloud Storage source URLs
     # @param gcs_bucket [String] Google Cloud Storage bucket name
-    def extend_active_storage(use_s3: false, use_gcs: false, gcs_bucket: nil)
+    def extend_active_storage!(use_s3: false, use_gcs: false, gcs_bucket: nil)
       ActiveSupport.on_load(:active_storage_blob) do
         ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
 
@@ -97,7 +97,7 @@ module Imgproxy
     #
     # @return [void]
     # @param use_s3 [Boolean] enable Amazon S3 source URLs
-    def extend_shrine(use_s3: false)
+    def extend_shrine!(use_s3: false)
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
 
       url_adapters = Imgproxy.config.url_adapters

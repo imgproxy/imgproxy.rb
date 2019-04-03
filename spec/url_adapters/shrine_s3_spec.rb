@@ -34,7 +34,7 @@ RSpec.describe Imgproxy::UrlAdapters::ShrineS3 do
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!
-      Imgproxy.extend_shrine(use_s3: true)
+      Imgproxy.extend_shrine!(use_s3: true)
     end
 
     it "build URL with ActiveStorage extension" do

@@ -44,7 +44,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorageGCS do
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!
-      Imgproxy.extend_active_storage(use_gcs: true, gcs_bucket: "uploads")
+      Imgproxy.extend_active_storage!(use_gcs: true, gcs_bucket: "uploads")
     end
 
     it "build URL with ActiveStorage extension" do

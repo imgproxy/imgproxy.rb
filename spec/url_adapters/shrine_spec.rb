@@ -17,7 +17,7 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!
-      Imgproxy.extend_shrine
+      Imgproxy.extend_shrine!
     end
 
     it "build URL with Shrine extension" do
