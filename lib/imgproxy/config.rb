@@ -26,14 +26,14 @@ module Imgproxy
     #
     # @param value [String] hex-encoded signature key
     def hex_key=(value)
-      self.key = valie.nil? ? nil : [value].pack("H*")
+      self.key = value.nil? ? nil : [value].pack("H*")
     end
 
     # Decodes hex-encoded salt and sets it to {#salt}
     #
     # @param value [String] hex-encoded signature salt
     def hex_salt=(value)
-      self.salt = valie.nil? ? nil : [value].pack("H*")
+      self.salt = value.nil? ? nil : [value].pack("H*")
     end
 
     def endpoint=(value)

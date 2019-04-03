@@ -112,8 +112,8 @@ RSpec.describe Imgproxy do
   context "when key and salt are provided" do
     before do
       described_class.configure do |config|
-        config.key = "Hello"
-        config.salt = "World"
+        config.hex_key = "Hello".unpack('H*').first
+        config.hex_salt = "World".unpack('H*').first
       end
     end
 
