@@ -20,7 +20,7 @@ module Imgproxy
 
       def applicable?(image)
         super &&
-          ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::GCSService)
+          image.service.is_a?(::ActiveStorage::Service::GCSService)
       end
 
       def url(image)

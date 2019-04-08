@@ -12,7 +12,7 @@ module Imgproxy
     class ActiveStorageS3 < Imgproxy::UrlAdapters::ActiveStorage
       def applicable?(image)
         super &&
-          ::ActiveStorage::Blob.service.is_a?(::ActiveStorage::Service::S3Service)
+          image.service.is_a?(::ActiveStorage::Service::S3Service)
       end
 
       def url(image)
