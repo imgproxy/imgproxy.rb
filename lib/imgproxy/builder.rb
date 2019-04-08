@@ -1,5 +1,6 @@
 require "openssl"
 require "base64"
+require "uri"
 
 require "imgproxy/options"
 
@@ -37,7 +38,7 @@ module Imgproxy
 
       signature = sign_path(path)
 
-      "#{Imgproxy.config.endpoint}/#{signature}/#{path}"
+      URI.join(Imgproxy.config.endpoint.to_s, "#{signature}/#{path}").to_s
     end
 
     private

@@ -5,7 +5,7 @@ module Imgproxy
   # @see Imgproxy.configure
   class Config
     # @return [String] imgproxy endpoint
-    attr_reader :endpoint
+    attr_accessor :endpoint
     # @return [String] imgproxy signature key
     attr_accessor :key
     # @return [String] imgproxy signature salt
@@ -34,11 +34,6 @@ module Imgproxy
     # @param value [String] hex-encoded signature salt
     def hex_salt=(value)
       self.salt = value.nil? ? nil : [value].pack("H*")
-    end
-
-    def endpoint=(value)
-      value = value.to_s
-      @endpoint = value.end_with?("/") ? value[0..-2] : value
     end
 
     # URL adapters config. Allows to use this gem with ActiveStorage, Shrine, etc.
