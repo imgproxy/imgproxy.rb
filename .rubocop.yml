@@ -1,11 +1,13 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.5
   Exclude:
     - 'spec/dummy/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

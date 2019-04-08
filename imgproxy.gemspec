@@ -16,9 +16,11 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files README.md LICENSE CHANGELOG.md lib`.split
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "pry-byebug"
+  spec.required_ruby_version = ">= 2.0"
+
+  spec.add_development_dependency "pry-byebug", "~> 3.6.0"
   spec.add_development_dependency "rspec", "~> 3.8.0"
-  spec.add_development_dependency "rspec_junit_formatter"
+  spec.add_development_dependency "rspec_junit_formatter", "~> 0.4.1"
   spec.add_development_dependency "rubocop", "~> 0.66.0"
   spec.add_development_dependency "rubocop-rspec", "~> 1.32.0"
 
