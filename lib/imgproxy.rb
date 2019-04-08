@@ -97,13 +97,13 @@ module Imgproxy
     #
     # @return [void]
     # @param use_s3 [Boolean] enable Amazon S3 source URLs
-    def extend_shrine!(use_s3: false)
+    def extend_shrine!(host: nil, use_s3: false)
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
 
       url_adapters = Imgproxy.config.url_adapters
 
       url_adapters.add(Imgproxy::UrlAdapters::ShrineS3.new) if use_s3
-      url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
+      url_adapters.add(Imgproxy::UrlAdapters::Shrine.new(host: host))
     end
   end
 end

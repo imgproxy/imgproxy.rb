@@ -110,14 +110,12 @@ user.avatar.imgproxy_url(width: 250, height: 250)
 
 will give you an URL to your user's avatar, resized to 250x250px on the fly.
 
-**Note:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, initialize `Shrine::Storage::FileSystem` with the `host` option:
+**Note:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `host` option of `Imgproxy.extend_shrine!`:
 
 ```ruby
-# Your Shrine initializer
+# config/initializers/imgproxy.rb
 
-Shrine.storages = {
-  store: Shrine::Storage::FileSystem.new("public", host: "http://your-host.test")
-}
+Imgproxy.extend_shrine!(host: "http://your-host.test")
 ```
 
 Alternatively, you can launch your imgproxy server with the `IMGPROXY_BASE_URL` setting:

@@ -6,8 +6,8 @@ require "shrine/storage/s3"
 require "tmpdir"
 
 Shrine.storages = {
-  cache: Shrine::Storage::FileSystem.new(Dir.mktmpdir("shrine_tests"), host: "http://example.com"),
-  store: Shrine::Storage::FileSystem.new(Dir.mktmpdir("shrine_tests"), host: "http://example.com"),
+  cache: Shrine::Storage::FileSystem.new(Dir.mktmpdir("shrine_tests")),
+  store: Shrine::Storage::FileSystem.new(Dir.mktmpdir("shrine_tests")),
 }
 
 RSpec.configure do |config|

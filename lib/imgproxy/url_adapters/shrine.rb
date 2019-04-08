@@ -8,12 +8,16 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class Shrine
+      def initialize(host: nil)
+        @host = host
+      end
+
       def applicable?(image)
         image.is_a?(::Shrine::UploadedFile)
       end
 
       def url(image)
-        image.url
+        image.url(host: @host)
       end
     end
   end

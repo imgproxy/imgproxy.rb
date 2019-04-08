@@ -6,24 +6,24 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
   end
 
   before do
-    Imgproxy.config.url_adapters.add described_class.new
+    Imgproxy.config.url_adapters.add described_class.new(host: "http://example.com")
   end
 
   it "fethces url for Shrine::UploadedFile" do
     expect(Imgproxy.url_for(uploaded_file)).to end_with \
-      "/plain/#{uploaded_file.url}"
+      "/plain/#{uploaded_file.url(host: 'http://example.com')}"
   end
 
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!
-      Imgproxy.extend_shrine!
+      Imgproxy.extend_shrine!(host: "http://example.com")
     end
 
     it "build URL with Shrine extension" do
       expect(uploaded_file.imgproxy_url(width: 200)).to eq(
         "http://imgproxy.test/unsafe/w:200" \
-        "/plain/#{uploaded_file.url}",
+        "/plain/#{uploaded_file.url(host: 'http://example.com')}",
       )
     end
   end
