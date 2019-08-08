@@ -17,7 +17,7 @@ module Imgproxy
       end
 
       def url(image)
-        image.url(host: @host)
+        image.url(host: @host) if @host
       end
     end
   end
