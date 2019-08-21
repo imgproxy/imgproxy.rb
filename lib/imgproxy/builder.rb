@@ -20,6 +20,8 @@ module Imgproxy
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
+      options = options.dup
+
       @use_short_options = options.delete(:use_short_options)
       @use_short_options = config.use_short_options if @use_short_options.nil?
 
