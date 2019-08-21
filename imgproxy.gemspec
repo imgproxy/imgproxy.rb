@@ -5,7 +5,6 @@ require "imgproxy/version"
 Gem::Specification.new do |spec|
   spec.name        = "imgproxy"
   spec.version     = Imgproxy::VERSION
-  spec.date        = "2019-03-25"
   spec.summary     = "imgproxy URL generator"
   spec.description = "A gem that easily generates imgproxy URLs for your images"
   spec.authors     = ["Sergey Alexandrovich"]
