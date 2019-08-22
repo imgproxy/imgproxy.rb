@@ -19,7 +19,7 @@ module Imgproxy
       def url(image)
         opts = {}
         opts[:host] = @host if @host
-        image.url(opts) 
+        image.url(opts)
       end
     end
   end
