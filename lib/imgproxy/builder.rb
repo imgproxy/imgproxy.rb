@@ -63,7 +63,7 @@ module Imgproxy
       cachebuster: :cb,
     }.freeze
 
-    NEED_ESCAPE_RE = /[@?%]/.freeze
+    NEED_ESCAPE_RE = /[@?%]|[^\p{Ascii}]/.freeze
 
     def processing_options
       @processing_options ||=
