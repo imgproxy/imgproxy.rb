@@ -40,7 +40,7 @@ module Imgproxy
 
       signature = sign_path(path)
 
-      URI.join(Imgproxy.config.endpoint.to_s, "#{signature}/#{path}").to_s
+      File.join(Imgproxy.config.endpoint.to_s, signature, path)
     end
 
     private
