@@ -1,6 +1,6 @@
 require "openssl"
 require "base64"
-require "uri"
+require "erb"
 
 require "imgproxy/options"
 
@@ -63,7 +63,7 @@ module Imgproxy
       cachebuster: :cb,
     }.freeze
 
-    NEED_ESCAPE_RE = /[@?%]|[^\p{Ascii}]/.freeze
+    NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
     def processing_options
       @processing_options ||=
@@ -84,7 +84,7 @@ module Imgproxy
 
     def url(image)
       url = config.url_adapters.url_of(image)
-      url.match?(NEED_ESCAPE_RE) ? CGI.escape(url) : url
+      url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
     end
 
     def sign_path(path)

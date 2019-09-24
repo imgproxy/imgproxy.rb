@@ -117,6 +117,14 @@ RSpec.describe Imgproxy do
     end
   end
 
+  context "when source URL contains spaces" do
+    let(:src_url) { "https://images.test/lorem ipsum.jpg" }
+
+    it "escapes source URL" do
+      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Florem%20ipsum.jpg@webp"
+    end
+  end
+
   context "when key and salt are provided" do
     before do
       described_class.configure do |config|
