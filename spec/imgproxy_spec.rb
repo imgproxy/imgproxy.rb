@@ -3,6 +3,9 @@ require "spec_helper"
 RSpec.describe Imgproxy do
   let(:options) do
     {
+      crop_width: "500",
+      crop_height: 100,
+      crop_gravity: "ce",
       resizing_type: :fill,
       width: "200",
       height: 300,
@@ -34,6 +37,7 @@ RSpec.describe Imgproxy do
   it "builds URL" do
     expect(url).to eq(
       "http://imgproxy.test/unsafe/"\
+      "c:500:100:ce/"\
       "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
       "sh:0.7/wm:0.5:noea:10:5:0.1/pr:preset1:preset2/cb:qwerty/"\
       "plain/https://images.test/image.jpg@webp",
@@ -45,6 +49,7 @@ RSpec.describe Imgproxy do
 
     expect(url).to eq(
       "http://imgproxy.test/unsafe/"\
+      "crop:500:100:ce/"\
       "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/quality:80/background:abcdfe/blur:0.5/"\
       "sharpen:0.7/watermark:0.5:noea:10:5:0.1/preset:preset1:preset2/cachebuster:qwerty/"\
       "plain/https://images.test/image.jpg@webp",
@@ -86,6 +91,48 @@ RSpec.describe Imgproxy do
       it "groups resize" do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/rs:fill:200:300:1/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+  end
+
+  describe "crop grouping" do
+    context "when crop width and height are set" do
+      let(:options) { { crop_width: 200, crop_height: 300 } }
+
+      it "groups crop" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/c:200:300/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when crop width, height and gravity are set" do
+      let(:options) { { crop_width: 200, crop_height: 300, crop_gravity: "ce" } }
+
+      it "groups crop" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/c:200:300:ce/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when crop width and height aren't set" do
+      let(:options) { { crop_gravity: "ce" } }
+
+      it "omits crop" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when crop width or height aren't set" do
+      let(:options) { { crop_width: 300 } }
+
+      it "replaces missed side with zero" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/c:300:0/plain/https://images.test/image.jpg",
         )
       end
     end
@@ -134,14 +181,14 @@ RSpec.describe Imgproxy do
     end
 
     it "signs the URL" do
-      expect(url).to start_with "http://imgproxy.test/Xae8OWR8LlQnbgKodfdyWQCp4gcLUaVM-vGn-LYPjrE/"
+      expect(url).to start_with "http://imgproxy.test/ijWxCXKjnbfMaBIm293Uq2ZZlyHorhlQiMCNt4Zd7xw/"
     end
 
     context "when signature is truncated" do
       before { described_class.config.signature_size = 5 }
 
       it "signs the URL with truncated signature" do
-        expect(url).to start_with "http://imgproxy.test/Xae8OWQ/"
+        expect(url).to start_with "http://imgproxy.test/ijWxCXI/"
       end
     end
   end
