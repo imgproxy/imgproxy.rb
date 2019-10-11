@@ -48,6 +48,8 @@ module Imgproxy
     # @option options [Integer] :crop_width
     # @option options [Integer] :crop_height
     # @option options [String] :crop_gravity
+    # @option options [Float] :crop_gravity_x
+    # @option options [Float] :crop_gravity_y
     # @option options [String] :resizing_type
     # @option options [Integer] :width
     # @option options [Integer] :height

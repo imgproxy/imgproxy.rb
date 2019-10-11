@@ -5,7 +5,8 @@ module Imgproxy
                      format].freeze
     INT_OPTS = %i[width height crop_width crop_height
                   quality watermark_x_offset watermark_y_offset].freeze
-    FLOAT_OPTS = %i[dpr gravity_x gravity_y blur sharpen watermark_opacity watermark_scale].freeze
+    FLOAT_OPTS = %i[dpr gravity_x gravity_y crop_gravity_x crop_gravity_y blur sharpen
+                    watermark_opacity watermark_scale].freeze
     BOOL_OPTS = %i[enlarge extend].freeze
     ARRAY_OPTS = %i[background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
@@ -57,8 +58,15 @@ module Imgproxy
     def group_crop_opts
       crop_width = delete(:crop_width)
       crop_height = delete(:crop_height)
-      crop_gravity = delete(:crop_gravity)
+      crop_gravity = trim_nils(
+        [
+          delete(:crop_gravity),
+          delete(:crop_gravity_x),
+          delete(:crop_gravity_y),
+        ],
+      )
       return unless crop_width || crop_height
+      crop_gravity = nil if crop_gravity[0].nil?
 
       self[:crop] = trim_nils(
         [crop_width || 0, crop_height || 0, crop_gravity],
