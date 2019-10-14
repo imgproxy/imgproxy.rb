@@ -1,18 +1,19 @@
 module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
-    STRING_OPTS = %i[resizing_type gravity crop_gravity watermark_position style cachebuster
-                     format].freeze
+    STRING_OPTS = %i[resizing_type gravity crop_gravity watermark_position watermark_url style
+                     cachebuster format].freeze
     INT_OPTS = %i[width height crop_width crop_height
-                  quality watermark_x_offset watermark_y_offset].freeze
-    FLOAT_OPTS = %i[dpr gravity_x gravity_y crop_gravity_x crop_gravity_y blur sharpen
-                    watermark_opacity watermark_scale].freeze
+                  quality brightness pixelate watermark_x_offset watermark_y_offset].freeze
+    FLOAT_OPTS = %i[dpr gravity_x gravity_y crop_gravity_x crop_gravity_y contrast saturation
+                    blur sharpen watermark_opacity watermark_scale].freeze
     BOOL_OPTS = %i[enlarge extend].freeze
     ARRAY_OPTS = %i[background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
 
     OPTS_PRIORITY = %i[ crop resize size resizing_type width height dpr enlarge extend gravity
-                        quality background blur sharpen watermark preset cachebuster ].freeze
+                        quality background blur sharpen pixelate watermark watermark_url preset
+                        cachebuster ].freeze
 
     # @param options [Hash] raw processing options
     def initialize(options)
@@ -23,9 +24,11 @@ module Imgproxy
       group_crop_opts
       group_resizing_opts
       group_gravity_opts
+      group_adjust_opts
       group_watermark_opts
 
       encode_style
+      encode_watermark_url
 
       replace(Hash[sort_by { |k, _| OPTS_PRIORITY.index(k) || 99 }])
 
@@ -89,6 +92,12 @@ module Imgproxy
       self[:gravity] = gravity unless gravity[0].nil?
     end
 
+    def group_adjust_opts
+      return unless values_at(:brightness, :contrast, :saturation).count { |o| !o.nil? } > 1
+
+      self[:adjust] = extract_and_trim_nils(:brightness, :contrast, :saturation)
+    end
+
     def group_watermark_opts
       watermark = extract_and_trim_nils(
         :watermark_opacity,
@@ -104,6 +113,11 @@ module Imgproxy
     def encode_style
       return if self[:style].nil?
       self[:style] = Base64.urlsafe_encode64(self[:style]).tr("=", "")
+    end
+
+    def encode_watermark_url
+      return if self[:watermark_url].nil?
+      self[:watermark_url] = Base64.urlsafe_encode64(self[:watermark_url]).tr("=", "")
     end
 
     def extract_and_trim_nils(*keys)

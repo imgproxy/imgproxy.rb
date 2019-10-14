@@ -61,13 +61,18 @@ module Imgproxy
     # @option options [Float] :gravity_y
     # @option options [Integer] :quality
     # @option options [Array] :background
+    # @option options [Integer] :brightness supported only by imgproxy pro
+    # @option options [Float] :contrast supported only by imgproxy pro
+    # @option options [Float] :saturation supported only by imgproxy pro
     # @option options [Float] :blur
     # @option options [Float] :sharpen
+    # @option options [Integer] :pixelate supported only by imgproxy pro
     # @option options [Float] :watermark_opacity
     # @option options [String] :watermark_position
     # @option options [Integer] :watermark_x_offset
     # @option options [Integer] :watermark_y_offset
     # @option options [Float] :watermark_scale
+    # @option options [String] :style supported only by imgproxy pro
     # @option options [Array] :preset
     # @option options [String] :cachebuster
     # @option options [String] :format

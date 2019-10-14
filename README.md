@@ -171,10 +171,15 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `gravity_x`, `gravity_y` — floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image when `fp` gravity is used.
 * `quality` — defines the quality of the resulting image, percentage.
 * `background` — when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
+* `brightness` — when set, imgproxy will adjust brightness of the resulting image. _Supported only by imgproxy pro._
+* `contrast` — when set, imgproxy will adjust contrast of the resulting image. _Supported only by imgproxy pro._
+* `saturation` — when set, imgproxy will adjust saturation of the resulting image. _Supported only by imgproxy pro._
 * `blur` — when set, imgproxy will apply the gaussian blur filter to the resulting image. Value is the size of a mask imgproxy will use.
 * `sharpen` — when set, imgproxy will apply the sharpen filter to the resulting image. Value is the size of a mask imgproxy will use.
+* `pixelate` — when set, imgproxy will apply the pixelate filter to the resulting image. Value is the size of a pixel. _Supported only by imgproxy pro._
 * `watermark_opacity` — when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.comimgproxym/imgproxy/blob/master/docs/watermark.md) for more info.
 * `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` — additional watermark options described in the [watermars guide](https://github.com/imgproxy/imgproxy/blob/master/docs/watermark.md).
+* `style` - when set, imgproxy will prepend `<style>` node with provided content to the `<svg>` node of source SVG image. _Supported only by imgproxy pro._
 * `preset` — array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
 * `cachebuster` — defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
 * `format` — specifies the resulting image format (`jpg`, `png`, `webp`).

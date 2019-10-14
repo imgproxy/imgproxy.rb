@@ -26,6 +26,7 @@ RSpec.describe Imgproxy do
       watermark_x_offset: 10,
       watermark_y_offset: 5,
       watermark_scale: 0.1,
+      watermark_url: "https://images.test/wm.svg",
       preset: %i[preset1 preset2],
       cachebuster: "qwerty",
       format: :webp,
@@ -41,7 +42,8 @@ RSpec.describe Imgproxy do
       "http://imgproxy.test/unsafe/"\
       "c:500:100:ce:0.35:0.65/"\
       "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
-      "sh:0.7/wm:0.5:noea:10:5:0.1/pr:preset1:preset2/cb:qwerty/"\
+      "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+      "pr:preset1:preset2/cb:qwerty/"\
       "plain/https://images.test/image.jpg@webp",
     )
   end
@@ -53,7 +55,8 @@ RSpec.describe Imgproxy do
       "http://imgproxy.test/unsafe/"\
       "crop:500:100:ce:0.35:0.65/"\
       "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/quality:80/background:abcdfe/blur:0.5/"\
-      "sharpen:0.7/watermark:0.5:noea:10:5:0.1/preset:preset1:preset2/cachebuster:qwerty/"\
+      "sharpen:0.7/watermark:0.5:noea:10:5:0.1/watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+      "preset:preset1:preset2/cachebuster:qwerty/"\
       "plain/https://images.test/image.jpg@webp",
     )
   end
@@ -185,6 +188,28 @@ RSpec.describe Imgproxy do
     end
   end
 
+  describe "adjust grouping" do
+    context "when only one adjust option is set" do
+      let(:options) { { brightness: 10 } }
+
+      it "doesn't group adjust options" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/br:10/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when more than one adjust option is set" do
+      let(:options) { { brightness: 10, saturation: 1.5 } }
+
+      it "groups adjust options" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/a:10::1.5/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+  end
+
   describe "ommiting processing options arguments" do
     let(:options) { { watermark_opacity: 0.5, watermark_x_offset: 10, watermark_y_offset: 5 } }
 
@@ -228,14 +253,14 @@ RSpec.describe Imgproxy do
     end
 
     it "signs the URL" do
-      expect(url).to start_with "http://imgproxy.test/xZSCszTJyX0hiXl0dWbNXVFf8lBvGUt2C0MbaavQDyU/"
+      expect(url).to start_with "http://imgproxy.test/C6NPpeJ8AGTjz3mC0otakIa-urucnuVok55J4o2xQD4/"
     end
 
     context "when signature is truncated" do
       before { described_class.config.signature_size = 5 }
 
       it "signs the URL with truncated signature" do
-        expect(url).to start_with "http://imgproxy.test/xZSCszQ/"
+        expect(url).to start_with "http://imgproxy.test/C6NPpeI/"
       end
     end
   end
