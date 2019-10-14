@@ -46,6 +46,7 @@ module Imgproxy
     private
 
     OPTIONS_ALIASES = {
+      crop: :c,
       resize: :rs,
       size: :s,
       resizing_type: :rt,
