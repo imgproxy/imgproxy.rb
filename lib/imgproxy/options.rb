@@ -21,11 +21,7 @@ module Imgproxy
 
       typecast
 
-      group_crop_opts
-      group_resizing_opts
-      group_gravity_opts
-      group_adjust_opts
-      group_watermark_opts
+      group_options
 
       encode_style
       encode_watermark_url
@@ -58,12 +54,18 @@ module Imgproxy
       value.is_a?(Array) ? value : [value]
     end
 
+    def group_options
+      group_crop_opts
+      group_resizing_opts
+      group_gravity_opts
+      group_adjust_opts
+      group_watermark_opts
+    end
+
     def group_crop_opts
       crop_width = delete(:crop_width)
       crop_height = delete(:crop_height)
-      crop_gravity = extract_and_trim_nils(
-        :crop_gravity, :crop_gravity_x, :crop_gravity_y
-      )
+      crop_gravity = extract_and_trim_nils(:crop_gravity, :crop_gravity_x, :crop_gravity_y)
 
       return unless crop_width || crop_height
 
@@ -75,19 +77,13 @@ module Imgproxy
     def group_resizing_opts
       return unless self[:width] && self[:height]
 
-      self[:size] = extract_and_trim_nils(
-        :width, :height, :enlarge, :extend
-      )
+      self[:size] = extract_and_trim_nils(:width, :height, :enlarge, :extend)
 
       self[:resize] = [delete(:resizing_type), *delete(:size)] if self[:resizing_type]
     end
 
     def group_gravity_opts
-      gravity = extract_and_trim_nils(
-        :gravity,
-        :gravity_x,
-        :gravity_y,
-      )
+      gravity = extract_and_trim_nils(:gravity, :gravity_x, :gravity_y)
 
       self[:gravity] = gravity unless gravity[0].nil?
     end
