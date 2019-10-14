@@ -165,7 +165,7 @@ RSpec.describe Imgproxy do
     end
 
     context "when crop gravity y aren't set" do
-      let(:options) { { crop_width: 300, crop_gravity: 'fp', crop_gravity_x: 0.2 } }
+      let(:options) { { crop_width: 300, crop_gravity: "fp", crop_gravity_x: 0.2 } }
 
       it "ignores crop gravity y" do
         expect(url).to eq(
@@ -175,7 +175,7 @@ RSpec.describe Imgproxy do
     end
 
     context "when crop gravity x aren't set" do
-      let(:options) { { crop_width: 300, crop_gravity: 'fp', crop_gravity_y: 0.2 } }
+      let(:options) { { crop_width: 300, crop_gravity: "fp", crop_gravity_y: 0.2 } }
 
       it "ignores crop gravity y" do
         expect(url).to eq(

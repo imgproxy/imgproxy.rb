@@ -58,52 +58,44 @@ module Imgproxy
     def group_crop_opts
       crop_width = delete(:crop_width)
       crop_height = delete(:crop_height)
-      crop_gravity = trim_nils(
-        [
-          delete(:crop_gravity),
-          delete(:crop_gravity_x),
-          delete(:crop_gravity_y),
-        ],
+      crop_gravity = extract_and_trim_nils(
+        :crop_gravity, :crop_gravity_x, :crop_gravity_y
       )
+
       return unless crop_width || crop_height
+
       crop_gravity = nil if crop_gravity[0].nil?
 
-      self[:crop] = trim_nils(
-        [crop_width || 0, crop_height || 0, crop_gravity],
-      )
+      self[:crop] = [crop_width || 0, crop_height || 0, *crop_gravity]
     end
 
     def group_resizing_opts
       return unless self[:width] && self[:height]
 
-      self[:size] = trim_nils(
-        [delete(:width), delete(:height), delete(:enlarge), delete(:extend)],
+      self[:size] = extract_and_trim_nils(
+        :width, :height, :enlarge, :extend
       )
 
       self[:resize] = [delete(:resizing_type), *delete(:size)] if self[:resizing_type]
     end
 
     def group_gravity_opts
-      gravity = trim_nils(
-        [
-          delete(:gravity),
-          delete(:gravity_x),
-          delete(:gravity_y),
-        ],
+      gravity = extract_and_trim_nils(
+        :gravity,
+        :gravity_x,
+        :gravity_y,
       )
 
       self[:gravity] = gravity unless gravity[0].nil?
     end
 
     def group_watermark_opts
-      watermark = trim_nils(
-        [
-          delete(:watermark_opacity),
-          delete(:watermark_position),
-          delete(:watermark_x_offset),
-          delete(:watermark_y_offset),
-          delete(:watermark_scale),
-        ],
+      watermark = extract_and_trim_nils(
+        :watermark_opacity,
+        :watermark_position,
+        :watermark_x_offset,
+        :watermark_y_offset,
+        :watermark_scale,
       )
 
       self[:watermark] = watermark unless watermark[0].nil?
@@ -112,6 +104,10 @@ module Imgproxy
     def encode_style
       return if self[:style].nil?
       self[:style] = Base64.urlsafe_encode64(self[:style]).tr("=", "")
+    end
+
+    def extract_and_trim_nils(*keys)
+      trim_nils(keys.map { |k| delete(k) })
     end
 
     def trim_nils(value)
