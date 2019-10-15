@@ -19,7 +19,7 @@ ActiveStorage::Blob.service = ActiveStorage::Service::DiskService.new(
 )
 
 GlobalID.app = "ActiveStorageExampleApp"
-ActiveRecord::Base.send :include, GlobalID::Identification
+ActiveRecord::Base.include GlobalID::Identification
 
 Rails.application.routes.default_url_options[:host] = "example.com"
 
