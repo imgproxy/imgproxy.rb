@@ -22,6 +22,7 @@ module Imgproxy
     #     config.hex_key = "your_key"
     #     config.hex_salt = "your_salt"
     #     config.use_short_options = true
+    #     config.use_base64_encode = false
     #   end
     #
     # @yieldparam config [Config]

@@ -35,8 +35,14 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, "plain", url(image)].join("/")
-      path = "#{path}@#{@options[:format]}" if @options[:format]
+      if use_base64_encoded_url
+        encoded_url = Base64.urlsafe_encode64(url(image)).tr("=", "").scan(/.{1,16}/).join("/")
+        path = [*processing_options, encoded_url].join("/")
+        path = "#{path}.#{@options[:format]}" if @options[:format]
+      else
+        path = [*processing_options, "plain", url(image)].join("/")
+        path = "#{path}@#{@options[:format]}" if @options[:format]
+      end
 
       signature = sign_path(path)
 
@@ -121,6 +127,10 @@ module Imgproxy
 
     def signature_size
       config.signature_size
+    end
+
+    def use_base64_encoded_url
+      config.use_base64_encode
     end
 
     def config
