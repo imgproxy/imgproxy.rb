@@ -17,6 +17,7 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
+    OMITTED_OPTIONS = %i[format base64_encode_url].freeze
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
@@ -35,9 +36,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, "plain", url(image)].join("/")
-      path = "#{path}@#{@options[:format]}" if @options[:format]
-
+      path = base64_encode_url? ? base64_url_for(image) : plain_url_for(image)
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
@@ -74,9 +73,30 @@ module Imgproxy
 
     def processing_options
       @processing_options ||=
-        @options.reject { |k, _| k == :format }.map do |key, value|
+        @options.reject { |k, _| OMITTED_OPTIONS.include?(k) }.map do |key, value|
           "#{option_alias(key)}:#{wrap_array(value).join(':')}"
         end
+    end
+
+    def plain_url_for(image)
+      path = [*processing_options, "plain", url(image)].join("/")
+      path = "#{path}@#{@options[:format]}" if @options[:format]
+
+      path
+    end
+
+    def base64_url_for(image)
+      url = config.url_adapters.url_of(image)
+      encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
+
+      path = [*processing_options, encoded_url].join("/")
+      path = "#{path}.#{@options[:format]}" if @options[:format]
+
+      path
+    end
+
+    def base64_encode_url?
+      config.base64_encode_urls || @options[:base64_encode_url] == "true"
     end
 
     def option_alias(name)

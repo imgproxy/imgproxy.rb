@@ -17,9 +17,14 @@ module Imgproxy
     #   Defaults to true
     attr_accessor :use_short_options
 
+    # @return [Boolean] base64 encode the URL
+    #   Defaults to false
+    attr_accessor :base64_encode_urls
+
     def initialize
       self.signature_size = 32
       self.use_short_options = true
+      self.base64_encode_urls = false
     end
 
     # Decodes hex-encoded key and sets it to {#key}
