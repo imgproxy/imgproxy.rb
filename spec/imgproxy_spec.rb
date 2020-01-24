@@ -236,11 +236,16 @@ RSpec.describe Imgproxy do
   end
 
   describe "base64_encode_url" do
-    let(:options) { { base64_encode_url: true } }
+    let(:options) do
+      {
+        base64_encode_url: true, watermark_opacity: 0.5,
+        watermark_x_offset: 10, watermark_y_offset: 5
+      }
+    end
 
     it "base64 encodes the URL" do
       expect(url).to eq(
-        "http://imgproxy.test/unsafe/"\
+        "http://imgproxy.test/unsafe/wm:0.5::10:5/"\
         "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}",
       )
     end
