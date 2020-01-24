@@ -50,7 +50,7 @@ Naming/FileName:
   Exclude:
     - "*file" # Rakefile, etc
 
-Layout/AlignHash:
+Layout/HashAlignment:
   Enabled: false
 
 RSpec/FilePath:
