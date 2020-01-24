@@ -17,14 +17,17 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
-    OMITTED_OPTIONS = %i[format base64_encode_url].freeze
+    OMITTED_OPTIONS = %i[format].freeze
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
       options = options.dup
 
+      @base64_encode_url = options.delete(:base64_encode_url)
       @use_short_options = options.delete(:use_short_options)
+
       @use_short_options = config.use_short_options if @use_short_options.nil?
+      @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
 
       @options = Imgproxy::Options.new(options)
     end
@@ -36,7 +39,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = base64_encode_url? ? base64_url_for(image) : plain_url_for(image)
+      path = @base64_encode_url ? base64_url_for(image) : plain_url_for(image)
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
@@ -93,10 +96,6 @@ module Imgproxy
       path = "#{path}.#{@options[:format]}" if @options[:format]
 
       path
-    end
-
-    def base64_encode_url?
-      config.base64_encode_urls || @options[:base64_encode_url] == "true"
     end
 
     def option_alias(name)
