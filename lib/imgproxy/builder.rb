@@ -39,7 +39,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = @base64_encode_url ? base64_url_for(image) : plain_url_for(image)
+      path = [*processing_options, url(image)].join("/")
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
@@ -81,21 +81,16 @@ module Imgproxy
         end
     end
 
-    def plain_url_for(image)
-      path = [*processing_options, "plain", url(image)].join("/")
-      path = "#{path}@#{@options[:format]}" if @options[:format]
+    def plain_url_for(url)
+      escaped_url = url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
 
-      path
+      @options[:format] ? "plain/#{escaped_url}@#{@options[:format]}" : "plain/#{escaped_url}"
     end
 
-    def base64_url_for(image)
-      url = config.url_adapters.url_of(image)
+    def base64_url_for(url)
       encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
 
-      path = [*processing_options, encoded_url].join("/")
-      path = "#{path}.#{@options[:format]}" if @options[:format]
-
-      path
+      @options[:format] ? "#{encoded_url}.#{@options[:format]}" : encoded_url
     end
 
     def option_alias(name)
@@ -110,7 +105,8 @@ module Imgproxy
 
     def url(image)
       url = config.url_adapters.url_of(image)
-      url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
+
+      @base64_encode_url ? base64_url_for(url) : plain_url_for(url)
     end
 
     def sign_path(path)
