@@ -17,13 +17,17 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
+    OMITTED_OPTIONS = %i[format].freeze
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
       options = options.dup
 
+      @base64_encode_url = options.delete(:base64_encode_url)
       @use_short_options = options.delete(:use_short_options)
+
       @use_short_options = config.use_short_options if @use_short_options.nil?
+      @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
 
       @options = Imgproxy::Options.new(options)
     end
@@ -35,9 +39,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, "plain", url(image)].join("/")
-      path = "#{path}@#{@options[:format]}" if @options[:format]
-
+      path = [*processing_options, url(image)].join("/")
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
@@ -74,9 +76,21 @@ module Imgproxy
 
     def processing_options
       @processing_options ||=
-        @options.reject { |k, _| k == :format }.map do |key, value|
+        @options.reject { |k, _| OMITTED_OPTIONS.include?(k) }.map do |key, value|
           "#{option_alias(key)}:#{wrap_array(value).join(':')}"
         end
+    end
+
+    def plain_url_for(url)
+      escaped_url = url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
+
+      @options[:format] ? "plain/#{escaped_url}@#{@options[:format]}" : "plain/#{escaped_url}"
+    end
+
+    def base64_url_for(url)
+      encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
+
+      @options[:format] ? "#{encoded_url}.#{@options[:format]}" : encoded_url
     end
 
     def option_alias(name)
@@ -91,7 +105,8 @@ module Imgproxy
 
     def url(image)
       url = config.url_adapters.url_of(image)
-      url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
+
+      @base64_encode_url ? base64_url_for(url) : plain_url_for(url)
     end
 
     def sign_path(path)

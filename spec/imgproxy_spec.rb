@@ -37,15 +37,40 @@ RSpec.describe Imgproxy do
 
   subject(:url) { described_class.url_for(src_url, options) }
 
-  it "builds URL" do
-    expect(url).to eq(
-      "http://imgproxy.test/unsafe/"\
-      "c:500:100:ce:0.35:0.65/"\
-      "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
-      "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-      "pr:preset1:preset2/cb:qwerty/"\
-      "plain/https://images.test/image.jpg@webp",
-    )
+  describe "builds URL" do
+    context "when plain" do
+      it do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/"\
+          "c:500:100:ce:0.35:0.65/"\
+          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
+          "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+          "pr:preset1:preset2/cb:qwerty/"\
+          "plain/https://images.test/image.jpg@webp",
+        )
+      end
+    end
+
+    context "when base64" do
+      around do |ex|
+        described_class.config.base64_encode_urls = true
+
+        ex.run
+
+        described_class.config.base64_encode_urls = false
+      end
+
+      it do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/"\
+          "c:500:100:ce:0.35:0.65/"\
+          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
+          "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+          "pr:preset1:preset2/cb:qwerty/"\
+          "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
+        )
+      end
+    end
   end
 
   it "builds URL with full processing options names" do
@@ -207,6 +232,22 @@ RSpec.describe Imgproxy do
           "http://imgproxy.test/unsafe/a:10::1.5/plain/https://images.test/image.jpg",
         )
       end
+    end
+  end
+
+  describe "base64_encode_url" do
+    let(:options) do
+      {
+        base64_encode_url: true, watermark_opacity: 0.5,
+        watermark_x_offset: 10, watermark_y_offset: 5
+      }
+    end
+
+    it "base64 encodes the URL" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/wm:0.5::10:5/"\
+        "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}",
+      )
     end
   end
 

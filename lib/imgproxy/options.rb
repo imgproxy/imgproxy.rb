@@ -2,7 +2,7 @@ module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
     STRING_OPTS = %i[resizing_type gravity crop_gravity watermark_position watermark_url style
-                     cachebuster format].freeze
+                     cachebuster format base64_encode_url].freeze
     INT_OPTS = %i[width height crop_width crop_height
                   quality brightness pixelate watermark_x_offset watermark_y_offset].freeze
     FLOAT_OPTS = %i[dpr gravity_x gravity_y crop_gravity_x crop_gravity_y contrast saturation

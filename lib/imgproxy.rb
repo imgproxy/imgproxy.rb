@@ -77,6 +77,7 @@ module Imgproxy
     # @option options [String] :cachebuster
     # @option options [String] :format
     # @option options [Boolean] :use_short_options
+    # @option options [Boolean] :base64_encode_urls
     # @see https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md
     #   imgproxy URL format documentation
     def url_for(image, options = {})

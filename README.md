@@ -51,6 +51,9 @@ Imgproxy.configure do |config|
   config.hex_key = "your_key"
   # Hex-encoded signature salt
   config.hex_salt = "your_salt"
+
+  # Base64 encode all URLs
+  # config.base64_encode_urls = true
 end
 ```
 
@@ -184,6 +187,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `preset` — array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
 * `cachebuster` — defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
 * `format` — specifies the resulting image format (`jpg`, `png`, `webp`).
+* `base64_encode_url` — encode the URL as a base64 string.
 * `use_short_options` — per-call redefinition of `use_short_options` config.
 
 **See [imgproxy URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info.**
