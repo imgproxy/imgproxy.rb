@@ -12,8 +12,9 @@ module Imgproxy
     ARRAY_OPTS = %i[padding background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
 
-    OPTS_PRIORITY = %i[ crop resize size resizing_type width height dpr enlarge extend gravity
-                        quality background blur sharpen pixelate watermark watermark_url preset
+    OPTS_PRIORITY = %i[ resize size resizing_type width height dpr enlarge extend gravity
+                        crop padding trim quality max_bytes background adjust brightness contrast
+                        saturation blur sharpen pixelate watermark watermark_url style preset
                         cachebuster ].freeze
 
     # @param options [Hash] raw processing options

@@ -3,11 +3,6 @@ require "spec_helper"
 RSpec.describe Imgproxy do
   let(:options) do
     {
-      crop_width: "500",
-      crop_height: 100,
-      crop_gravity: "ce",
-      crop_gravity_x: 0.35,
-      crop_gravity_y: 0.65,
       resizing_type: :fill,
       width: "200",
       height: 300,
@@ -17,7 +12,18 @@ RSpec.describe Imgproxy do
       gravity: :fp,
       gravity_x: 0.25,
       gravity_y: 0.75,
+      crop_width: "500",
+      crop_height: 100,
+      crop_gravity: "ce",
+      crop_gravity_x: 0.35,
+      crop_gravity_y: 0.65,
+      padding: [10, 20],
+      trim_threshold: 10,
+      trim_color: "ffffff",
+      trim_equal_hor: true,
+      trim_equal_ver: false,
       quality: 80,
+      max_bytes: 1024,
       background: "abcdfe",
       blur: 0.5,
       sharpen: 0.7,
@@ -42,9 +48,9 @@ RSpec.describe Imgproxy do
       it do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/"\
-          "c:500:100:ce:0.35:0.65/"\
-          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
-          "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
+          "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
+          "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
           "pr:preset1:preset2/cb:qwerty/"\
           "plain/https://images.test/image.jpg@webp",
         )
@@ -63,9 +69,9 @@ RSpec.describe Imgproxy do
       it do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/"\
-          "c:500:100:ce:0.35:0.65/"\
-          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/q:80/bg:abcdfe/bl:0.5/"\
-          "sh:0.7/wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
+          "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
+          "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
           "pr:preset1:preset2/cb:qwerty/"\
           "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
         )
@@ -78,9 +84,10 @@ RSpec.describe Imgproxy do
 
     expect(url).to eq(
       "http://imgproxy.test/unsafe/"\
-      "crop:500:100:ce:0.35:0.65/"\
-      "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/quality:80/background:abcdfe/blur:0.5/"\
-      "sharpen:0.7/watermark:0.5:noea:10:5:0.1/watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+      "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/"\
+      "crop:500:100:ce:0.35:0.65/padding:10:20/trim:10:ffffff:1:0/quality:80/"\
+      "max_bytes:1024/background:abcdfe/blur:0.5/sharpen:0.7/"\
+      "watermark:0.5:noea:10:5:0.1/watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
       "preset:preset1:preset2/cachebuster:qwerty/"\
       "plain/https://images.test/image.jpg@webp",
     )
@@ -381,14 +388,14 @@ RSpec.describe Imgproxy do
     end
 
     it "signs the URL" do
-      expect(url).to start_with "http://imgproxy.test/C6NPpeJ8AGTjz3mC0otakIa-urucnuVok55J4o2xQD4/"
+      expect(url).to start_with "http://imgproxy.test/ORmz7YA9wTfcfcinGRpJAeRTkVLiF4M4oty9MZinFCg/"
     end
 
     context "when signature is truncated" do
       before { described_class.config.signature_size = 5 }
 
       it "signs the URL with truncated signature" do
-        expect(url).to start_with "http://imgproxy.test/C6NPpeI/"
+        expect(url).to start_with "http://imgproxy.test/ORmz7YA/"
       end
     end
   end
