@@ -31,6 +31,25 @@ RSpec.describe Imgproxy::UrlAdapters::ShrineS3 do
       "/plain/s3://uploads/#{uploaded_file.id}"
   end
 
+  context "when prefix is defined" do
+    let(:s3_options) do
+      {
+        access_key_id: "access",
+        secret_access_key: "secret",
+        region: "us-east-1",
+        bucket: "uploads",
+        stub_responses: true,
+        prefix: "prefix",
+      }
+    end
+
+      it "fethces url for Shrine::UploadedFile with prefix" do
+        expect(Imgproxy.url_for(uploaded_file)).to end_with \
+          "/plain/s3://uploads/prefix/#{uploaded_file.id}"
+      end
+  end
+
+
   describe "extension" do
     before do
       Imgproxy.config.url_adapters.clear!

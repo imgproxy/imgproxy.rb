@@ -13,7 +13,8 @@ module Imgproxy
       end
 
       def url(image)
-        "s3://#{image.storage.bucket.name}/#{image.id}"
+        path = [*image.storage.prefix, image.id].join("/")
+        "s3://#{image.storage.bucket.name}/#{path}"
       end
     end
   end
