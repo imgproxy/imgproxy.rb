@@ -9,7 +9,7 @@ module Imgproxy
                     crop_gravity_y contrast saturation blur sharpen watermark_opacity
                     watermark_scale].freeze
     BOOL_OPTS = %i[enlarge extend trim_equal_hor trim_equal_ver].freeze
-    ARRAY_OPTS = %i[background preset].freeze
+    ARRAY_OPTS = %i[padding background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
 
     OPTS_PRIORITY = %i[ crop resize size resizing_type width height dpr enlarge extend gravity

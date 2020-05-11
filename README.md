@@ -175,6 +175,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
 * `crop_width`, `crop_height` — define the size of an area of the image to be processed (crop before resize).
 * `crop_gravity`, `crop_gravity_x`, `crop_gravity_y` - define the gravity of the crop. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see above).
+* `padding` - defines padding size in css manner (you can use array here). See [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding) for more info.
 * `trim_threshold` - when set, imgproxy removes surrounding background.
 * `trim_color`, `trim_equal_hor`, `trim_equal_ver` - additional trim options described in the [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim).
 * `quality` — defines the quality of the resulting image, percentage.

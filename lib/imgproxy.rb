@@ -64,6 +64,7 @@ module Imgproxy
     # @option options [Float] :crop_gravity_y
     # @option options [Integer] :trim_threshold
     # @option options [String] :trim_color
+    # @option options [Array] :padding
     # @option options [Boolean] :trim_equal_hor
     # @option options [Boolean] :trim_equal_ver
     # @option options [Integer] :quality
