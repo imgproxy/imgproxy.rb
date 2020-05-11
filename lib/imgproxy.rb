@@ -63,6 +63,7 @@ module Imgproxy
     # @option options [Float] :gravity_x
     # @option options [Float] :gravity_y
     # @option options [Integer] :quality
+    # @option options [Integer] :max_bytes
     # @option options [Array] :background
     # @option options [Integer] :brightness supported only by imgproxy pro
     # @option options [Float] :contrast supported only by imgproxy pro
