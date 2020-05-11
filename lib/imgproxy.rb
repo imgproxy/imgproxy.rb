@@ -45,11 +45,6 @@ module Imgproxy
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
     # @param [Hash] options Processing options
-    # @option options [Integer] :crop_width
-    # @option options [Integer] :crop_height
-    # @option options [String] :crop_gravity
-    # @option options [Float] :crop_gravity_x
-    # @option options [Float] :crop_gravity_y
     # @option options [String] :resizing_type
     # @option options [Integer] :width
     # @option options [Integer] :height
@@ -62,6 +57,15 @@ module Imgproxy
     # @option options [String] :gravity
     # @option options [Float] :gravity_x
     # @option options [Float] :gravity_y
+    # @option options [Integer] :crop_width
+    # @option options [Integer] :crop_height
+    # @option options [String] :crop_gravity
+    # @option options [Float] :crop_gravity_x
+    # @option options [Float] :crop_gravity_y
+    # @option options [Integer] :trim_threshold
+    # @option options [String] :trim_color
+    # @option options [Boolean] :trim_equal_hor
+    # @option options [Boolean] :trim_equal_ver
     # @option options [Integer] :quality
     # @option options [Integer] :max_bytes
     # @option options [Array] :background

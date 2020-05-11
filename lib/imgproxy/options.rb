@@ -1,14 +1,14 @@
 module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
-    STRING_OPTS = %i[resizing_type extend_gravity gravity crop_gravity watermark_position
+    STRING_OPTS = %i[resizing_type extend_gravity gravity crop_gravity trim_color watermark_position
                      watermark_url style cachebuster format base64_encode_url].freeze
-    INT_OPTS = %i[width height crop_width crop_height quality brightness pixelate watermark_x_offset
-                  watermark_y_offset max_bytes].freeze
+    INT_OPTS = %i[width height crop_width crop_height trim_threshold quality brightness pixelate
+                  watermark_x_offset watermark_y_offset max_bytes].freeze
     FLOAT_OPTS = %i[dpr extend_gravity_x extend_gravity_y gravity_x gravity_y crop_gravity_x
                     crop_gravity_y contrast saturation blur sharpen watermark_opacity
                     watermark_scale].freeze
-    BOOL_OPTS = %i[enlarge extend].freeze
+    BOOL_OPTS = %i[enlarge extend trim_equal_hor trim_equal_ver].freeze
     ARRAY_OPTS = %i[background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
 
@@ -62,6 +62,7 @@ module Imgproxy
       group_gravity_opts
       group_adjust_opts
       group_watermark_opts
+      group_trim_opts
     end
 
     def group_crop_opts
@@ -116,6 +117,17 @@ module Imgproxy
       )
 
       self[:watermark] = watermark unless watermark[0].nil?
+    end
+
+    def group_trim_opts
+      trim = extract_and_trim_nils(
+        :trim_threshold,
+        :trim_color,
+        :trim_equal_hor,
+        :trim_equal_ver,
+      )
+
+      self[:trim] = trim unless trim[0].nil?
     end
 
     def encode_style
