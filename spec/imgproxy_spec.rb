@@ -213,6 +213,93 @@ RSpec.describe Imgproxy do
     end
   end
 
+  describe "extend grouping" do
+    context "when extend is true" do
+      let(:options) { { extend: true } }
+
+      it "groups extend" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend is true and its gravity is set" do
+      let(:options) { { extend: true, extend_gravity: "no" } }
+
+      it "groups extend" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1:no/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend is true, and its gravity and gravity x and y are set" do
+      let(:options) do
+        {
+          extend: true,
+          extend_gravity: "ce", extend_gravity_x: 0.2, extend_gravity_y: 0.4
+        }
+      end
+
+      it "groups extend" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1:ce:0.2:0.4/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend is false, and its gravity is set" do
+      let(:options) { { extend: false, extend_gravity: "no" } }
+
+      it "omits extend gravity" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:0/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend is not set" do
+      let(:options) { { extend_gravity: "ce" } }
+
+      it "omits extend" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend gravity type aren't set but extend gravity x and y are" do
+      let(:options) { { extend: true, extend_gravity_x: 0.2, extend_gravity_y: 0.4 } }
+
+      it "ignores extend gravity" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend gravity y aren't set" do
+      let(:options) { { extend: true, extend_gravity: "fp", extend_gravity_x: 0.2 } }
+
+      it "ignores extend gravity y" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1:fp:0.2/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when extend gravity x aren't set" do
+      let(:options) { { extend: true, extend_gravity: "fp", extend_gravity_y: 0.2 } }
+
+      it "ignores extend gravity x" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/ex:1:fp::0.2/plain/https://images.test/image.jpg",
+        )
+      end
+    end
+  end
+
   describe "adjust grouping" do
     context "when only one adjust option is set" do
       let(:options) { { brightness: 10 } }

@@ -170,6 +170,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `dpr` — when set, imgproxy will multiply the image dimensions according to this factor for HiDPI (Retina) devices.
 * `enlarge` — when true, imgproxy will enlarge the image if it is smaller than the given size.
 * `extend` — when true, imgproxy will extend the image if the resizing result is smaller than the given size.
+* `extend_gravity`, `extend_gravity_x`, `extend_gravity_y` - define the gravity of the extend. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see below).
 * `gravity` — defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
 * `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
 * `crop_width`, `crop_height` - define the size of an area of the image to be processed (crop before resize).

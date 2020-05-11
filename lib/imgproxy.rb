@@ -56,6 +56,9 @@ module Imgproxy
     # @option options [Float] :dpr
     # @option options [Boolean] :enlarge
     # @option options [Boolean] :extend
+    # @option options [String] :extend_gravity
+    # @option options [Float] :extend_gravity_x
+    # @option options [Float] :extend_gravity_y
     # @option options [String] :gravity
     # @option options [Float] :gravity_x
     # @option options [Float] :gravity_y

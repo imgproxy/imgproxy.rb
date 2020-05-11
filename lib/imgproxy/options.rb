@@ -1,12 +1,13 @@
 module Imgproxy
   # Formats and regroups processing options
   class Options < Hash
-    STRING_OPTS = %i[resizing_type gravity crop_gravity watermark_position watermark_url style
-                     cachebuster format base64_encode_url].freeze
-    INT_OPTS = %i[width height crop_width crop_height
-                  quality brightness pixelate watermark_x_offset watermark_y_offset].freeze
-    FLOAT_OPTS = %i[dpr gravity_x gravity_y crop_gravity_x crop_gravity_y contrast saturation
-                    blur sharpen watermark_opacity watermark_scale].freeze
+    STRING_OPTS = %i[resizing_type extend_gravity gravity crop_gravity watermark_position
+                     watermark_url style cachebuster format base64_encode_url].freeze
+    INT_OPTS = %i[width height crop_width crop_height quality brightness pixelate watermark_x_offset
+                  watermark_y_offset].freeze
+    FLOAT_OPTS = %i[dpr extend_gravity_x extend_gravity_y gravity_x gravity_y crop_gravity_x
+                    crop_gravity_y contrast saturation blur sharpen watermark_opacity
+                    watermark_scale].freeze
     BOOL_OPTS = %i[enlarge extend].freeze
     ARRAY_OPTS = %i[background preset].freeze
     ALL_OPTS = (STRING_OPTS + INT_OPTS + FLOAT_OPTS + BOOL_OPTS + ARRAY_OPTS).freeze
@@ -58,6 +59,7 @@ module Imgproxy
       group_crop_opts
       group_resizing_opts
       group_gravity_opts
+      group_extend_opts
       group_adjust_opts
       group_watermark_opts
     end
@@ -86,6 +88,18 @@ module Imgproxy
       gravity = extract_and_trim_nils(:gravity, :gravity_x, :gravity_y)
 
       self[:gravity] = gravity unless gravity[0].nil?
+    end
+
+    def group_extend_opts
+      do_extend = delete(:extend)
+      extend_gravity = extract_and_trim_nils(:extend_gravity, :extend_gravity_x, :extend_gravity_y)
+
+      return if do_extend.nil?
+      return self[:extend] = 0 if do_extend.zero?
+
+      extend_gravity = nil if extend_gravity[0].nil?
+
+      self[:extend] = [do_extend, *extend_gravity]
     end
 
     def group_adjust_opts
