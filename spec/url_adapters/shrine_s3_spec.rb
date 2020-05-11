@@ -43,12 +43,11 @@ RSpec.describe Imgproxy::UrlAdapters::ShrineS3 do
       }
     end
 
-      it "fethces url for Shrine::UploadedFile with prefix" do
-        expect(Imgproxy.url_for(uploaded_file)).to end_with \
-          "/plain/s3://uploads/prefix/#{uploaded_file.id}"
-      end
+    it "fethces url for Shrine::UploadedFile with prefix" do
+      expect(Imgproxy.url_for(uploaded_file)).to end_with \
+        "/plain/s3://uploads/prefix/#{uploaded_file.id}"
+    end
   end
-
 
   describe "extension" do
     before do

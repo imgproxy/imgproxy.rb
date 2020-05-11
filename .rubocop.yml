@@ -24,12 +24,16 @@ Style/FrozenStringLiteralComment:
 Style/DoubleNegation:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - lib/imgproxy/options.rb
 
 Style/TrailingCommaInArguments:
   Enabled: true
@@ -52,6 +56,33 @@ Naming/FileName:
 
 Layout/HashAlignment:
   Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
 
 RSpec/FilePath:
   Enabled: false
