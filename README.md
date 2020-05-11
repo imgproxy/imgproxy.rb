@@ -171,7 +171,9 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `enlarge` — when true, imgproxy will enlarge the image if it is smaller than the given size.
 * `extend` — when true, imgproxy will extend the image if the resizing result is smaller than the given size.
 * `gravity` — defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
-* `gravity_x`, `gravity_y` — floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image when `fp` gravity is used.
+* `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
+* `crop_width`, `crop_height` - define the size of an area of the image to be processed (crop before resize).
+* `crop_gravity`, `crop_gravity_x`, `crop_gravity_y` - define the gravity of the crop. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see above).
 * `quality` — defines the quality of the resulting image, percentage.
 * `background` — when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
 * `brightness` — when set, imgproxy will adjust brightness of the resulting image. _Supported only by imgproxy pro._
