@@ -288,6 +288,16 @@ RSpec.describe Imgproxy do
         )
       end
     end
+
+    context "when size is also grouped" do
+      let(:options) { { width: 100, height: 200, extend: true, extend_gravity: "no" } }
+
+      it "groups extend insidde size" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/s:100:200::1:no/plain/https://images.test/image.jpg",
+        )
+      end
+    end
   end
 
   describe "adjust grouping" do

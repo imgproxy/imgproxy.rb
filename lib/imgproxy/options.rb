@@ -57,9 +57,9 @@ module Imgproxy
 
     def group_options
       group_crop_opts
+      group_extend_opts
       group_resizing_opts
       group_gravity_opts
-      group_extend_opts
       group_adjust_opts
       group_watermark_opts
     end
