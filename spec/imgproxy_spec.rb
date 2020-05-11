@@ -269,16 +269,6 @@ RSpec.describe Imgproxy do
       end
     end
 
-    context "when extend gravity type aren't set but extend gravity x and y are" do
-      let(:options) { { extend: true, extend_gravity_x: 0.2, extend_gravity_y: 0.4 } }
-
-      it "ignores extend gravity" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
     context "when extend gravity y aren't set" do
       let(:options) { { extend: true, extend_gravity: "fp", extend_gravity_x: 0.2 } }
 

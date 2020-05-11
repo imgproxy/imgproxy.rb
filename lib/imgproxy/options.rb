@@ -91,15 +91,13 @@ module Imgproxy
     end
 
     def group_extend_opts
-      do_extend = delete(:extend)
-      extend_gravity = extract_and_trim_nils(:extend_gravity, :extend_gravity_x, :extend_gravity_y)
+      extend_opts =
+        extract_and_trim_nils(:extend, :extend_gravity, :extend_gravity_x, :extend_gravity_y)
 
-      return if do_extend.nil?
-      return self[:extend] = 0 if do_extend.zero?
+      return if extend_opts[0].nil?
+      return self[:extend] = 0 if extend_opts[0].zero?
 
-      extend_gravity = nil if extend_gravity[0].nil?
-
-      self[:extend] = [do_extend, *extend_gravity]
+      self[:extend] = extend_opts
     end
 
     def group_adjust_opts
