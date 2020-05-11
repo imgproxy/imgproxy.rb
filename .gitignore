@@ -7,3 +7,4 @@ tmp/
 *.sqlite3
 
 Gemfile.lock
+.ruby-version
