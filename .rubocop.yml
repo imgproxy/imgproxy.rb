@@ -1,6 +1,7 @@
 require: rubocop-rspec
 
 AllCops:
+  TargetRubyVersion: 2.5
   Exclude:
     - 'spec/dummy/**/*'
     - 'vendor/**/*'
@@ -30,10 +31,6 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
-
-Metrics/ClassLength:
-  Exclude:
-    - lib/imgproxy/options.rb
 
 Style/TrailingCommaInArguments:
   Enabled: true

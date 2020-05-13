@@ -17,7 +17,6 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
-    OMITTED_OPTIONS = %i[format].freeze
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
@@ -30,6 +29,7 @@ module Imgproxy
       @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
 
       @options = Imgproxy::Options.new(options)
+      @format = @options.delete(:format)
     end
 
     # Genrates imgproxy URL
@@ -39,7 +39,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, url(image)].join("/")
+      path = [processing_options, url(image)].join("/")
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
@@ -78,38 +78,33 @@ module Imgproxy
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
     def processing_options
-      @processing_options ||=
-        @options.reject { |k, _| OMITTED_OPTIONS.include?(k) }.map do |key, value|
-          "#{option_alias(key)}:#{wrap_array(value).join(':')}"
-        end
-    end
-
-    def plain_url_for(url)
-      escaped_url = url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
-
-      @options[:format] ? "plain/#{escaped_url}@#{@options[:format]}" : "plain/#{escaped_url}"
-    end
-
-    def base64_url_for(url)
-      encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
-
-      @options[:format] ? "#{encoded_url}.#{@options[:format]}" : encoded_url
-    end
-
-    def option_alias(name)
-      return name unless config.use_short_options
-
-      OPTIONS_ALIASES.fetch(name, name)
-    end
-
-    def wrap_array(value)
-      value.is_a?(Array) ? value : [value]
+      @processing_options ||= @options.map do |key, value|
+        [option_alias(key), value].join(":")
+      end
     end
 
     def url(image)
       url = config.url_adapters.url_of(image)
 
       @base64_encode_url ? base64_url_for(url) : plain_url_for(url)
+    end
+
+    def plain_url_for(url)
+      escaped_url = url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
+
+      @format ? "plain/#{escaped_url}@#{@format}" : "plain/#{escaped_url}"
+    end
+
+    def base64_url_for(url)
+      encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
+
+      @format ? "#{encoded_url}.#{@format}" : encoded_url
+    end
+
+    def option_alias(name)
+      return name unless config.use_short_options
+
+      OPTIONS_ALIASES.fetch(name, name)
     end
 
     def sign_path(path)
