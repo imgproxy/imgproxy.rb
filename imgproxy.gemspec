@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.9.0"
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.4.1"
   spec.add_development_dependency "rubocop", "~> 0.83.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 1.38.1"
+  spec.add_development_dependency "rubocop-rspec", "~> 1.39.0"
 
   spec.add_development_dependency "aws-sdk-s3", "~> 1.64.0"
   spec.add_development_dependency "google-cloud-storage", "~> 1.11"
