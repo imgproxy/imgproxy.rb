@@ -21,10 +21,15 @@ module Imgproxy
     #   Defaults to false
     attr_accessor :base64_encode_urls
 
+    # @return [Boolean] always escape plain URLs
+    #   Defaults to false
+    attr_accessor :always_escape_plain_urls
+
     def initialize
       self.signature_size = 32
       self.use_short_options = true
       self.base64_encode_urls = false
+      self.always_escape_plain_urls = false
     end
 
     # Decodes hex-encoded key and sets it to {#key}

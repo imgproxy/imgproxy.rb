@@ -379,6 +379,14 @@ RSpec.describe Imgproxy do
     end
   end
 
+  context "when escape_plain_url is true" do
+    let(:options) { { escape_plain_url: true } }
+
+    it "escapes source URL" do
+      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg"
+    end
+  end
+
   context "when key and salt are provided" do
     before do
       described_class.configure do |config|

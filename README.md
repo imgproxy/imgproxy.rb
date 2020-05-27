@@ -54,6 +54,9 @@ Imgproxy.configure do |config|
 
   # Base64 encode all URLs
   # config.base64_encode_urls = true
+
+  # Always escape plain URLs
+  # config.always_escape_plain_urls = true
 end
 ```
 

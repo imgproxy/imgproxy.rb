@@ -3,6 +3,7 @@ require "base64"
 require "erb"
 
 require "imgproxy/options"
+require "imgproxy/options_aliases"
 
 module Imgproxy
   # Builds imgproxy URL
@@ -22,11 +23,7 @@ module Imgproxy
     def initialize(options = {})
       options = options.dup
 
-      @base64_encode_url = options.delete(:base64_encode_url)
-      @use_short_options = options.delete(:use_short_options)
-
-      @use_short_options = config.use_short_options if @use_short_options.nil?
-      @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
+      extract_builder_options(options)
 
       @options = Imgproxy::Options.new(options)
       @format = @options.delete(:format)
@@ -47,35 +44,17 @@ module Imgproxy
 
     private
 
-    OPTIONS_ALIASES = {
-      resize: :rs,
-      size: :s,
-      resizing_type: :rt,
-      width: :w,
-      height: :h,
-      enlarge: :en,
-      extend: :ex,
-      gravity: :g,
-      crop: :c,
-      padding: :pd,
-      trim: :t,
-      quality: :q,
-      max_bytes: :mb,
-      background: :bg,
-      adjust: :a,
-      brightness: :br,
-      contrast: :co,
-      saturation: :sa,
-      blur: :bl,
-      sharpen: :sh,
-      pixelate: :pix,
-      watermark: :wm,
-      watermark_url: :wmu,
-      preset: :pr,
-      cachebuster: :cb,
-    }.freeze
-
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
+
+    def extract_builder_options(options)
+      @use_short_options = options.delete(:use_short_options)
+      @base64_encode_url = options.delete(:base64_encode_url)
+      @escape_plain_url = options.delete(:escape_plain_url)
+
+      @use_short_options = config.use_short_options if @use_short_options.nil?
+      @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
+      @escape_plain_url = config.always_escape_plain_urls if @escape_plain_url.nil?
+    end
 
     def processing_options
       @processing_options ||= @options.map do |key, value|
@@ -90,7 +69,7 @@ module Imgproxy
     end
 
     def plain_url_for(url)
-      escaped_url = url.match?(NEED_ESCAPE_RE) ? ERB::Util.url_encode(url) : url
+      escaped_url = need_escape_url?(url) ? ERB::Util.url_encode(url) : url
 
       @format ? "plain/#{escaped_url}@#{@format}" : "plain/#{escaped_url}"
     end
@@ -101,10 +80,14 @@ module Imgproxy
       @format ? "#{encoded_url}.#{@format}" : encoded_url
     end
 
+    def need_escape_url?(url)
+      @escape_plain_url || url.match?(NEED_ESCAPE_RE)
+    end
+
     def option_alias(name)
       return name unless config.use_short_options
 
-      OPTIONS_ALIASES.fetch(name, name)
+      Imgproxy::OPTIONS_ALIASES.fetch(name, name)
     end
 
     def sign_path(path)
@@ -138,6 +121,10 @@ module Imgproxy
 
     def config
       Imgproxy.config
+    end
+
+    def not_nil_or(value, fallback)
+      value.nil? ? fallback : value
     end
   end
 end
