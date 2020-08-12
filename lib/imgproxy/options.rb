@@ -42,6 +42,7 @@ module Imgproxy
       preset:        Imgproxy::OptionsExtractors::Array.new(:preset),
       cachebuster:   Imgproxy::OptionsExtractors::String.new(:cachebuster),
       format:        Imgproxy::OptionsExtractors::String.new(:format),
+      video_thumbnail_second: Imgproxy::OptionsExtractors::Integer.new(:video_thumbnail_second),
     }.freeze
 
     # @param options [Hash] raw processing options
