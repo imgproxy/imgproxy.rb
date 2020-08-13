@@ -407,4 +407,18 @@ RSpec.describe Imgproxy do
       end
     end
   end
+
+  context "when video_thumbnail_second is provided" do
+    let(:options) do
+      {
+        video_thumbnail_second: 1,
+      }
+    end
+
+    it "uses it in the url" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/vts:1/plain/https://images.test/image.jpg",
+      )
+    end
+  end
 end

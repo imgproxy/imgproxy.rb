@@ -25,5 +25,6 @@ module Imgproxy
     watermark_url: :wmu,
     preset: :pr,
     cachebuster: :cb,
+    video_thumbnail_second: :vts,
   }.freeze
 end
