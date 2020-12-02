@@ -26,6 +26,6 @@ module Imgproxy
     preset: :pr,
     cachebuster: :cb,
     video_thumbnail_second: :vts,
-    filename: :fn
+    filename: :fn,
   }.freeze
 end
