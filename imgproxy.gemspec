@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "aws-sdk-s3", "~> 1.64.0"
   spec.add_development_dependency "google-cloud-storage", "~> 1.11"
-  spec.add_development_dependency "rails", "~> 5.2"
+  spec.add_development_dependency "rails", "~> 6.1"
   spec.add_development_dependency "shrine", "~> 3.0"
   spec.add_development_dependency "sqlite3", "~>1.4.1"
 end
