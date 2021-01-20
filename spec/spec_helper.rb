@@ -35,6 +35,8 @@ RSpec.configure do |config|
       c.salt = nil
       c.signature_size = 32
       c.use_short_options = true
+      c.base64_encode_urls = false
+      c.always_escape_plain_urls = false
 
       c.url_adapters.clear!
     end

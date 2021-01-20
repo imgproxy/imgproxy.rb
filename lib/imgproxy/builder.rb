@@ -47,13 +47,10 @@ module Imgproxy
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
     def extract_builder_options(options)
-      @use_short_options = options.delete(:use_short_options)
-      @base64_encode_url = options.delete(:base64_encode_url)
-      @escape_plain_url = options.delete(:escape_plain_url)
-
-      @use_short_options = config.use_short_options if @use_short_options.nil?
-      @base64_encode_url = config.base64_encode_urls if @base64_encode_url.nil?
-      @escape_plain_url = config.always_escape_plain_urls if @escape_plain_url.nil?
+      @use_short_options = not_nil_or(options.delete(:use_short_options), config.use_short_options)
+      @base64_encode_url = not_nil_or(options.delete(:base64_encode_url), config.base64_encode_urls)
+      @escape_plain_url =
+        not_nil_or(options.delete(:escape_plain_url), config.always_escape_plain_urls)
     end
 
     def processing_options
@@ -85,7 +82,7 @@ module Imgproxy
     end
 
     def option_alias(name)
-      return name unless config.use_short_options
+      return name unless @use_short_options
 
       Imgproxy::OPTIONS_ALIASES.fetch(name, name)
     end

@@ -3,94 +3,212 @@ require "spec_helper"
 RSpec.describe Imgproxy do
   let(:options) do
     {
+      resize: {
+        resizing_type: :auto,
+        width: 100,
+        height: "200",
+        enlarge: true,
+        extend: {
+          extend: true,
+          gravity: {
+            type: :noea,
+            x_offset: 1,
+            y_offset: 2,
+          },
+        },
+      },
+      size: {
+        width: 150,
+        height: "250",
+        enlarge: false,
+        extend: {
+          extend: true,
+          gravity: {
+            type: :soea,
+            x_offset: 2,
+            y_offset: 3,
+          },
+        },
+      },
       resizing_type: :fill,
       width: "200",
       height: 300,
       dpr: 2,
       enlarge: true,
-      extend: true,
-      gravity: :fp,
-      gravity_x: 0.25,
-      gravity_y: 0.75,
-      crop_width: "500",
-      crop_height: 100,
-      crop_gravity: "ce",
-      crop_gravity_x: 0.35,
-      crop_gravity_y: 0.65,
+      extend: {
+        extend: true,
+        gravity: {
+          type: :nowe,
+          x_offset: 5,
+          y_offset: 6,
+        },
+      },
+      gravity: {
+        type: :fp,
+        x_offset: 0.25,
+        y_offset: 0.75,
+      },
+      crop: {
+        width: "500",
+        height: 100,
+        gravity: {
+          type: "ce",
+          x_offset: 0.35,
+          y_offset: 0.65,
+        },
+      },
       padding: [10, 20],
-      trim_threshold: 10,
-      trim_color: "ffffff",
-      trim_equal_hor: true,
-      trim_equal_ver: false,
+      trim: {
+        threshold: 10,
+        color: "ffffff",
+        equal_hor: true,
+        equal_ver: false,
+      },
       quality: 80,
       max_bytes: 1024,
       background: "abcdfe",
+      adjust: {
+        brightness: -10,
+        contrast: 0.5,
+        saturation: 2,
+      },
+      brightness: 10,
+      contrast: 2,
+      saturation: 0.5,
       blur: 0.5,
       sharpen: 0.7,
-      watermark_opacity: 0.5,
-      watermark_position: :noea,
-      watermark_x_offset: 10,
-      watermark_y_offset: 5,
-      watermark_scale: 0.1,
+      pixelate: 10,
+      watermark: {
+        opacity: 0.5,
+        position: :noea,
+        x_offset: 10,
+        y_offset: 5,
+        scale: 0.1,
+      },
       watermark_url: "https://images.test/wm.svg",
+      style: "color: rgba(255, 255, 255, .5)",
       preset: %i[preset1 preset2],
       cachebuster: "qwerty",
+      filename: "the_image.jpg",
       format: :webp,
     }
   end
 
   let(:src_url) { "https://images.test/image.jpg" }
 
+  let(:casted_options) do
+    "rs:auto:100:200:1:1:noea:1:2/"\
+    "s:150:250:0:1:soea:2:3/"\
+    "rt:fill/"\
+    "w:200/"\
+    "h:300/"\
+    "dpr:2/"\
+    "en:1/"\
+    "ex:1:nowe:5:6/"\
+    "g:fp:0.25:0.75/"\
+    "c:500:100:ce:0.35:0.65/"\
+    "pd:10:20/"\
+    "t:10:ffffff:1:0/"\
+    "q:80/"\
+    "mb:1024/"\
+    "bg:abcdfe/"\
+    "a:-10:0.5:2/"\
+    "br:10/"\
+    "co:2/"\
+    "sa:0.5/"\
+    "bl:0.5/"\
+    "sh:0.7/"\
+    "pix:10/"\
+    "wm:0.5:noea:10:5:0.1/"\
+    "wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+    "st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/"\
+    "pr:preset1:preset2/"\
+    "cb:qwerty/" \
+    "fn:the_image.jpg"
+  end
+
+  let(:casted_options_full) do
+    "resize:auto:100:200:1:1:noea:1:2/"\
+    "size:150:250:0:1:soea:2:3/"\
+    "resizing_type:fill/"\
+    "width:200/"\
+    "height:300/"\
+    "dpr:2/"\
+    "enlarge:1/"\
+    "extend:1:nowe:5:6/"\
+    "gravity:fp:0.25:0.75/"\
+    "crop:500:100:ce:0.35:0.65/"\
+    "padding:10:20/"\
+    "trim:10:ffffff:1:0/"\
+    "quality:80/"\
+    "max_bytes:1024/"\
+    "background:abcdfe/"\
+    "adjust:-10:0.5:2/"\
+    "brightness:10/"\
+    "contrast:2/"\
+    "saturation:0.5/"\
+    "blur:0.5/"\
+    "sharpen:0.7/"\
+    "pixelate:10/"\
+    "watermark:0.5:noea:10:5:0.1/"\
+    "watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
+    "style:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/"\
+    "preset:preset1:preset2/"\
+    "cachebuster:qwerty/" \
+    "filename:the_image.jpg"
+  end
+
   subject(:url) { described_class.url_for(src_url, options) }
 
-  describe "builds URL" do
-    context "when plain" do
-      it do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/"\
-          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
-          "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
-          "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-          "pr:preset1:preset2/cb:qwerty/"\
-          "plain/https://images.test/image.jpg@webp",
-        )
-      end
-    end
+  it "builds URL" do
+    expect(url).to eq(
+      "http://imgproxy.test/unsafe/#{casted_options}/"\
+      "plain/https://images.test/image.jpg@webp",
+    )
+  end
 
-    context "when base64" do
-      around do |ex|
-        described_class.config.base64_encode_urls = true
+  context "when base64_encode_urls is true" do
+    before { described_class.config.base64_encode_urls = true }
 
-        ex.run
-
-        described_class.config.base64_encode_urls = false
-      end
-
-      it do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/"\
-          "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
-          "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
-          "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-          "pr:preset1:preset2/cb:qwerty/"\
-          "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
-        )
-      end
+    it "builds URL with base64 URL" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/#{casted_options}/"\
+        "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
+      )
     end
   end
 
-  it "builds URL with full processing options names" do
-    described_class.config.use_short_options = false
+  context "when base64_encode_url option true" do
+    before { options[:base64_encode_url] = true }
 
-    expect(url).to eq(
-      "http://imgproxy.test/unsafe/"\
-      "resize:fill:200:300:1:1/dpr:2.0/gravity:fp:0.25:0.75/"\
-      "crop:500:100:ce:0.35:0.65/padding:10:20/trim:10:ffffff:1:0/quality:80/"\
-      "max_bytes:1024/background:abcdfe/blur:0.5/sharpen:0.7/"\
-      "watermark:0.5:noea:10:5:0.1/watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-      "preset:preset1:preset2/cachebuster:qwerty/"\
-      "plain/https://images.test/image.jpg@webp",
-    )
+    it "builds URL with base64 URL" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/#{casted_options}/"\
+        "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
+      )
+    end
+  end
+
+  context "when use_short_options config is false" do
+    before { described_class.config.use_short_options = false }
+
+    it "builds URL with full processing options names" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/#{casted_options_full}/"\
+        "plain/https://images.test/image.jpg@webp",
+      )
+    end
+  end
+
+  context "when use_short_options option is false" do
+    before { options[:use_short_options] = false }
+
+    it "builds URL with full processing options names" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/#{casted_options_full}/"\
+        "plain/https://images.test/image.jpg@webp",
+      )
+    end
   end
 
   context "when source image is an URI" do
@@ -102,75 +220,108 @@ RSpec.describe Imgproxy do
   end
 
   describe "resize/size grouping" do
-    context "when only width/height is set" do
-      let(:options) { { width: 200, enlarge: true } }
-
-      it "doesn't group" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/w:200/en:1/plain/https://images.test/image.jpg",
-        )
-      end
+    let(:options) do
+      {
+        width: "200",
+        height: 300,
+        enlarge: true,
+        extend: {
+          extend: true,
+          gravity: {
+            type: :nowe,
+            x_offset: 5,
+            y_offset: 6,
+          },
+        },
+      }
     end
 
-    context "when both width and height are set" do
-      let(:options) { { width: 200, height: 300, enlarge: true } }
-
-      it "groups size" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/s:200:300:1/plain/https://images.test/image.jpg",
-        )
-      end
+    it "groups size" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/s:200:300:1:1:nowe:5:6/"\
+        "plain/https://images.test/image.jpg",
+      )
     end
 
-    context "when width, height and resizing_type are set" do
-      let(:options) { { resizing_type: :fill, width: 200, height: 300, enlarge: true } }
+    context "when resizing_type is set too" do
+      before { options[:resizing_type] = :fill }
 
       it "groups resize" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/rs:fill:200:300:1/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/rs:fill:200:300:1:1:nowe:5:6/"\
+          "plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when size is already set" do
+      before { options[:size] = [100, 200] }
+
+      it "doesn't regroup" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/s:100:200/w:200/h:300/en:1/ex:1:nowe:5:6/"\
+          "plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when resize is already set" do
+      before { options[:resize] = [:fit, 100, 200] }
+
+      it "doesn't regroup" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/rs:fit:100:200/w:200/h:300/en:1/ex:1:nowe:5:6/"\
+          "plain/https://images.test/image.jpg",
+        )
+      end
+    end
+
+    context "when only width/height is set" do
+      before { options.delete(:height) }
+
+      it "doesn't group" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/w:200/en:1/ex:1:nowe:5:6/"\
+          "plain/https://images.test/image.jpg",
         )
       end
     end
   end
 
-  describe "crop grouping" do
-    context "when crop width and height are set" do
-      let(:options) { { crop_width: 200, crop_height: 300 } }
+  describe "adjust grouping" do
+    let(:options) { { brightness: 10, contrast: 0.5, saturation: 1.5 } }
 
-      it "groups crop" do
+    it "groups adjust options" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/a:10:0.5:1.5/plain/https://images.test/image.jpg",
+      )
+    end
+
+    context "when only one adjust argument is set" do
+      let(:options) { { brightness: 10 } }
+
+      it "doesn't group" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:200:300/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/br:10/plain/https://images.test/image.jpg",
         )
       end
     end
 
-    context "when crop width, height and gravity are set" do
-      let(:options) { { crop_width: 200, crop_height: 300, crop_gravity: "ce" } }
+    context "when adjust option is set" do
+      before { options[:adjust] = [1, 2, 3] }
 
-      it "groups crop" do
+      it "doesn't group" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:200:300:ce/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/a:1:2:3/br:10/co:0.5/sa:1.5/"\
+          "plain/https://images.test/image.jpg",
         )
       end
     end
+  end
 
-    context "when crop width, height, gravity and gravity x and y are set" do
-      let(:options) do
-        {
-          crop_width: 200, crop_height: 300,
-          crop_gravity: "ce", crop_gravity_x: 0.2, crop_gravity_y: 0.4
-        }
-      end
-
-      it "groups crop" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:200:300:ce:0.2:0.4/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when crop width and height aren't set" do
-      let(:options) { { crop_gravity: "ce" } }
+  describe "crop casting" do
+    context "when both crop width and height aren't set" do
+      let(:options) { { crop: { gravity: { type: "ce" } } } }
 
       it "omits crop" do
         expect(url).to eq(
@@ -180,7 +331,7 @@ RSpec.describe Imgproxy do
     end
 
     context "when crop width or height aren't set" do
-      let(:options) { { crop_width: 300 } }
+      let(:options) { { crop: { width: 300 } } }
 
       it "replaces missed side with zero" do
         expect(url).to eq(
@@ -188,169 +339,135 @@ RSpec.describe Imgproxy do
         )
       end
     end
-
-    context "when crop gravity type aren't set but crop gravity x and y are" do
-      let(:options) { { crop_width: 300, crop_gravity_x: 0.2, crop_gravity_y: 0.4 } }
-
-      it "ignores crop gravity" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:300:0/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when crop gravity y aren't set" do
-      let(:options) { { crop_width: 300, crop_gravity: "fp", crop_gravity_x: 0.2 } }
-
-      it "ignores crop gravity y" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:300:0:fp:0.2/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when crop gravity x aren't set" do
-      let(:options) { { crop_width: 300, crop_gravity: "fp", crop_gravity_y: 0.2 } }
-
-      it "ignores crop gravity y" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/c:300:0:fp::0.2/plain/https://images.test/image.jpg",
-        )
-      end
-    end
   end
 
-  describe "extend grouping" do
-    context "when extend is true" do
-      let(:options) { { extend: true } }
+  describe "extend casting" do
+    context "when the 'extend' argument is not set" do
+      let(:options) { { extend: { gravity: { type: "no" } } } }
 
-      it "groups extend" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when extend is true and its gravity is set" do
-      let(:options) { { extend: true, extend_gravity: "no" } }
-
-      it "groups extend" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1:no/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when extend is true, and its gravity and gravity x and y are set" do
-      let(:options) do
-        {
-          extend: true,
-          extend_gravity: "ce", extend_gravity_x: 0.2, extend_gravity_y: 0.4
-        }
-      end
-
-      it "groups extend" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1:ce:0.2:0.4/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when extend is false, and its gravity is set" do
-      let(:options) { { extend: false, extend_gravity: "no" } }
-
-      it "omits extend gravity" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:0/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when extend is not set" do
-      let(:options) { { extend_gravity: "ce" } }
-
-      it "omits extend" do
+      it "omits whole extend" do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
         )
       end
     end
 
-    context "when extend gravity y aren't set" do
-      let(:options) { { extend: true, extend_gravity: "fp", extend_gravity_x: 0.2 } }
+    context "when the 'extend' argument is false" do
+      let(:options) { { extend: { extend: false, gravity: { type: "no" } } } }
 
-      it "ignores extend gravity y" do
+      it "omits all other arguments" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1:fp:0.2/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/ex:0/plain/https://images.test/image.jpg",
         )
       end
     end
 
-    context "when extend gravity x aren't set" do
-      let(:options) { { extend: true, extend_gravity: "fp", extend_gravity_y: 0.2 } }
+    context "when a boolean value is used" do
+      let(:options) { { extend: true } }
 
-      it "ignores extend gravity x" do
+      it "casts to boolean" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/ex:1:fp::0.2/plain/https://images.test/image.jpg",
-        )
-      end
-    end
-
-    context "when size is also grouped" do
-      let(:options) { { width: 100, height: 200, extend: true, extend_gravity: "no" } }
-
-      it "groups extend insidde size" do
-        expect(url).to eq(
-          "http://imgproxy.test/unsafe/s:100:200::1:no/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/ex:1/plain/https://images.test/image.jpg",
         )
       end
     end
   end
 
-  describe "adjust grouping" do
-    context "when only one adjust option is set" do
-      let(:options) { { brightness: 10 } }
+  describe "watermark casting" do
+    context "when the 'opacity' argument is not set" do
+      let(:options) { { watermark: { position: "no" } } }
 
-      it "doesn't group adjust options" do
+      it "omits whole watermark" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/br:10/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
         )
       end
     end
 
-    context "when more than one adjust option is set" do
-      let(:options) { { brightness: 10, saturation: 1.5 } }
+    context "when the 'opacity' argument is zero" do
+      let(:options) { { watermark: { opacity: 0, position: "no" } } }
 
-      it "groups adjust options" do
+      it "omits omits all other arguments" do
         expect(url).to eq(
-          "http://imgproxy.test/unsafe/a:10::1.5/plain/https://images.test/image.jpg",
+          "http://imgproxy.test/unsafe/wm:0/plain/https://images.test/image.jpg",
         )
       end
     end
-  end
 
-  describe "base64_encode_url" do
-    let(:options) do
-      {
-        base64_encode_url: true, watermark_opacity: 0.5,
-        watermark_x_offset: 10, watermark_y_offset: 5
-      }
-    end
+    context "when a numeric value is used" do
+      let(:options) { { watermark: 0.5 } }
 
-    it "base64 encodes the URL" do
-      expect(url).to eq(
-        "http://imgproxy.test/unsafe/wm:0.5::10:5/"\
-        "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}",
-      )
+      it "casts number" do
+        expect(url).to eq(
+          "http://imgproxy.test/unsafe/wm:0.5/plain/https://images.test/image.jpg",
+        )
+      end
     end
   end
 
   describe "ommiting processing options arguments" do
-    let(:options) { { watermark_opacity: 0.5, watermark_x_offset: 10, watermark_y_offset: 5 } }
+    let(:options) do
+      {
+        extend: {
+          extend: true,
+        },
+        gravity: {
+          type: "nowe",
+          y_offset: 10,
+        },
+        crop: {
+          width: 100,
+          height: 200,
+        },
+        trim: {
+          threshold: 10,
+          equal_hor: true,
+        },
+        adjust: {
+          contrast: 0.5,
+        },
+        watermark: {
+          opacity: 0.5,
+          x_offset: 10,
+          y_offset: 5,
+        },
+      }
+    end
 
-    it "ommits unset arguments" do
+    it "ommits unset arguments and trims trailing ones" do
       expect(url).to eq(
-        "http://imgproxy.test/unsafe/wm:0.5::10:5/plain/https://images.test/image.jpg",
+        "http://imgproxy.test/unsafe/"\
+        "ex:1/g:nowe::10/c:100:200/t:10::1/a::0.5/wm:0.5::10:5/"\
+        "plain/https://images.test/image.jpg",
+      )
+    end
+  end
+
+  context "when using unsupported options" do
+    let(:options) do
+      {
+        unsupported1: {
+          arg1: 1,
+          arg2: %w[val1 val2],
+          arg3: {
+            arg4: 2,
+            arg5: {
+              arg6: 3,
+            },
+          },
+        },
+        unsupported2: [1, nil, 2, 3],
+        unsupported3: "4:5:6",
+      }
+    end
+
+    it "unwraps unsupported options arguments" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/"\
+        "unsupported1:1:val1:val2:2:3/"\
+        "unsupported2:1::2:3/"\
+        "unsupported3:4:5:6/"\
+        "plain/https://images.test/image.jpg",
       )
     end
   end
@@ -379,15 +496,25 @@ RSpec.describe Imgproxy do
     end
   end
 
-  context "when escape_plain_url is true" do
-    let(:options) { { escape_plain_url: true } }
+  context "when always_escape_plain_urls config is true" do
+    before { described_class.config.always_escape_plain_urls = true }
 
     it "escapes source URL" do
-      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg"
+      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg@webp"
+    end
+  end
+
+  context "when escape_plain_url option is true" do
+    before { options[:escape_plain_url] = true }
+
+    it "escapes source URL" do
+      expect(url).to end_with "/plain/https%3A%2F%2Fimages.test%2Fimage.jpg@webp"
     end
   end
 
   context "when key and salt are provided" do
+    let(:options) { { width: 100, height: 100 } }
+
     before do
       described_class.configure do |config|
         config.hex_key = "Hello".unpack1("H*")
@@ -396,14 +523,14 @@ RSpec.describe Imgproxy do
     end
 
     it "signs the URL" do
-      expect(url).to start_with "http://imgproxy.test/ORmz7YA9wTfcfcinGRpJAeRTkVLiF4M4oty9MZinFCg/"
+      expect(url).to start_with "http://imgproxy.test/6PuaY-dst3YwA3CwS_QDSWk4yA3oSr3pEHxT9kiEbOE/"
     end
 
     context "when signature is truncated" do
       before { described_class.config.signature_size = 5 }
 
       it "signs the URL with truncated signature" do
-        expect(url).to start_with "http://imgproxy.test/ORmz7YA/"
+        expect(url).to start_with "http://imgproxy.test/6PuaY-c/"
       end
     end
   end

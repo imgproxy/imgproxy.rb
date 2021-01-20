@@ -165,45 +165,157 @@ builder.url_for("http://images.example.com/images/image1.jpg")
 builder.url_for("http://images.example.com/images/image2.jpg")
 ```
 
-### Available imgproxy options
+### Supported imgproxy processing options
 
-* `resizing_type` — defines how imgproxy will resize the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#resizing-type) for available values.
-* `width` — defines the width of the resulting image.
-* `height` — defines the height of the resulting image.
-* `dpr` — when set, imgproxy will multiply the image dimensions according to this factor for HiDPI (Retina) devices.
-* `enlarge` — when true, imgproxy will enlarge the image if it is smaller than the given size.
-* `extend` — when true, imgproxy will extend the image if the resizing result is smaller than the given size.
-* `extend_gravity`, `extend_gravity_x`, `extend_gravity_y` — define the gravity of the extend. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see below).
-* `gravity` — defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
-* `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
-* `crop_width`, `crop_height` — define the size of an area of the image to be processed (crop before resize).
-* `crop_gravity`, `crop_gravity_x`, `crop_gravity_y` - define the gravity of the crop. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see above).
-* `padding` - defines padding size in css manner (you can use array here). See [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding) for more info.
-* `trim_threshold` - when set, imgproxy removes surrounding background.
-* `trim_color`, `trim_equal_hor`, `trim_equal_ver` - additional trim options described in the [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim).
-* `quality` — defines the quality of the resulting image, percentage.
-* `max_bytes` — when set, imgproxy automatically degrades the quality of the image until the image is under the specified amount of bytes.
-* `background` — when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
-* `brightness` — when set, imgproxy will adjust brightness of the resulting image. _Supported only by imgproxy pro._
-* `contrast` — when set, imgproxy will adjust contrast of the resulting image. _Supported only by imgproxy pro._
-* `saturation` — when set, imgproxy will adjust saturation of the resulting image. _Supported only by imgproxy pro._
-* `blur` — when set, imgproxy will apply the gaussian blur filter to the resulting image. Value is the size of a mask imgproxy will use.
-* `sharpen` — when set, imgproxy will apply the sharpen filter to the resulting image. Value is the size of a mask imgproxy will use.
-* `pixelate` — when set, imgproxy will apply the pixelate filter to the resulting image. Value is the size of a pixel. _Supported only by imgproxy pro._
-* `watermark_opacity` — when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.comimgproxym/imgproxy/blob/master/docs/watermark.md) for more info.
-* `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` — additional watermark options described in the [watermars guide](https://github.com/imgproxy/imgproxy/blob/master/docs/watermark.md).
-* `watermark_url` — when set, imgproxy will use the image from the specified URL as a watermark. _Supported only by imgproxy pro._
-* `style` — when set, imgproxy will prepend `<style>` node with provided content to the `<svg>` node of source SVG image. _Supported only by imgproxy pro._
-* `preset` — array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
-* `cachebuster` — defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
-* `format` — specifies the resulting image format (`jpg`, `png`, `webp`).
-* `base64_encode_url` — encode the URL as a base64 string.
-* `escape_plain_url` — force escape plain URL.
+* [resize](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resize)
+* [size](https://docs.imgproxy.net/#/generating_the_url_advanced?id=size)
+* [resizing_type](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resizing-type)
+* [width](https://docs.imgproxy.net/#/generating_the_url_advanced?id=width)
+* [height](https://docs.imgproxy.net/#/generating_the_url_advanced?id=height)
+* [dpr](https://docs.imgproxy.net/#/generating_the_url_advanced?id=dpr)
+* [enlarge](https://docs.imgproxy.net/#/generating_the_url_advanced?id=enlarge)
+* [extend](https://docs.imgproxy.net/#/generating_the_url_advanced?id=extend)
+* [gravity](https://docs.imgproxy.net/#/generating_the_url_advanced?id=gravity)
+* [crop](https://docs.imgproxy.net/#/generating_the_url_advanced?id=crop)
+* [trim](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim)
+* [padding](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding)
+* [quality](https://docs.imgproxy.net/#/generating_the_url_advanced?id=quality)
+* [max_bytes](https://docs.imgproxy.net/#/generating_the_url_advanced?id=max-bytes)
+* [background](https://docs.imgproxy.net/#/generating_the_url_advanced?id=background)
+* [adjust](https://docs.imgproxy.net/#/generating_the_url_advanced?id=adjust) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [brightness](https://docs.imgproxy.net/#/generating_the_url_advanced?id=brightness) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [contrast](https://docs.imgproxy.net/#/generating_the_url_advanced?id=contrast) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [saturation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=saturation) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [blur](https://docs.imgproxy.net/#/generating_the_url_advanced?id=blur)
+* [sharpen](https://docs.imgproxy.net/#/generating_the_url_advanced?id=sharpen)
+* [pixelate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=pixelate) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [watermark](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark)
+* [watermark_url](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark-url) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [style](https://docs.imgproxy.net/#/generating_the_url_advanced?id=style) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [video_thumbnail_second](https://docs.imgproxy.net/#/generating_the_url_advanced?id=video-thumbnail-second) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [preset](https://docs.imgproxy.net/#/generating_the_url_advanced?id=preset)
+* [cachebuster](https://docs.imgproxy.net/#/generating_the_url_advanced?id=cachebuster)
+* [filename](https://docs.imgproxy.net/#/generating_the_url_advanced?id=filename)
+* [format](https://docs.imgproxy.net/#/generating_the_url_advanced?id=format)
+
+_See [imgproxy URL format guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options) for more info._
+
+### Complex processing options
+
+Some of the processing options like `crop` or `gravity` may have multiple arguments, and you can define these arguments multiple ways:
+
+#### Named arguments
+
+First and the most readable way is to use a `Hash` with named arguments:
+
+```ruby
+Imgproxy.url_for(
+  "http://images.example.com/images/image.jpg",
+  crop: {
+    width: 500,
+    height: 600,
+    gravity: {
+      type: :nowe,
+      x_offset: 10,
+      y_offset: 5
+    }
+  }
+)
+# => .../c:500:600:nowe:10:5/...
+```
+
+All the argguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options).
+
+You can use named arguments even if the processing option is not supported by the gem. In this case the arguments won't be reordered nor formatted, so you should provide them in the same order and right the same way they should appear in the URL:
+
+```ruby
+Imgproxy.url_for(
+  "http://images.example.com/images/image.jpg",
+  unsupported: {
+    arg1: 1,
+    nested1: {
+      arg2: 2,
+      nested2: {
+        arg3: 3
+      }
+    }
+  }
+)
+# => .../unsupported:1:2:3/...
+```
+
+#### Unnamed arguments
+
+The arguments of the complex options can be provided as an array of formatted values or even as a formatted string:
+
+```ruby
+Imgproxy.url_for(
+  "http://images.example.com/images/image.jpg",
+  crop: [500, 600, :nowe, 10, 5],
+  trim: "10:aabbcc:1:1"
+)
+# => .../c:500:600:nowe:10:5/t:10:aabbcc:1:1/...
+```
+
+#### Single required argument
+
+If a complex option has a single required argument, and you don't want to use the optional ones, you can just use its value:
+
+```ruby
+Imgproxy.url_for(
+  "http://images.example.com/images/image.jpg",
+  gravity: :nowe,
+  trim: 10
+)
+# => .../g:nowe/t:1/...
+```
+
+### Base64 processing options arguments
+
+Some of the processing options like `watermark_url` or `style` require their arguments to be base64-encoded. Good news is that imgproxy gem will encode them for you:
+
+```ruby
+Imgproxy.url_for(
+  "http://images.example.com/images/image.jpg",
+  watermark_url: "http://example.com/watermark.jpg",
+  style: "color: rgba(255, 255, 255, .5)"
+)
+# => .../wmu:aHR0cDovL2V4YW1wbGUuY29tL3dhdGVybWFyay5qcGc/st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/...
+```
+
+### Special options:
+
+* `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
+* `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
 * `use_short_options` — per-call redefinition of `use_short_options` config.
 
-**See [imgproxy URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info.**
+## Further configuration
 
-### URL adapters
+### Using truncated signature
+
+By default, the imgproxy server uses a full-length signature (32 bytes), but you can set signature length with `IMGPROXY_SIGNATURE_SIZE` environment variable. If you have configured your imgproxy server to use truncated signatures, you need to configure the gem too:
+
+```ruby
+# config/initializers/imgproxy.rb
+
+Imgproxy.configure do |config|
+  config.signature_size = 5
+end
+```
+
+### Using full processing options names
+
+By default, imgproxy gem uses short processing options names (`rs` for `resize`, `g` for `gravity`, etc), but it can be configured to use full names:
+
+```ruby
+# config/initializers/imgproxy.rb
+
+Imgproxy.configure do |config|
+  config.use_short_options = false
+end
+```
+
+## URL adapters
 
 By default, `Imgproxy.url_for` accepts only `String` and `URI` as the source URL, but you can extend that behavior by using URL adapters.
 
@@ -232,33 +344,7 @@ end
 
 **Note:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
 
-**Note:** imgproxy.rb provides built-inadapters for Active Storage and Shrine that are automatically added by `Imgproxy.extend_active_storage!` and `Imgproxy.extend_shrine!`.
-
-## Further configuration
-
-### Using truncated signature
-
-By default, the imgproxy server uses a full-length signature (32 bytes), but you can set signature length with `IMGPROXY_SIGNATURE_SIZE` environment variable. If you have configured your imgproxy server to use truncated signatures, you need to configure the gem too:
-
-```ruby
-# config/initializers/imgproxy.rb
-
-Imgproxy.configure do |config|
-  config.signature_size = 5
-end
-```
-
-### Using full processing options names
-
-By default, imgproxy gem uses short processing options names (`rs` for `resize`, `g` for `gravity`, etc), but it can be configured to use full names:
-
-```ruby
-# config/initializers/imgproxy.rb
-
-Imgproxy.configure do |config|
-  config.use_short_options = false
-end
-```
+**Note:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added by `Imgproxy.extend_active_storage!` and `Imgproxy.extend_shrine!`.
 
 ## Contributing
 

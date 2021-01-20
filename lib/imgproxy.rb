@@ -38,58 +38,62 @@ module Imgproxy
     #     width: 500,
     #     height: 400,
     #     resizing_type: :fill,
-    #     sharpen: 0.5
+    #     sharpen: 0.5,
+    #     gravity: {
+    #       type: :soea,
+    #       x_offset: 10,
+    #       y_offset: 5,
+    #     },
+    #     crop: {
+    #       width: 2000,
+    #       height: 1000,
+    #       gravity: {
+    #         type: :nowe,
+    #         x_offset: 20,
+    #         y_offset: 30,
+    #       },
+    #     },
     #   )
     #
     # @return [String] imgproxy URL
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
     # @param [Hash] options Processing options
+    # @option options [Hash|Array|String] :resize
+    # @option options [Hash|Array|String] :size
     # @option options [String] :resizing_type
     # @option options [Integer] :width
     # @option options [Integer] :height
     # @option options [Float] :dpr
     # @option options [Boolean] :enlarge
-    # @option options [Boolean] :extend
-    # @option options [String] :extend_gravity
-    # @option options [Float] :extend_gravity_x
-    # @option options [Float] :extend_gravity_y
-    # @option options [String] :gravity
-    # @option options [Float] :gravity_x
-    # @option options [Float] :gravity_y
-    # @option options [Integer] :crop_width
-    # @option options [Integer] :crop_height
-    # @option options [String] :crop_gravity
-    # @option options [Float] :crop_gravity_x
-    # @option options [Float] :crop_gravity_y
-    # @option options [Integer] :trim_threshold
-    # @option options [String] :trim_color
+    # @option options [Hash|Array|Boolean|String] :extend
+    # @option options [Hash|Array|String] :gravity
+    # @option options [Hash|Array|String] :crop
+    # @option options [Hash|Array|String] :trim
     # @option options [Array] :padding
-    # @option options [Boolean] :trim_equal_hor
-    # @option options [Boolean] :trim_equal_ver
     # @option options [Integer] :quality
     # @option options [Integer] :max_bytes
-    # @option options [Array] :background
+    # @option options [Array|String] :background
+    # @option options [Hash|Array|String] :adjust
     # @option options [Integer] :brightness supported only by imgproxy pro
     # @option options [Float] :contrast supported only by imgproxy pro
     # @option options [Float] :saturation supported only by imgproxy pro
     # @option options [Float] :blur
     # @option options [Float] :sharpen
     # @option options [Integer] :pixelate supported only by imgproxy pro
-    # @option options [Float] :watermark_opacity
-    # @option options [String] :watermark_position
-    # @option options [Integer] :watermark_x_offset
-    # @option options [Integer] :watermark_y_offset
-    # @option options [Float] :watermark_scale
+    # @option options [Hash|Array|Float|String] :watermark
+    # @option options [String] :watermark_url supported only by imgproxy pro
     # @option options [String] :style supported only by imgproxy pro
+    # @option options [Integer] :video_thumbnail_second supported only by imgproxy pro
     # @option options [Array] :preset
     # @option options [String] :cachebuster
+    # @option options [String] :filename
     # @option options [String] :format
     # @option options [Boolean] :use_short_options
     # @option options [Boolean] :base64_encode_urls
     # @option options [Boolean] :escape_plain_url
-    # @see https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md
-    #   imgproxy URL format documentation
+    # @see https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options
+    #   Available imgproxy URL processing options and their arguments
     def url_for(image, options = {})
       Imgproxy::Builder.new(options).url_for(image)
     end

@@ -23,6 +23,7 @@ module Imgproxy
     pixelate: :pix,
     watermark: :wm,
     watermark_url: :wmu,
+    style: :st,
     preset: :pr,
     cachebuster: :cb,
     video_thumbnail_second: :vts,
