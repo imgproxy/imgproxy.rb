@@ -517,8 +517,8 @@ RSpec.describe Imgproxy do
 
     before do
       described_class.configure do |config|
-        config.hex_key = "Hello".unpack1("H*")
-        config.hex_salt = "World".unpack1("H*")
+        config.key = "Hello".unpack1("H*")
+        config.salt = "World".unpack1("H*")
       end
     end
 

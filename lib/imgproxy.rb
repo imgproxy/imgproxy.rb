@@ -19,8 +19,8 @@ module Imgproxy
     #
     #   Imgproxy.configure do |config|
     #     config.endpoint = "http://imgproxy.example.com"
-    #     config.hex_key = "your_key"
-    #     config.hex_salt = "your_salt"
+    #     config.key = "your_key"
+    #     config.salt = "your_salt"
     #     config.use_short_options = true
     #   end
     #
@@ -98,37 +98,27 @@ module Imgproxy
       Imgproxy::Builder.new(options).url_for(image)
     end
 
-    # Extends ActiveStorage::Blob with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
+    # Extends +ActiveStorage::Blob+ with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
     # and adds URL adapters for ActiveStorage
-    #
-    # @return [void]
-    # @param use_s3 [Boolean] enable Amazon S3 source URLs
-    # @param use_gcs [Boolean] enable Google Cloud Storage source URLs
-    # @param gcs_bucket [String] Google Cloud Storage bucket name
-    def extend_active_storage!(use_s3: false, use_gcs: false, gcs_bucket: nil)
+    def extend_active_storage!
+      return unless defined?(ActiveSupport) && ActiveSupport.respond_to?(:on_load)
+
       ActiveSupport.on_load(:active_storage_blob) do
         ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
-
-        url_adapters = Imgproxy.config.url_adapters
-
-        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageS3.new) if use_s3
-        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorageGCS.new(gcs_bucket)) if use_gcs
-        url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
+        Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
       end
     end
 
-    # Extends Shrine::UploadedFile with {Imgproxy::Extensions::Shrine.imgproxy_url} method
+    # Extends +Shrine::UploadedFile+ with {Imgproxy::Extensions::Shrine.imgproxy_url} method
     # and adds URL adapters for Shrine
-    #
-    # @return [void]
-    # @param use_s3 [Boolean] enable Amazon S3 source URLs
-    def extend_shrine!(host: nil, use_s3: false)
+    def extend_shrine!
+      return unless defined?(::Shrine::UploadedFile)
+
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
-
-      url_adapters = Imgproxy.config.url_adapters
-
-      url_adapters.add(Imgproxy::UrlAdapters::ShrineS3.new) if use_s3
-      url_adapters.add(Imgproxy::UrlAdapters::Shrine.new(host: host))
+      Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
     end
   end
 end
+
+Imgproxy.extend_active_storage!
+Imgproxy.extend_shrine!

@@ -1,9 +1,5 @@
 require "imgproxy/url_adapters/active_storage"
-require "imgproxy/url_adapters/active_storage_s3"
-require "imgproxy/url_adapters/active_storage_gcs"
-
 require "imgproxy/url_adapters/shrine"
-require "imgproxy/url_adapters/shrine_s3"
 
 module Imgproxy
   # URL adapters config. Allows to use this gem with ActiveStorage, Shrine, etc.

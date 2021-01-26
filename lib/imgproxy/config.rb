@@ -1,49 +1,98 @@
+require "anyway_config"
+
 require "imgproxy/url_adapters"
 
 module Imgproxy
   # Imgproxy config
+  #
+  # @!attribute endpoint
+  #   imgproxy endpoint
+  #   @return [String]
+  # @!attribute key
+  #   imgproxy hex-encoded signature key
+  #   @return [String]
+  # @!attribute salt
+  #   imgproxy hex-encoded signature salt
+  #   @return [String]
+  # @!attribute raw_key
+  #   Decoded signature key
+  #   @return [String]
+  # @!attribute raw_salt
+  #   Decoded signature salt
+  #   @return [String]
+  # @!attribute signature_size
+  #   imgproxy signature size. Defaults to 32
+  #   @return [String]
+  # @!attribute use_short_options
+  #   Use short processing option names (+rs+ for +resize+, +g+ for +gravity+, etc).
+  #   Defaults to true
+  #   @return [String]
+  # @!attribute base64_encode_urls
+  #   Base64 encode the URL. Defaults to false
+  #   @return [String]
+  # @!attribute always_escape_plain_urls
+  #   Always escape plain URLs. Defaults to false
+  #   @return [String]
+  # @!attribute use_s3_urls
+  #   Use short S3 urls (s3://...) when possible. Defaults to false
+  #   @return [String]
+  # @!attribute use_gcs_urls
+  #   Use short Google Cloud Storage urls (gs://...) when possible. Defaults to false
+  #   @return [String]
+  # @!attribute gcs_bucket
+  #   Google Cloud Storage bucket name
+  #   @return [String]
+  # @!attribute shrine_host
+  #   Shrine host
+  #   @return [String]
+  #
   # @see Imgproxy.configure
-  class Config
-    # @return [String] imgproxy endpoint
-    attr_accessor :endpoint
-    # @return [String] imgproxy signature key
-    attr_accessor :key
-    # @return [String] imgproxy signature salt
-    attr_accessor :salt
-    # @return [Integer] imgproxy signature size. Defaults to 32
-    attr_accessor :signature_size
-    # @return [Boolean] use short processing option names
-    #   (`rs` for `resize`, `g` for `gravity`, etc).
-    #   Defaults to true
-    attr_accessor :use_short_options
+  # @see https://github.com/palkan/anyway_config anyway_config
+  class Config < Anyway::Config
+    attr_config(
+      :endpoint,
+      :key,
+      :salt,
+      :raw_key,
+      :raw_salt,
+      signature_size: 32,
+      use_short_options: true,
+      base64_encode_urls: false,
+      always_escape_plain_urls: false,
+      use_s3_urls: false,
+      use_gcs_urls: false,
+      gcs_bucket: nil,
+      shrine_host: nil,
+    )
 
-    # @return [Boolean] base64 encode the URL
-    #   Defaults to false
-    attr_accessor :base64_encode_urls
+    alias_method :set_key, :key=
+    alias_method :set_raw_key, :raw_key=
+    alias_method :set_salt, :salt=
+    alias_method :set_raw_salt, :raw_salt=
+    private :set_key, :set_raw_key, :set_salt, :set_raw_salt
 
-    # @return [Boolean] always escape plain URLs
-    #   Defaults to false
-    attr_accessor :always_escape_plain_urls
-
-    def initialize
-      self.signature_size = 32
-      self.use_short_options = true
-      self.base64_encode_urls = false
-      self.always_escape_plain_urls = false
+    def key=(value)
+      value = value&.to_s
+      super(value)
+      set_raw_key(value && [value].pack("H*"))
     end
 
-    # Decodes hex-encoded key and sets it to {#key}
-    #
-    # @param value [String] hex-encoded signature key
-    def hex_key=(value)
-      self.key = value.nil? ? nil : [value].pack("H*")
+    def raw_key=(value)
+      value = value&.to_s
+      super(value)
+      set_key(value&.unpack("H*")&.first)
     end
 
-    # Decodes hex-encoded salt and sets it to {#salt}
-    #
-    # @param value [String] hex-encoded signature salt
-    def hex_salt=(value)
-      self.salt = value.nil? ? nil : [value].pack("H*")
+    def salt=(value)
+      value = value&.to_s
+      super(value)
+      set_raw_salt(value && [value].pack("H*"))
+    end
+
+    def raw_salt=(value)
+      value = value&.to_s
+      super(value)
+      set_salt(value&.unpack("H*")&.first)
     end
 
     # URL adapters config. Allows to use this gem with ActiveStorage, Shrine, etc.

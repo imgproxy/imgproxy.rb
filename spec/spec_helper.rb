@@ -37,6 +37,10 @@ RSpec.configure do |config|
       c.use_short_options = true
       c.base64_encode_urls = false
       c.always_escape_plain_urls = false
+      c.use_s3_urls = false
+      c.use_gcs_urls = false
+      c.gcs_bucket = nil
+      c.shrine_host = nil
 
       c.url_adapters.clear!
     end

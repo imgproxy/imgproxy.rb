@@ -105,11 +105,11 @@ module Imgproxy
     end
 
     def signature_key
-      config.key
+      config.raw_key
     end
 
     def signature_salt
-      config.salt
+      config.raw_salt
     end
 
     def signature_size
