@@ -36,6 +36,7 @@ RSpec.describe Imgproxy do
       preset: %i[preset1 preset2],
       cachebuster: "qwerty",
       format: :webp,
+      strip_metadata: true,
     }
   end
 
@@ -51,7 +52,7 @@ RSpec.describe Imgproxy do
           "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
           "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
           "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-          "pr:preset1:preset2/cb:qwerty/"\
+          "pr:preset1:preset2/cb:qwerty/sm:1/"\
           "plain/https://images.test/image.jpg@webp",
         )
       end
@@ -72,7 +73,7 @@ RSpec.describe Imgproxy do
           "rs:fill:200:300:1:1/dpr:2.0/g:fp:0.25:0.75/c:500:100:ce:0.35:0.65/"\
           "pd:10:20/t:10:ffffff:1:0/q:80/mb:1024/bg:abcdfe/bl:0.5/sh:0.7/"\
           "wm:0.5:noea:10:5:0.1/wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-          "pr:preset1:preset2/cb:qwerty/"\
+          "pr:preset1:preset2/cb:qwerty/sm:1/"\
           "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}.webp",
         )
       end
@@ -88,7 +89,7 @@ RSpec.describe Imgproxy do
       "crop:500:100:ce:0.35:0.65/padding:10:20/trim:10:ffffff:1:0/quality:80/"\
       "max_bytes:1024/background:abcdfe/blur:0.5/sharpen:0.7/"\
       "watermark:0.5:noea:10:5:0.1/watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
-      "preset:preset1:preset2/cachebuster:qwerty/"\
+      "preset:preset1:preset2/cachebuster:qwerty/strip_metadata:1/"\
       "plain/https://images.test/image.jpg@webp",
     )
   end
@@ -418,6 +419,20 @@ RSpec.describe Imgproxy do
     it "uses it in the url" do
       expect(url).to eq(
         "http://imgproxy.test/unsafe/vts:1/plain/https://images.test/image.jpg",
+      )
+    end
+  end
+
+  context "when strip_metadata is provided" do
+    let(:options) do
+      {
+        strip_metadata: true,
+      }
+    end
+
+    it "uses it in the url" do
+      expect(url).to eq(
+        "http://imgproxy.test/unsafe/sm:1/plain/https://images.test/image.jpg",
       )
     end
   end

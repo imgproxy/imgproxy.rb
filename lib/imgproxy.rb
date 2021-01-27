@@ -88,6 +88,7 @@ module Imgproxy
     # @option options [Boolean] :use_short_options
     # @option options [Boolean] :base64_encode_urls
     # @option options [Boolean] :escape_plain_url
+    # @option options [Boolean] :strip_metadata
     # @see https://github.com/DarthSim/imgproxy/blob/master/docs/generating_the_url_advanced.md
     #   imgproxy URL format documentation
     def url_for(image, options = {})

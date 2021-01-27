@@ -27,5 +27,6 @@ module Imgproxy
     cachebuster: :cb,
     video_thumbnail_second: :vts,
     filename: :fn,
+    strip_metadata: :sm,
   }.freeze
 end
