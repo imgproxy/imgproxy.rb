@@ -44,6 +44,7 @@ module Imgproxy
       format:        Imgproxy::OptionsExtractors::String.new(:format),
       filename:      Imgproxy::OptionsExtractors::String.new(:filename),
       video_thumbnail_second: Imgproxy::OptionsExtractors::Integer.new(:video_thumbnail_second),
+      strip_metadata:         Imgproxy::OptionsExtractors::Bool.new(:strip_metadata),
     }.freeze
 
     # @param options [Hash] raw processing options
