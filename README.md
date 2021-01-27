@@ -200,6 +200,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * `base64_encode_url` — encode the URL as a base64 string.
 * `escape_plain_url` — force escape plain URL.
 * `use_short_options` — per-call redefinition of `use_short_options` config.
+* `strip_metadata` — When true, imgproxy will strip the metadata (EXIF, IPTC, etc.) on JPEG and WebP output images.
 
 **See [imgproxy URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info.**
 
