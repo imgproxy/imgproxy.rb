@@ -167,40 +167,40 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 
 ### Available imgproxy options
 
-- `resizing_type` — defines how imgproxy will resize the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#resizing-type) for available values.
-- `width` — defines the width of the resulting image.
-- `height` — defines the height of the resulting image.
-- `dpr` — when set, imgproxy will multiply the image dimensions according to this factor for HiDPI (Retina) devices.
-- `enlarge` — when true, imgproxy will enlarge the image if it is smaller than the given size.
-- `extend` — when true, imgproxy will extend the image if the resizing result is smaller than the given size.
-- `extend_gravity`, `extend_gravity_x`, `extend_gravity_y` — define the gravity of the extend. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see below).
-- `gravity` — defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
-- `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
-- `crop_width`, `crop_height` — define the size of an area of the image to be processed (crop before resize).
-- `crop_gravity`, `crop_gravity_x`, `crop_gravity_y` - define the gravity of the crop. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see above).
-- `padding` - defines padding size in css manner (you can use array here). See [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding) for more info.
-- `trim_threshold` - when set, imgproxy removes surrounding background.
-- `trim_color`, `trim_equal_hor`, `trim_equal_ver` - additional trim options described in the [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim).
-- `quality` — defines the quality of the resulting image, percentage.
-- `max_bytes` — when set, imgproxy automatically degrades the quality of the image until the image is under the specified amount of bytes.
-- `background` — when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
-- `brightness` — when set, imgproxy will adjust brightness of the resulting image. _Supported only by imgproxy pro._
-- `contrast` — when set, imgproxy will adjust contrast of the resulting image. _Supported only by imgproxy pro._
-- `saturation` — when set, imgproxy will adjust saturation of the resulting image. _Supported only by imgproxy pro._
-- `blur` — when set, imgproxy will apply the gaussian blur filter to the resulting image. Value is the size of a mask imgproxy will use.
-- `sharpen` — when set, imgproxy will apply the sharpen filter to the resulting image. Value is the size of a mask imgproxy will use.
-- `pixelate` — when set, imgproxy will apply the pixelate filter to the resulting image. Value is the size of a pixel. _Supported only by imgproxy pro._
-- `watermark_opacity` — when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.comimgproxym/imgproxy/blob/master/docs/watermark.md) for more info.
-- `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` — additional watermark options described in the [watermars guide](https://github.com/imgproxy/imgproxy/blob/master/docs/watermark.md).
-- `watermark_url` — when set, imgproxy will use the image from the specified URL as a watermark. _Supported only by imgproxy pro._
-- `style` — when set, imgproxy will prepend `<style>` node with provided content to the `<svg>` node of source SVG image. _Supported only by imgproxy pro._
-- `preset` — array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
-- `cachebuster` — defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
-- `format` — specifies the resulting image format (`jpg`, `png`, `webp`).
-- `base64_encode_url` — encode the URL as a base64 string.
-- `escape_plain_url` — force escape plain URL.
-- `use_short_options` — per-call redefinition of `use_short_options` config.
-- `strip_metadata` — When true, imgproxy will strip the metadata (EXIF, IPTC, etc.) on JPEG and WebP output images.
+* `resizing_type` — defines how imgproxy will resize the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#resizing-type) for available values.
+* `width` — defines the width of the resulting image.
+* `height` — defines the height of the resulting image.
+* `dpr` — when set, imgproxy will multiply the image dimensions according to this factor for HiDPI (Retina) devices.
+* `enlarge` — when true, imgproxy will enlarge the image if it is smaller than the given size.
+* `extend` — when true, imgproxy will extend the image if the resizing result is smaller than the given size.
+* `extend_gravity`, `extend_gravity_x`, `extend_gravity_y` — define the gravity of the extend. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see below).
+* `gravity` — defines gravity that will be used when imgproxy needs to cut some parts of the image. See [URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md#gravity) for available values.
+* `gravity_x`, `gravity_y` — specify gravity offset by X and Y axes. When `fp` gravity is used, these are floating point numbers between 0 and 1 that define the coordinates of the center of the resulting image.
+* `crop_width`, `crop_height` — define the size of an area of the image to be processed (crop before resize).
+* `crop_gravity`, `crop_gravity_x`, `crop_gravity_y` - define the gravity of the crop. These options accept the same values as `gravity`, `gravity_x` and `gravity_y` (see above).
+* `padding` - defines padding size in css manner (you can use array here). See [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding) for more info.
+* `trim_threshold` - when set, imgproxy removes surrounding background.
+* `trim_color`, `trim_equal_hor`, `trim_equal_ver` - additional trim options described in the [URL guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim).
+* `quality` — defines the quality of the resulting image, percentage.
+* `max_bytes` — when set, imgproxy automatically degrades the quality of the image until the image is under the specified amount of bytes.
+* `background` — when set, imgproxy will fill the resulting image background with the specified color. Can be a hex-color string or an array of red, green and blue values (0-255).
+* `brightness` — when set, imgproxy will adjust brightness of the resulting image. _Supported only by imgproxy pro._
+* `contrast` — when set, imgproxy will adjust contrast of the resulting image. _Supported only by imgproxy pro._
+* `saturation` — when set, imgproxy will adjust saturation of the resulting image. _Supported only by imgproxy pro._
+* `blur` — when set, imgproxy will apply the gaussian blur filter to the resulting image. Value is the size of a mask imgproxy will use.
+* `sharpen` — when set, imgproxy will apply the sharpen filter to the resulting image. Value is the size of a mask imgproxy will use.
+* `pixelate` — when set, imgproxy will apply the pixelate filter to the resulting image. Value is the size of a pixel. _Supported only by imgproxy pro._
+* `watermark_opacity` — when set, imgproxy will put a watermark on the resulting image. See [watermars guide](https://github.comimgproxym/imgproxy/blob/master/docs/watermark.md) for more info.
+* `watermark_position`, `watermark_x_offset`, `watermark_y_offset`, `watermark_scale` — additional watermark options described in the [watermars guide](https://github.com/imgproxy/imgproxy/blob/master/docs/watermark.md).
+* `watermark_url` — when set, imgproxy will use the image from the specified URL as a watermark. _Supported only by imgproxy pro._
+* `style` — when set, imgproxy will prepend `<style>` node with provided content to the `<svg>` node of source SVG image. _Supported only by imgproxy pro._
+* `preset` — array of names of presets that will be used by imgproxy. See [presets guide](https://github.com/imgproxy/imgproxy/blob/master/docs/presets.md) for more info.
+* `cachebuster` — defines cache buster that doesn't affect image processing but it's changing allows to bypass CDN, proxy server and browser cache.
+* `format` — specifies the resulting image format (`jpg`, `png`, `webp`).
+* `base64_encode_url` — encode the URL as a base64 string.
+* `escape_plain_url` — force escape plain URL.
+* `use_short_options` — per-call redefinition of `use_short_options` config.
+* `strip_metadata` — When true, imgproxy will strip the metadata (EXIF, IPTC, etc.) on JPEG and WebP output images.
 
 **See [imgproxy URL format guide](https://github.com/imgproxy/imgproxy/blob/master/docs/generating_the_url_advanced.md) for more info.**
 
