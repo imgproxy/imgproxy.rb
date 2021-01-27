@@ -13,6 +13,8 @@ imgproxy can be used to provide a fast and secure way to replace all the image r
 
 imgproxy.rb provides easy configuration and URL generation as well as plug&play support for [Active Storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) and [Shrine](https://github.com/shrinerb/shrine).
 
+**NOTE:** this readme shows documentation for 2.x version. For version 1.x see the [v1.2.0](https://github.com/imgproxy/imgproxy.rb/tree/v1.2.0) tag. See [2.0-Upgrade.md](2.0-Upgrade.md) for the upgrade guide.
+
 <a href="https://evilmartians.com/?utm_source=imgproxy.rb">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
 </a>
@@ -57,7 +59,7 @@ end
 
 For more configuration options see [Further configuration](#further-configuration).
 
-**Note:** imgproxy gem uses [anyway_config](https://github.com/palkan/anyway_config) for configuration, so you can use [environment variables](https://github.com/palkan/anyway_config#environment-variables) or [YAML files](https://github.com/palkan/anyway_config#using-with-rails) instead of initializer.
+**NOTE:** imgproxy gem uses [anyway_config](https://github.com/palkan/anyway_config) for configuration, so you can use [environment variables](https://github.com/palkan/anyway_config#environment-variables) or [YAML files](https://github.com/palkan/anyway_config#using-with-rails) instead of initializer.
 
 ## Usage
 
@@ -100,7 +102,7 @@ Imgproxy.configure do |config|
 end
 ```
 
-**Note** that you need to explicitly provide GCS bucket name since Active Storage "hides" the GCS config.
+**NOTE** that you need to explicitly provide GCS bucket name since Active Storage "hides" the GCS config.
 
 ### Using with Shrine
 
@@ -120,7 +122,7 @@ user.avatar.imgproxy_url(width: 250, height: 250)
 
 will give you an URL to your user's avatar, resized to 250x250px on the fly.
 
-**Note:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `shrine_host` config:
+**NOTE:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `shrine_host` config:
 
 ```ruby
 # config/initializers/imgproxy.rb
@@ -389,9 +391,9 @@ Imgproxy.configure do |config|
 end
 ```
 
-**Note:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
+**NOTE:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
 
-**Note:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
+**NOTE:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
 
 ## Contributing
 

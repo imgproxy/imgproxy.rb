@@ -95,6 +95,18 @@ module Imgproxy
       set_salt(value&.unpack("H*")&.first)
     end
 
+    # @deprecated Please use {#key} instead
+    def hex_key=(value)
+      warn "[DEPRECATION] #hex_key is deprecated. Please use #key instead."
+      self.key = value
+    end
+
+    # @deprecated Please use {#salt} instead
+    def hex_salt=(value)
+      warn "[DEPRECATION] #hex_salt is deprecated. Please use #salt instead."
+      self.salt = value
+    end
+
     # URL adapters config. Allows to use this gem with ActiveStorage, Shrine, etc.
     #
     #   Imgproxy.configure do |config|
