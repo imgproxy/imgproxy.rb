@@ -13,6 +13,9 @@ require "imgproxy/options_casters/crop"
 require "imgproxy/options_casters/trim"
 require "imgproxy/options_casters/adjust"
 require "imgproxy/options_casters/watermark"
+require "imgproxy/options_casters/jpeg_options"
+require "imgproxy/options_casters/png_options"
+require "imgproxy/options_casters/gif_options"
 
 module Imgproxy
   # Formats and regroups processing options
@@ -20,36 +23,47 @@ module Imgproxy
     using TrimArray
 
     CASTERS = {
-      resize:        Imgproxy::OptionsCasters::Resize,
-      size:          Imgproxy::OptionsCasters::Size,
-      resizing_type: Imgproxy::OptionsCasters::String,
-      width:         Imgproxy::OptionsCasters::Integer,
-      height:        Imgproxy::OptionsCasters::Integer,
-      dpr:           Imgproxy::OptionsCasters::Float,
-      enlarge:       Imgproxy::OptionsCasters::Bool,
-      extend:        Imgproxy::OptionsCasters::Extend,
-      gravity:       Imgproxy::OptionsCasters::Gravity,
-      crop:          Imgproxy::OptionsCasters::Crop,
-      padding:       Imgproxy::OptionsCasters::Array,
-      trim:          Imgproxy::OptionsCasters::Trim,
-      quality:       Imgproxy::OptionsCasters::Integer,
-      max_bytes:     Imgproxy::OptionsCasters::Integer,
-      background:    Imgproxy::OptionsCasters::Array,
-      adjust:        Imgproxy::OptionsCasters::Adjust,
-      brightness:    Imgproxy::OptionsCasters::Integer,
-      contrast:      Imgproxy::OptionsCasters::Float,
-      saturation:    Imgproxy::OptionsCasters::Float,
-      blur:          Imgproxy::OptionsCasters::Float,
-      sharpen:       Imgproxy::OptionsCasters::Float,
-      pixelate:      Imgproxy::OptionsCasters::Integer,
-      watermark:     Imgproxy::OptionsCasters::Watermark,
-      watermark_url: Imgproxy::OptionsCasters::Base64,
-      style:         Imgproxy::OptionsCasters::Base64,
+      resize:                 Imgproxy::OptionsCasters::Resize,
+      size:                   Imgproxy::OptionsCasters::Size,
+      resizing_type:          Imgproxy::OptionsCasters::String,
+      resizing_algorithm:     Imgproxy::OptionsCasters::String,
+      width:                  Imgproxy::OptionsCasters::Integer,
+      height:                 Imgproxy::OptionsCasters::Integer,
+      dpr:                    Imgproxy::OptionsCasters::Float,
+      enlarge:                Imgproxy::OptionsCasters::Bool,
+      extend:                 Imgproxy::OptionsCasters::Extend,
+      gravity:                Imgproxy::OptionsCasters::Gravity,
+      crop:                   Imgproxy::OptionsCasters::Crop,
+      padding:                Imgproxy::OptionsCasters::Array,
+      trim:                   Imgproxy::OptionsCasters::Trim,
+      rotate:                 Imgproxy::OptionsCasters::Integer,
+      quality:                Imgproxy::OptionsCasters::Integer,
+      max_bytes:              Imgproxy::OptionsCasters::Integer,
+      background:             Imgproxy::OptionsCasters::Array,
+      background_alpha:       Imgproxy::OptionsCasters::Float,
+      adjust:                 Imgproxy::OptionsCasters::Adjust,
+      brightness:             Imgproxy::OptionsCasters::Integer,
+      contrast:               Imgproxy::OptionsCasters::Float,
+      saturation:             Imgproxy::OptionsCasters::Float,
+      blur:                   Imgproxy::OptionsCasters::Float,
+      sharpen:                Imgproxy::OptionsCasters::Float,
+      pixelate:               Imgproxy::OptionsCasters::Integer,
+      unsharpening:           Imgproxy::OptionsCasters::String,
+      watermark:              Imgproxy::OptionsCasters::Watermark,
+      watermark_url:          Imgproxy::OptionsCasters::Base64,
+      style:                  Imgproxy::OptionsCasters::Base64,
+      jpeg_options:           Imgproxy::OptionsCasters::JpegOptions,
+      png_options:            Imgproxy::OptionsCasters::PngOptions,
+      gif_options:            Imgproxy::OptionsCasters::GifOptions,
+      page:                   Imgproxy::OptionsCasters::Integer,
       video_thumbnail_second: Imgproxy::OptionsCasters::Integer,
-      preset:        Imgproxy::OptionsCasters::Array,
-      cachebuster:   Imgproxy::OptionsCasters::String,
-      filename:      Imgproxy::OptionsCasters::String,
-      format:        Imgproxy::OptionsCasters::String,
+      preset:                 Imgproxy::OptionsCasters::Array,
+      cachebuster:            Imgproxy::OptionsCasters::String,
+      strip_metadata:         Imgproxy::OptionsCasters::Bool,
+      strip_color_profile:    Imgproxy::OptionsCasters::Bool,
+      auto_rotate:            Imgproxy::OptionsCasters::Bool,
+      filename:               Imgproxy::OptionsCasters::String,
+      format:                 Imgproxy::OptionsCasters::String,
     }.freeze
 
     META = %i[size resize adjust].freeze

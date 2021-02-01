@@ -31,6 +31,7 @@ RSpec.describe Imgproxy do
         },
       },
       resizing_type: :fill,
+      resizing_algorithm: :cubic,
       width: "200",
       height: 300,
       dpr: 2,
@@ -64,9 +65,11 @@ RSpec.describe Imgproxy do
         equal_hor: true,
         equal_ver: false,
       },
+      rotate: 90,
       quality: 80,
       max_bytes: 1024,
       background: "abcdfe",
+      background_alpha: 0.5,
       adjust: {
         brightness: -10,
         contrast: 0.5,
@@ -78,6 +81,7 @@ RSpec.describe Imgproxy do
       blur: 0.5,
       sharpen: 0.7,
       pixelate: 10,
+      unsharpening: :always,
       watermark: {
         opacity: 0.5,
         position: :noea,
@@ -87,8 +91,30 @@ RSpec.describe Imgproxy do
       },
       watermark_url: "https://images.test/wm.svg",
       style: "color: rgba(255, 255, 255, .5)",
+      jpeg_options: {
+        progressive: true,
+        no_subsample: false,
+        trellis_quant: true,
+        overshoot_deringing: false,
+        optimize_scans: true,
+        quant_table: 5,
+      },
+      png_options: {
+        interlaced: false,
+        quantize: true,
+        quantization_colors: 128,
+      },
+      gif_options: {
+        optimize_frames: true,
+        optimize_transparency: false,
+      },
+      page: 42,
+      video_thumbnail_second: 15,
       preset: %i[preset1 preset2],
       cachebuster: "qwerty",
+      strip_metadata: true,
+      strip_color_profile: false,
+      auto_rotate: true,
       filename: "the_image.jpg",
       format: :webp,
     }
@@ -100,6 +126,7 @@ RSpec.describe Imgproxy do
     "rs:auto:100:200:1:1:noea:1:2/"\
     "s:150:250:0:1:soea:2:3/"\
     "rt:fill/"\
+    "ra:cubic/"\
     "w:200/"\
     "h:300/"\
     "dpr:2/"\
@@ -109,9 +136,11 @@ RSpec.describe Imgproxy do
     "c:500:100:ce:0.35:0.65/"\
     "pd:10:20/"\
     "t:10:ffffff:1:0/"\
+    "rot:90/"\
     "q:80/"\
     "mb:1024/"\
     "bg:abcdfe/"\
+    "bga:0.5/"\
     "a:-10:0.5:2/"\
     "br:10/"\
     "co:2/"\
@@ -119,11 +148,20 @@ RSpec.describe Imgproxy do
     "bl:0.5/"\
     "sh:0.7/"\
     "pix:10/"\
+    "ush:always/"\
     "wm:0.5:noea:10:5:0.1/"\
     "wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
     "st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/"\
+    "jpego:1:0:1:0:1:5/"\
+    "pngo:0:1:128/"\
+    "gifo:1:0/"\
+    "pg:42/"\
+    "vts:15/"\
     "pr:preset1:preset2/"\
     "cb:qwerty/" \
+    "sm:1/"\
+    "scp:0/"\
+    "ar:1/"\
     "fn:the_image.jpg"
   end
 
@@ -131,6 +169,7 @@ RSpec.describe Imgproxy do
     "resize:auto:100:200:1:1:noea:1:2/"\
     "size:150:250:0:1:soea:2:3/"\
     "resizing_type:fill/"\
+    "resizing_algorithm:cubic/"\
     "width:200/"\
     "height:300/"\
     "dpr:2/"\
@@ -140,9 +179,11 @@ RSpec.describe Imgproxy do
     "crop:500:100:ce:0.35:0.65/"\
     "padding:10:20/"\
     "trim:10:ffffff:1:0/"\
+    "rotate:90/"\
     "quality:80/"\
     "max_bytes:1024/"\
     "background:abcdfe/"\
+    "background_alpha:0.5/"\
     "adjust:-10:0.5:2/"\
     "brightness:10/"\
     "contrast:2/"\
@@ -150,11 +191,20 @@ RSpec.describe Imgproxy do
     "blur:0.5/"\
     "sharpen:0.7/"\
     "pixelate:10/"\
+    "unsharpening:always/"\
     "watermark:0.5:noea:10:5:0.1/"\
     "watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc/"\
     "style:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/"\
+    "jpeg_options:1:0:1:0:1:5/"\
+    "png_options:0:1:128/"\
+    "gif_options:1:0/"\
+    "page:42/"\
+    "video_thumbnail_second:15/"\
     "preset:preset1:preset2/"\
     "cachebuster:qwerty/" \
+    "strip_metadata:1/"\
+    "strip_color_profile:0/"\
+    "auto_rotate:1/"\
     "filename:the_image.jpg"
   end
 

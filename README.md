@@ -182,6 +182,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * [resize](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resize)
 * [size](https://docs.imgproxy.net/#/generating_the_url_advanced?id=size)
 * [resizing_type](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resizing-type)
+* [resizing_algorithm](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resizing-algorithm) _(pro)_
 * [width](https://docs.imgproxy.net/#/generating_the_url_advanced?id=width)
 * [height](https://docs.imgproxy.net/#/generating_the_url_advanced?id=height)
 * [dpr](https://docs.imgproxy.net/#/generating_the_url_advanced?id=dpr)
@@ -189,24 +190,34 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 * [extend](https://docs.imgproxy.net/#/generating_the_url_advanced?id=extend)
 * [gravity](https://docs.imgproxy.net/#/generating_the_url_advanced?id=gravity)
 * [crop](https://docs.imgproxy.net/#/generating_the_url_advanced?id=crop)
-* [trim](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim)
 * [padding](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding)
+* [trim](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim)
+* [rotate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=rotate)
 * [quality](https://docs.imgproxy.net/#/generating_the_url_advanced?id=quality)
 * [max_bytes](https://docs.imgproxy.net/#/generating_the_url_advanced?id=max-bytes)
 * [background](https://docs.imgproxy.net/#/generating_the_url_advanced?id=background)
-* [adjust](https://docs.imgproxy.net/#/generating_the_url_advanced?id=adjust) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
-* [brightness](https://docs.imgproxy.net/#/generating_the_url_advanced?id=brightness) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
-* [contrast](https://docs.imgproxy.net/#/generating_the_url_advanced?id=contrast) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
-* [saturation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=saturation) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [background_alpha](https://docs.imgproxy.net/#/generating_the_url_advanced?id=background-alpha) _(pro)_
+* [adjust](https://docs.imgproxy.net/#/generating_the_url_advanced?id=adjust) _(pro)_
+* [brightness](https://docs.imgproxy.net/#/generating_the_url_advanced?id=brightness) _(pro)_
+* [contrast](https://docs.imgproxy.net/#/generating_the_url_advanced?id=contrast) _(pro)_
+* [saturation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=saturation) _(pro)_
 * [blur](https://docs.imgproxy.net/#/generating_the_url_advanced?id=blur)
 * [sharpen](https://docs.imgproxy.net/#/generating_the_url_advanced?id=sharpen)
-* [pixelate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=pixelate) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [pixelate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=pixelate) _(pro)_
+* [unsharpening](https://docs.imgproxy.net/#/generating_the_url_advanced?id=unsharpening) _(pro)_
 * [watermark](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark)
-* [watermark_url](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark-url) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
-* [style](https://docs.imgproxy.net/#/generating_the_url_advanced?id=style) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
-* [video_thumbnail_second](https://docs.imgproxy.net/#/generating_the_url_advanced?id=video-thumbnail-second) <img class='pro-badge' src='https://docs.imgproxy.net/assets/pro.svg' alt='pro' style='height: 1em;vertical-align: text-bottom' />
+* [watermark_url](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark-url) _(pro)_
+* [style](https://docs.imgproxy.net/#/generating_the_url_advanced?id=style) _(pro)_
+* [jpeg_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=jpeg-options) _(pro)_
+* [png_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=png-options) _(pro)_
+* [gif_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=gif-options) _(pro)_
+* [page](https://docs.imgproxy.net/#/generating_the_url_advanced?id=page) _(pro)_
+* [video_thumbnail_second](https://docs.imgproxy.net/#/generating_the_url_advanced?id=video-thumbnail-second) _(pro)_
 * [preset](https://docs.imgproxy.net/#/generating_the_url_advanced?id=preset)
 * [cachebuster](https://docs.imgproxy.net/#/generating_the_url_advanced?id=cachebuster)
+* [strip_metadata](https://docs.imgproxy.net/#/generating_the_url_advanced?id=strip-metadata)
+* [strip_color_profile](https://docs.imgproxy.net/#/generating_the_url_advanced?id=strip-color-profile)
+* [auto_rotate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=auto-rotate)
 * [filename](https://docs.imgproxy.net/#/generating_the_url_advanced?id=filename)
 * [format](https://docs.imgproxy.net/#/generating_the_url_advanced?id=format)
 

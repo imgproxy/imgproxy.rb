@@ -62,6 +62,7 @@ module Imgproxy
     # @option options [Hash|Array|String] :resize
     # @option options [Hash|Array|String] :size
     # @option options [String] :resizing_type
+    # @option options [String] :resizing_algorithm supported only by imgproxy pro
     # @option options [Integer] :width
     # @option options [Integer] :height
     # @option options [Float] :dpr
@@ -69,11 +70,13 @@ module Imgproxy
     # @option options [Hash|Array|Boolean|String] :extend
     # @option options [Hash|Array|String] :gravity
     # @option options [Hash|Array|String] :crop
-    # @option options [Hash|Array|String] :trim
     # @option options [Array] :padding
+    # @option options [Hash|Array|String] :trim
+    # @option options [Integer] :rotate
     # @option options [Integer] :quality
     # @option options [Integer] :max_bytes
     # @option options [Array|String] :background
+    # @option options [Float] :background_alpha supported only by imgproxy pro
     # @option options [Hash|Array|String] :adjust
     # @option options [Integer] :brightness supported only by imgproxy pro
     # @option options [Float] :contrast supported only by imgproxy pro
@@ -81,12 +84,20 @@ module Imgproxy
     # @option options [Float] :blur
     # @option options [Float] :sharpen
     # @option options [Integer] :pixelate supported only by imgproxy pro
+    # @option options [String] :unsharpening supported only by imgproxy pro
     # @option options [Hash|Array|Float|String] :watermark
     # @option options [String] :watermark_url supported only by imgproxy pro
     # @option options [String] :style supported only by imgproxy pro
+    # @option options [Hash|Array|String] :jpeg_options supported only by imgproxy pro
+    # @option options [Hash|Array|String] :png_options supported only by imgproxy pro
+    # @option options [Hash|Array|String] :gif_options supported only by imgproxy pro
+    # @option options [Integer] :page supported only by imgproxy pro
     # @option options [Integer] :video_thumbnail_second supported only by imgproxy pro
     # @option options [Array] :preset
     # @option options [String] :cachebuster
+    # @option options [Boolean] :strip_metadata
+    # @option options [Boolean] :strip_color_profile
+    # @option options [Boolean] :auto_rotate
     # @option options [String] :filename
     # @option options [String] :format
     # @option options [Boolean] :use_short_options
