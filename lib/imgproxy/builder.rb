@@ -36,7 +36,7 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [processing_options, url(image)].join("/")
+      path = [*processing_options, url(image)].join("/")
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
