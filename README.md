@@ -327,6 +327,27 @@ Imgproxy.url_for(
 - `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
 - `use_short_options` — per-call redefinition of `use_short_options` config.
 
+## Getting the image info
+
+If you're a happy user of imgproxy Pro, you may find useful it's [Getting the image info](https://docs.imgproxy.net/#/getting_the_image_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
+
+```ruby
+# Framework-agnositic way
+Imgproxy.info_url_for("http://images.example.com/images/image.jpg")
+# Using Active Storage or Shrine
+user.avatar.imgproxy_info_url
+
+# You can also use base64_encode_url or escape_plain_url options
+Imgproxy.info_url_for(
+  "http://images.example.com/images/image.jpg",
+  base64_encode_url: true
+)
+Imgproxy.info_url_for(
+  "http://images.example.com/images/image.jpg",
+  escape_plain_url: true
+)
+```
+
 ## URL adapters
 
 By default, `Imgproxy.url_for` accepts only `String` and `URI` as the source URL, but you can extend that behavior by using URL adapters.

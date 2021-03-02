@@ -69,6 +69,13 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
         "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}",
       )
     end
+
+    it "builds info URL with ActiveStorage extension" do
+      expect(user.avatar.imgproxy_info_url).to eq(
+        "http://imgproxy.test/info/unsafe" \
+        "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}",
+      )
+    end
   end
 
   context "when using s3://... urls" do

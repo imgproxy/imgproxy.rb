@@ -36,10 +36,23 @@ module Imgproxy
     #   the configured URL adapters
     # @see Imgproxy.url_for
     def url_for(image)
-      path = [*processing_options, url(image)].join("/")
+      path = [*processing_options, url(image, ext: @format)].join("/")
       signature = sign_path(path)
 
       File.join(Imgproxy.config.endpoint.to_s, signature, path)
+    end
+
+    # Genrates imgproxy info URL
+    #
+    # @return [String] imgproxy info URL
+    # @param [String,URI, Object] image Source image URL or object applicable for
+    #   the configured URL adapters
+    # @see Imgproxy.info_url_for
+    def info_url_for(image)
+      path = url(image)
+      signature = sign_path(path)
+
+      File.join(Imgproxy.config.endpoint.to_s, "info", signature, path)
     end
 
     private
@@ -59,22 +72,22 @@ module Imgproxy
       end
     end
 
-    def url(image)
+    def url(image, ext: nil)
       url = config.url_adapters.url_of(image)
 
-      @base64_encode_url ? base64_url_for(url) : plain_url_for(url)
+      @base64_encode_url ? base64_url_for(url, ext: ext) : plain_url_for(url, ext: ext)
     end
 
-    def plain_url_for(url)
+    def plain_url_for(url, ext: nil)
       escaped_url = need_escape_url?(url) ? ERB::Util.url_encode(url) : url
 
-      @format ? "plain/#{escaped_url}@#{@format}" : "plain/#{escaped_url}"
+      ext ? "plain/#{escaped_url}@#{ext}" : "plain/#{escaped_url}"
     end
 
-    def base64_url_for(url)
+    def base64_url_for(url, ext: nil)
       encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
 
-      @format ? "#{encoded_url}.#{@format}" : encoded_url
+      ext ? "#{encoded_url}.#{ext}" : encoded_url
     end
 
     def need_escape_url?(url)

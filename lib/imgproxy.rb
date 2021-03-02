@@ -109,6 +109,20 @@ module Imgproxy
       Imgproxy::Builder.new(options).url_for(image)
     end
 
+    # Genrates imgproxy info URL. Supported only by imgproxy pro
+    #
+    #   Imgproxy.info_url_for("http://images.example.com/images/image.jpg")
+    #
+    # @return [String] imgproxy info URL
+    # @param [String,URI, Object] image Source image URL or object applicable for
+    #   the configured URL adapters
+    # @param [Hash] options Processing options
+    # @option options [Boolean] :base64_encode_urls
+    # @option options [Boolean] :escape_plain_url
+    def info_url_for(image, options = {})
+      Imgproxy::Builder.new(options).info_url_for(image)
+    end
+
     # Extends +ActiveStorage::Blob+ with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
     # and adds URL adapters for ActiveStorage
     def extend_active_storage!

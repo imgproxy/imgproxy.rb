@@ -37,6 +37,13 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
         "/plain/#{uploaded_file.url(host: 'http://example.com')}",
       )
     end
+
+    it "builds info URL with Shrine extension" do
+      expect(uploaded_file.imgproxy_info_url).to eq(
+        "http://imgproxy.test/info/unsafe" \
+        "/plain/#{uploaded_file.url(host: 'http://example.com')}",
+      )
+    end
   end
 
   context "when using s3://... urls" do

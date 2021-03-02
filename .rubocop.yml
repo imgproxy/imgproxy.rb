@@ -88,7 +88,7 @@ RSpec/LeadingSubject:
 RSpec/NamedSubject:
   Enabled: false
 RSpec/NestedGroups:
-  Max: 3
+  Max: 4
 RSpec/SubjectStub:
   Enabled: false # Need this ime by time
 RSpec/MultipleExpectations:
