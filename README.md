@@ -262,7 +262,7 @@ Imgproxy.url_for(
 # => .../c:500:600:nowe:10:5/...
 ```
 
-All the argguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options).
+All the arguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options).
 
 You can use named arguments even if the processing option is not supported by the gem. In this case the arguments won't be reordered nor formatted, so you should provide them in the same order and right the same way they should appear in the URL:
 
