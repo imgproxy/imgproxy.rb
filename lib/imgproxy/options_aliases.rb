@@ -6,7 +6,7 @@ module Imgproxy
     resizing_algorithm: :ra,
     width: :w,
     height: :h,
-    enlarge: :en,
+    enlarge: :el,
     extend: :ex,
     gravity: :g,
     crop: :c,
