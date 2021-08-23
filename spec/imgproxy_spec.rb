@@ -131,7 +131,7 @@ RSpec.describe Imgproxy do
       "w:200/"\
       "h:300/"\
       "dpr:2/"\
-      "en:1/"\
+      "el:1/"\
       "ex:1:nowe:5:6/"\
       "g:fp:0.25:0.75/"\
       "c:500:100:ce:0.35:0.65/"\
@@ -310,7 +310,7 @@ RSpec.describe Imgproxy do
 
         it "doesn't regroup" do
           expect(url).to eq(
-            "http://imgproxy.test/unsafe/s:100:200/w:200/h:300/en:1/ex:1:nowe:5:6/"\
+            "http://imgproxy.test/unsafe/s:100:200/w:200/h:300/el:1/ex:1:nowe:5:6/"\
             "plain/https://images.test/image.jpg",
           )
         end
@@ -321,7 +321,7 @@ RSpec.describe Imgproxy do
 
         it "doesn't regroup" do
           expect(url).to eq(
-            "http://imgproxy.test/unsafe/rs:fit:100:200/w:200/h:300/en:1/ex:1:nowe:5:6/"\
+            "http://imgproxy.test/unsafe/rs:fit:100:200/w:200/h:300/el:1/ex:1:nowe:5:6/"\
             "plain/https://images.test/image.jpg",
           )
         end
@@ -332,7 +332,7 @@ RSpec.describe Imgproxy do
 
         it "doesn't group" do
           expect(url).to eq(
-            "http://imgproxy.test/unsafe/w:200/en:1/ex:1:nowe:5:6/"\
+            "http://imgproxy.test/unsafe/w:200/el:1/ex:1:nowe:5:6/"\
             "plain/https://images.test/image.jpg",
           )
         end
