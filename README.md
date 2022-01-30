@@ -99,6 +99,7 @@ end
 - **base64_encode_urls** (`IMGPROXY_BASE64_ENCODE_URLS`) - Encode source URLs to base64. Default: false.
 - **always_escape_plain_urls** (`IMGPROXY_ALWAYS_ESCAPE_PLAIN_URLS`) - Always escape plain source URLs even when ones don't need to be escaped. Default: false.
 - **use_s3_urls** (`IMGPROXY_USE_S3_URLS`) - Use `s3://...` source URLs for Active Storage and Shrine attachments stored in Amazon S3. Default: false.
+- **use_wasabi_urls** (`IMGPROXY_USE_WASABI_URLS`) - Use `"https://s3.wasabisys.com/` source URLs for Active Storage attachments stored in Wasabi compatible S3 storage. Default: false.
 - **use_gcs_urls** (`IMGPROXY_USE_GCS_URLS`) - Use `gs://...` source URLs for Active Storage and Shrine attachments stored in Google Cloud Storage. Default: false.
 - **gcs_bucket** (`IMGPROXY_GCS_BUCKET`) - Google Cloud Storage bucket name. Default: `nil`.
 - **shrine_host** (`IMGPROXY_SHRINE_HOST`) - Shrine host for locally stored files.

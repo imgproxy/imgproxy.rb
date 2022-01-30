@@ -15,6 +15,7 @@ module Imgproxy
       end
 
       def url(image)
+        return wasabi_url(image) if use_wasabi_url(image)
         return s3_url(image) if use_s3_url(image)
         return gcs_url(image) if use_gcs_url(image)
 
@@ -29,6 +30,14 @@ module Imgproxy
 
       def use_s3_url(image)
         config.use_s3_urls && image.service.is_a?(::ActiveStorage::Service::S3Service)
+      end
+
+      def wasabi_url(image)
+        "https://s3.wasabisys.com/#{image.service.bucket.name}/#{image.key}"
+      end
+
+      def use_wasabi_url(image)
+        config.use_wasabi_urls && image.service.is_a?(::ActiveStorage::Service::S3Service)
       end
 
       def gcs_url(image)
