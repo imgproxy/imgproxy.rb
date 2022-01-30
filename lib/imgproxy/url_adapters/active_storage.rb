@@ -15,6 +15,7 @@ module Imgproxy
       end
 
       def url(image)
+        return wasabi_url(image) if use_wasabi_url(image)
         return s3_url(image) if use_s3_url(image)
         return gcs_url(image) if use_gcs_url(image)
 
