@@ -60,6 +60,7 @@ module Imgproxy
       base64_encode_urls: false,
       always_escape_plain_urls: false,
       use_s3_urls: false,
+      use_wasabi_urls: false,
       use_gcs_urls: false,
       gcs_bucket: nil,
       shrine_host: nil,
