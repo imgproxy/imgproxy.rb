@@ -23,7 +23,13 @@ require_relative "../support/active_record"
 
 RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   let(:active_storage_service) do
-    ActiveStorage::Service::DiskService.new(root: "tmp/active_storage_tests")
+    ActiveStorage::Service.configure(
+      :local,
+      local: {
+        service: :Disk,
+        root: "tmp/active_storage_tests",
+      },
+    )
   end
 
   let(:user) do
@@ -60,6 +66,28 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   it "builds URL for ActiveStorage::Blob" do
     expect(Imgproxy.url_for(user.avatar.attachment.blob)).to end_with \
       "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}"
+  end
+
+  context "with mirror" do
+    let(:active_storage_service) do
+      ActiveStorage::Service.configure(
+        :mirror,
+        mirror: {
+          service: :Mirror,
+          primary: :local,
+          mirrors: [],
+        },
+        local: {
+          service: :Disk,
+          root: "tmp/active_storage_tests",
+        },
+      )
+    end
+
+    it "uses primary service to build URL" do
+      expect(Imgproxy.url_for(user.avatar)).to end_with \
+        "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}"
+    end
   end
 
   describe "extension" do
@@ -109,6 +137,31 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
         "/plain/s3://uploads/#{user.avatar.key}"
     end
 
+    context "with mirror" do
+      let(:active_storage_service) do
+        ActiveStorage::Service.configure(
+          :mirror,
+          mirror: {
+            service: :Mirror,
+            primary: :s3,
+            mirrors: [],
+          },
+          s3: {
+            service: :S3,
+            access_key_id: "access",
+            secret_access_key: "secret",
+            region: "us-east-1",
+            bucket: "uploads",
+          },
+        )
+      end
+
+      it "uses primary service to build URL" do
+        expect(Imgproxy.url_for(user.avatar)).to end_with \
+          "/plain/s3://uploads/#{user.avatar.key}"
+      end
+    end
+
     describe "extension" do
       it "builds URL with ActiveStorage extension" do
         expect(user.avatar.imgproxy_url(width: 200)).to eq(
@@ -149,6 +202,30 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
     it "fethces url for ActiveStorage::Blob" do
       expect(Imgproxy.url_for(user.avatar.attachment.blob)).to end_with \
         "/plain/gs://uploads/#{user.avatar.key}"
+    end
+
+    context "with mirror" do
+      let(:active_storage_service) do
+        ActiveStorage::Service.configure(
+          :mirror,
+          mirror: {
+            service: :Mirror,
+            primary: :gcs,
+            mirrors: [],
+          },
+          gcs: {
+            service: :GCS,
+            project: "test",
+            credentials: {},
+            bucket: "uploads",
+          },
+        )
+      end
+
+      it "uses primary service to build URL" do
+        expect(Imgproxy.url_for(user.avatar)).to end_with \
+          "/plain/gs://uploads/#{user.avatar.key}"
+      end
     end
 
     describe "extension" do

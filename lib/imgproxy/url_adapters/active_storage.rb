@@ -24,11 +24,11 @@ module Imgproxy
       private
 
       def s3_url(image)
-        "s3://#{image.service.bucket.name}/#{image.key}"
+        "s3://#{service(image).bucket.name}/#{image.key}"
       end
 
       def use_s3_url(image)
-        config.use_s3_urls && image.service.is_a?(::ActiveStorage::Service::S3Service)
+        config.use_s3_urls && service(image).is_a?(::ActiveStorage::Service::S3Service)
       end
 
       def gcs_url(image)
@@ -36,7 +36,17 @@ module Imgproxy
       end
 
       def use_gcs_url(image)
-        config.use_gcs_urls && image.service.is_a?(::ActiveStorage::Service::GCSService)
+        config.use_gcs_urls && service(image).is_a?(::ActiveStorage::Service::GCSService)
+      end
+
+      def service(image)
+        unwrap_service(image.service)
+      end
+
+      def unwrap_service(service)
+        return service unless defined?(::ActiveStorage::Service::MirrorService)
+        return service unless service.is_a?(::ActiveStorage::Service::MirrorService)
+        unwrap_service(service.primary)
       end
 
       def config
