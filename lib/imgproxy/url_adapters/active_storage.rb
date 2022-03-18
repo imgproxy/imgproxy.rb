@@ -33,7 +33,7 @@ module Imgproxy
       end
 
       def wasabi_url(image)
-        "https://s3.wasabisys.com/#{image.service.bucket.name}/#{image.key}"
+        "https://s3.wasabisys.com/#{image.service.primary.bucket.name}/#{image.key}"
       end
 
       def use_wasabi_url(image)
