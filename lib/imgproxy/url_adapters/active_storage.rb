@@ -29,7 +29,7 @@ module Imgproxy
       end
 
       def use_s3_url(image)
-        config.use_s3_urls && image.service.is_a?(::ActiveStorage::Service::S3Service)
+        config.use_s3_urls && (image.service.is_a?(::ActiveStorage::Service::S3Service) || image.service.is_a?(::ActiveStorage::Service::MirrorService))
       end
 
       def wasabi_url(image)
@@ -37,7 +37,7 @@ module Imgproxy
       end
 
       def use_wasabi_url(image)
-        config.use_wasabi_urls && image.service.is_a?(::ActiveStorage::Service::S3Service)
+        config.use_wasabi_urls && (image.service.is_a?(::ActiveStorage::Service::S3Service) || image.service.is_a?(::ActiveStorage::Service::MirrorService))
       end
 
       def gcs_url(image)
