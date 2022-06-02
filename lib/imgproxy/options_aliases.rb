@@ -39,5 +39,6 @@ module Imgproxy
     strip_color_profile: :scp,
     auto_rotate: :ar,
     filename: :fn,
+    attachment: :att,
   }.freeze
 end

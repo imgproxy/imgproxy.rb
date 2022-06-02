@@ -235,6 +235,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 - [auto_rotate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=auto-rotate)
 - [filename](https://docs.imgproxy.net/#/generating_the_url_advanced?id=filename)
 - [format](https://docs.imgproxy.net/#/generating_the_url_advanced?id=format)
+- [attachment](https://docs.imgproxy.net/#/generating_the_url_advanced?id=attachment)
 
 _See [imgproxy URL format guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options) for more info._
 
