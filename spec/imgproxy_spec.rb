@@ -120,7 +120,7 @@ RSpec.describe Imgproxy do
         auto_rotate: true,
         filename: "the_image.jpg",
         format: :webp,
-        attachment: true,
+        return_attachment: true,
       }
     end
 
@@ -209,7 +209,7 @@ RSpec.describe Imgproxy do
       "strip_color_profile:0/"\
       "auto_rotate:1/"\
       "filename:the_image.jpg/"\
-      "attachment:1"
+      "return_attachment:1"
     end
 
     subject(:url) { described_class.url_for(src_url, options) }

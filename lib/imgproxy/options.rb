@@ -64,7 +64,7 @@ module Imgproxy
       auto_rotate:            Imgproxy::OptionsCasters::Bool,
       filename:               Imgproxy::OptionsCasters::String,
       format:                 Imgproxy::OptionsCasters::String,
-      attachment:             Imgproxy::OptionsCasters::Bool,
+      return_attachment:      Imgproxy::OptionsCasters::Bool,
     }.freeze
 
     META = %i[size resize adjust].freeze
