@@ -236,6 +236,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 - [filename](https://docs.imgproxy.net/#/generating_the_url_advanced?id=filename)
 - [format](https://docs.imgproxy.net/#/generating_the_url_advanced?id=format)
 - [return_attachment](https://docs.imgproxy.net/#/generating_the_url_advanced?id=return-attachment)
+- [expires](https://docs.imgproxy.net/#/generating_the_url?id=expires)
 
 _See [imgproxy URL format guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options) for more info._
 

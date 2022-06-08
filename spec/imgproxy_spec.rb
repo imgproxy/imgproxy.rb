@@ -589,6 +589,18 @@ RSpec.describe Imgproxy do
           expect(url).to start_with "http://imgproxy.test/6PuaY-c/"
         end
       end
+
+      context "with expiration" do
+        let(:options) { { width: 100, height: 100, expires: Time.at(4810374983) } }
+        let(:casted_options) { "s:100:100/exp:4810374983" }
+
+        it "sets expiration" do
+          expect(url).to eq(
+            "http://imgproxy.test/7ZYBNHeKGmkZd8ned9ei5b3QVNq5_cmAb4yz77j8vaE/#{casted_options}/"\
+            "plain/https://images.test/image.jpg",
+          )
+        end
+      end
     end
   end
 

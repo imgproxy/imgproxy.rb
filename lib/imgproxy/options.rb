@@ -65,6 +65,7 @@ module Imgproxy
       filename:               Imgproxy::OptionsCasters::String,
       format:                 Imgproxy::OptionsCasters::String,
       return_attachment:      Imgproxy::OptionsCasters::Bool,
+      expires:                Imgproxy::OptionsCasters::Integer,
     }.freeze
 
     META = %i[size resize adjust].freeze
