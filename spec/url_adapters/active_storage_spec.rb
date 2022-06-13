@@ -26,7 +26,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
     ActiveStorage::Service.configure(
       :local,
       local: {
-        service: :Disk,
+        service: "Disk",
         root: "tmp/active_storage_tests",
       },
     )
@@ -35,7 +35,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   let(:user) do
     User.create!.tap do |user|
       user.avatar.attach(
-        io: StringIO.new("AVATAR"), filename: "avatar.jpg", content_type: "image/jpg",
+        io: StringIO.new("AVATAR"), filename: "avatar.jpg", content_type: "image/jpeg",
       )
     end
   end
@@ -43,8 +43,9 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   before(:all) { setup_database }
 
   before do
-    ActiveStorage::Current.host = "https://example.com"
+    ActiveStorage::Current.url_options = { host: "https://example.com" }
     ActiveStorage::Blob.service = active_storage_service
+    ActiveStorage::Blob.services = { active_storage_service.name.to_s => active_storage_service }
 
     allow(active_storage_service).to receive(:upload).and_return(nil)
 
@@ -73,12 +74,12 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
       ActiveStorage::Service.configure(
         :mirror,
         mirror: {
-          service: :Mirror,
+          service: "Mirror",
           primary: :local,
           mirrors: [],
         },
         local: {
-          service: :Disk,
+          service: "Disk",
           root: "tmp/active_storage_tests",
         },
       )
@@ -111,7 +112,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
       ActiveStorage::Service.configure(
         :s3,
         s3: {
-          service: :S3,
+          service: "S3",
           access_key_id: "access",
           secret_access_key: "secret",
           region: "us-east-1",
@@ -142,12 +143,12 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
         ActiveStorage::Service.configure(
           :mirror,
           mirror: {
-            service: :Mirror,
+            service: "Mirror",
             primary: :s3,
             mirrors: [],
           },
           s3: {
-            service: :S3,
+            service: "S3",
             access_key_id: "access",
             secret_access_key: "secret",
             region: "us-east-1",
@@ -176,7 +177,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
       ActiveStorage::Service.configure(
         :gcs,
         gcs: {
-          service: :GCS,
+          service: "GCS",
           project: "test",
           credentials: {},
           bucket: "uploads",
@@ -209,12 +210,12 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
         ActiveStorage::Service.configure(
           :mirror,
           mirror: {
-            service: :Mirror,
+            service: "Mirror",
             primary: :gcs,
             mirrors: [],
           },
           gcs: {
-            service: :GCS,
+            service: "GCS",
             project: "test",
             credentials: {},
             bucket: "uploads",

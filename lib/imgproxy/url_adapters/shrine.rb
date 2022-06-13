@@ -17,7 +17,7 @@ module Imgproxy
 
         opts = {}
         opts[:host] = Imgproxy.config.shrine_host if Imgproxy.config.shrine_host
-        image.url(opts)
+        image.url(**opts)
       end
 
       private
