@@ -6,6 +6,7 @@ AllCops:
     - 'spec/dummy/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
+  NewCops: enable
 
 Gemspec/RequiredRubyVersion:
   Enabled: false

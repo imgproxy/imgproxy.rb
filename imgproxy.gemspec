@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.5"
 
+  spec.metadata = { "rubygems_mfa_required" => "true" }
+
   spec.add_dependency "anyway_config", ">= 2.0.0"
 
   spec.add_development_dependency "benchmark-memory", "~> 0.2.0"
@@ -24,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.11.0"
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.5.1"
   spec.add_development_dependency "rubocop", "~> 1.30.1"
-  spec.add_development_dependency "rubocop-rspec", "~> 1.41.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.11.1"
 
   spec.add_development_dependency "aws-sdk-s3", "~> 1.64"
   spec.add_development_dependency "google-cloud-storage", "~> 1.11"

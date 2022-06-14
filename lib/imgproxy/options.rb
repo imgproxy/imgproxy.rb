@@ -70,6 +70,8 @@ module Imgproxy
 
     # @param options [Hash] raw processing options
     def initialize(options)
+      super()
+
       # Options order hack: initialize known and meta options with nil value to preserve order
       CASTERS.each_key { |n| self[n] = nil if options.key?(n) || META.include?(n) }
 

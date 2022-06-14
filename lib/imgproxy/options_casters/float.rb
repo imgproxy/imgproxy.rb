@@ -5,7 +5,7 @@ module Imgproxy
       ZERO_RE = /\.0+/.freeze
 
       def self.cast(raw)
-        raw&.to_f&.yield_self do |f|
+        raw&.to_f&.then do |f|
           # Convert integral value to Integer so to_s won't give us trailing zero
           i = f.to_i
           i == f ? i : f

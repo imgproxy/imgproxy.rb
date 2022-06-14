@@ -1,6 +1,6 @@
 require "spec_helper"
 
-require_relative "../dummy/config/environment.rb"
+require_relative "../dummy/config/environment"
 
 require "active_support"
 require "active_job"

@@ -123,6 +123,7 @@ RSpec.describe Imgproxy do
       }
     end
 
+    # rubocop: disable Layout/LineEndStringConcatenationIndentation
     let(:casted_options) do
       "rs:auto:100:200:1:1:noea:1:2/"\
       "s:150:250:0:1:soea:2:3/"\
@@ -208,6 +209,7 @@ RSpec.describe Imgproxy do
       "auto_rotate:1/"\
       "filename:the_image.jpg"
     end
+    # rubocop: enable Layout/LineEndStringConcatenationIndentation
 
     subject(:url) { described_class.url_for(src_url, options) }
 
