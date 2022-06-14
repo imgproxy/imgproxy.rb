@@ -40,5 +40,6 @@ module Imgproxy
     auto_rotate: :ar,
     filename: :fn,
     return_attachment: :att,
+    expires: :exp,
   }.freeze
 end

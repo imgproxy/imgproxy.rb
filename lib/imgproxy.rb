@@ -101,6 +101,7 @@ module Imgproxy
     # @option options [String] :filename
     # @option options [String] :format
     # @option options [Boolean] :return_attachment
+    # @option options [Integer] :expires
     # @option options [Boolean] :use_short_options
     # @option options [Boolean] :base64_encode_urls
     # @option options [Boolean] :escape_plain_url

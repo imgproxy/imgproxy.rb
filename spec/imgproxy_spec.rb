@@ -121,6 +121,7 @@ RSpec.describe Imgproxy do
         filename: "the_image.jpg",
         format: :webp,
         return_attachment: true,
+        expires: Time.at(4810374983),
       }
     end
 
@@ -166,7 +167,8 @@ RSpec.describe Imgproxy do
       "scp:0/"\
       "ar:1/"\
       "fn:the_image.jpg/"\
-      "att:1"
+      "att:1/"\
+      "exp:4810374983"
     end
 
     let(:casted_options_full) do
@@ -210,7 +212,8 @@ RSpec.describe Imgproxy do
       "strip_color_profile:0/"\
       "auto_rotate:1/"\
       "filename:the_image.jpg/"\
-      "return_attachment:1"
+      "return_attachment:1/"\
+      "expires:4810374983"
     end
     # rubocop: enable Layout/LineEndStringConcatenationIndentation
 
