@@ -100,6 +100,7 @@ module Imgproxy
     # @option options [Boolean] :auto_rotate
     # @option options [String] :filename
     # @option options [String] :format
+    # @option options [Boolean] :attachment
     # @option options [Boolean] :use_short_options
     # @option options [Boolean] :base64_encode_urls
     # @option options [Boolean] :escape_plain_url
