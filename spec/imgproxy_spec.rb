@@ -595,6 +595,27 @@ RSpec.describe Imgproxy do
         end
       end
     end
+
+    describe "different services" do
+      before do
+        described_class.configure(:large_files) do |c|
+          c.endpoint = "http://large-files.test/"
+        end
+
+        described_class.configure(:small_files) do |c|
+          c.endpoint = "http://small-files.test/"
+        end
+      end
+
+      it "returns different urls for different services" do
+        large_files_url = described_class.service(:large_files).url_for(src_url, options)
+        small_files_url = described_class.service(:small_files).url_for(src_url, options)
+
+        expect(large_files_url).to start_with "http://large-files.test/unsafe/"
+        expect(small_files_url).to start_with "http://small-files.test/unsafe/"
+        expect(url).to start_with "http://imgproxy.test/unsafe/"
+      end
+    end
   end
 
   describe ".info_url_for" do
@@ -653,6 +674,27 @@ RSpec.describe Imgproxy do
           expect(described_class.info_url_for(src_url)).to start_with(
             "http://imgproxy.test/info/1KMMwfg/",
           )
+        end
+      end
+
+      describe "different services" do
+        before do
+          described_class.configure(:large_files) do |c|
+            c.endpoint = "http://large-files.test/"
+          end
+
+          described_class.configure(:small_files) do |c|
+            c.endpoint = "http://small-files.test/"
+          end
+        end
+
+        it "returns different urls for different services" do
+          large_files_url = described_class.service(:large_files).info_url_for(src_url, options)
+          small_files_url = described_class.service(:small_files).info_url_for(src_url, options)
+
+          expect(large_files_url).to start_with "http://large-files.test/info/"
+          expect(small_files_url).to start_with "http://small-files.test/info/"
+          expect(url).to start_with "http://imgproxy.test/info/"
         end
       end
     end
