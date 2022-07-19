@@ -8,6 +8,12 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class Shrine
+      attr_reader :service_name
+
+      def initialize(service_name)
+        @service_name = service_name
+      end
+
       def applicable?(image)
         image.is_a?(::Shrine::UploadedFile)
       end
@@ -16,7 +22,7 @@ module Imgproxy
         return s3_url(image) if use_s3_url(image)
 
         opts = {}
-        opts[:host] = Imgproxy.config.shrine_host if Imgproxy.config.shrine_host
+        opts[:host] = config.shrine_host if config.shrine_host
         image.url(**opts)
       end
 
@@ -28,8 +34,12 @@ module Imgproxy
       end
 
       def use_s3_url(image)
-        Imgproxy.config.use_s3_urls &&
+        config.use_s3_urls &&
           image.storage.is_a?(::Shrine::Storage::S3)
+      end
+
+      def config
+        Imgproxy.config(service_name)
       end
     end
   end

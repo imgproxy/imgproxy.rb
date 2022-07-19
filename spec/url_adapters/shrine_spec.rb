@@ -101,4 +101,16 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
       end
     end
   end
+
+  describe "for custom service" do
+    before do
+      Imgproxy.config(:custom).shrine_host = "http://custom.com"
+      Imgproxy.extend_shrine!
+    end
+
+    it "builds URL for Shrine::UploadedFile" do
+      expect(Imgproxy.url_for(uploaded_file, service: :custom)).to end_with \
+        "/plain/#{uploaded_file.url(host: 'http://custom.com')}"
+    end
+  end
 end

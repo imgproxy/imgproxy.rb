@@ -8,6 +8,10 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class ActiveStorage
+      def initialize(service_name)
+        @service_name = service_name
+      end
+
       def applicable?(image)
         image.is_a?(::ActiveStorage::Attached::One) ||
           image.is_a?(::ActiveStorage::Attachment) ||
@@ -22,6 +26,8 @@ module Imgproxy
       end
 
       private
+
+      attr_reader :service_name
 
       def s3_url(image)
         "s3://#{service(image).bucket.name}/#{image.key}"
@@ -50,7 +56,7 @@ module Imgproxy
       end
 
       def config
-        Imgproxy.config
+        Imgproxy.config(service_name)
       end
     end
   end

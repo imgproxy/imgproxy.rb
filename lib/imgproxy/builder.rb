@@ -23,6 +23,8 @@ module Imgproxy
     def initialize(options = {})
       options = options.dup
 
+      @config = Imgproxy.config(options.delete(:service))
+
       extract_builder_options(options)
 
       @options = Imgproxy::Options.new(options)
@@ -39,7 +41,7 @@ module Imgproxy
       path = [*processing_options, url(image, ext: @format)].join("/")
       signature = sign_path(path)
 
-      File.join(Imgproxy.config.endpoint.to_s, signature, path)
+      File.join(config.endpoint.to_s, signature, path)
     end
 
     # Genrates imgproxy info URL
@@ -52,10 +54,12 @@ module Imgproxy
       path = url(image)
       signature = sign_path(path)
 
-      File.join(Imgproxy.config.endpoint.to_s, "info", signature, path)
+      File.join(config.endpoint.to_s, "info", signature, path)
     end
 
     private
+
+    attr_reader :config
 
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
@@ -127,10 +131,6 @@ module Imgproxy
 
     def signature_size
       config.signature_size
-    end
-
-    def config
-      Imgproxy.config
     end
 
     def not_nil_or(value, fallback)
