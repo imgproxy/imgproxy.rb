@@ -8,6 +8,12 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class ActiveStorage
+      attr_reader :service_name
+
+      def initialize(service_name = nil)
+        @service_name = service_name
+      end
+
       def applicable?(image)
         image.is_a?(::ActiveStorage::Attached::One) ||
           image.is_a?(::ActiveStorage::Attachment) ||
@@ -50,7 +56,7 @@ module Imgproxy
       end
 
       def config
-        Imgproxy.config
+        service_name ? Imgproxy.service(service_name).config : Imgproxy.config
       end
     end
   end
