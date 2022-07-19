@@ -20,8 +20,8 @@ module Imgproxy
   class Builder
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
-    def initialize(config: Imgproxy.config, **options)
-      @config = config
+    def initialize(config: nil, **options)
+      @config = config || Imgproxy.config
       options = options.dup
 
       extract_builder_options(options)

@@ -33,8 +33,15 @@ module Imgproxy
     # @yieldparam config [Config]
     # @return [Config]
     def configure(service_name = :default)
-      yield service(service_name).config
-      service(service_name).config
+      config = service(service_name).config
+      yield config
+
+      if service_name != :default
+        extend_active_storage!(config)
+        extend_shrine!(config)
+      end
+
+      config
     end
 
     # @see Imgproxy::Service#url_for
@@ -49,22 +56,24 @@ module Imgproxy
 
     # Extends +ActiveStorage::Blob+ with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
     # and adds URL adapters for ActiveStorage
-    def extend_active_storage!
+    def extend_active_storage!(config = nil)
       return unless defined?(ActiveSupport) && ActiveSupport.respond_to?(:on_load)
 
+      config ||= Imgproxy.config
       ActiveSupport.on_load(:active_storage_blob) do
         ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
-        Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
+        config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
       end
     end
 
     # Extends +Shrine::UploadedFile+ with {Imgproxy::Extensions::Shrine.imgproxy_url} method
     # and adds URL adapters for Shrine
-    def extend_shrine!
+    def extend_shrine!(config = nil)
       return unless defined?(::Shrine::UploadedFile)
 
+      config ||= Imgproxy.config
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
-      Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
+      config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
     end
   end
 end
