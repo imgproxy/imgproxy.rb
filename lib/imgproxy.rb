@@ -61,7 +61,7 @@ module Imgproxy
 
       config = service_name ? Imgproxy.service(service_name).config : Imgproxy.config
       ActiveSupport.on_load(:active_storage_blob) do
-        ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage.with(service_name)
+        ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
         config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new(service_name))
       end
     end
@@ -72,7 +72,7 @@ module Imgproxy
       return unless defined?(::Shrine::UploadedFile)
 
       config = service_name ? Imgproxy.service(service_name).config : Imgproxy.config
-      ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine.with(service_name)
+      ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
       config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new(service_name))
     end
   end
