@@ -6,24 +6,6 @@ require "imgproxy/url_adapters"
 module Imgproxy
   # Imgproxy config
   #
-  # @!attribute endpoint
-  #   imgproxy endpoint
-  #   @return [String]
-  # @!attribute key
-  #   imgproxy hex-encoded signature key
-  #   @return [String]
-  # @!attribute salt
-  #   imgproxy hex-encoded signature salt
-  #   @return [String]
-  # @!attribute raw_key
-  #   Decoded signature key
-  #   @return [String]
-  # @!attribute raw_salt
-  #   Decoded signature salt
-  #   @return [String]
-  # @!attribute signature_size
-  #   imgproxy signature size. Defaults to 32
-  #   @return [String]
   # @!attribute use_short_options
   #   Use short processing option names (+rs+ for +resize+, +g+ for +gravity+, etc).
   #   Defaults to true
