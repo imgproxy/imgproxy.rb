@@ -409,6 +409,13 @@ services:
 
 If you don't specify `key`, `salt`, `endpoint`, or `signature_size`, they are inherited from the global configuration.
 
+Pass the `service` option to `url_for` and `info_url_for`:
+
+```ruby
+Imgproxy.url_for(image, service: :pro)
+Imgproxy.info_url_for(image, service: :pro)
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/imgproxy/imgproxy.rb.
