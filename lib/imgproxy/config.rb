@@ -43,24 +43,48 @@ module Imgproxy
       services: {},
     )
 
+    def endpoint
+      service(:default).endpoint
+    end
+
     def endpoint=(value)
       service(:default).endpoint = value
+    end
+
+    def key
+      service(:default).key
     end
 
     def key=(value)
       service(:default).key = value
     end
 
+    def raw_key
+      service(:default).raw_key
+    end
+
     def raw_key=(value)
       service(:default).raw_key = value
+    end
+
+    def salt
+      service(:default).salt
     end
 
     def salt=(value)
       service(:default).salt = value
     end
 
+    def raw_salt
+      service(:default).raw_salt
+    end
+
     def raw_salt=(value)
       service(:default).raw_salt = value
+    end
+
+    def signature_size
+      service(:default).signature_size
     end
 
     def signature_size=(value)

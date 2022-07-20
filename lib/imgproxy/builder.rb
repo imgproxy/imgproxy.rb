@@ -25,8 +25,6 @@ module Imgproxy
     def initialize(options = {})
       options = options.dup
 
-      @service = options.delete(:service)&.to_sym || :default
-
       extract_builder_options(options)
 
       @options = Imgproxy::Options.new(options)
@@ -66,6 +64,8 @@ module Imgproxy
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
     def extract_builder_options(options)
+      @service = options.delete(:service)&.to_sym || :default
+
       @use_short_options = not_nil_or(options.delete(:use_short_options), config.use_short_options)
       @base64_encode_url = not_nil_or(options.delete(:base64_encode_url), config.base64_encode_urls)
       @escape_plain_url =
@@ -144,9 +144,9 @@ module Imgproxy
     end
 
     def service_config
-      raise UnknownServiceError, service unless config.services[service]
-
-      config.services[service]
+      @service_config ||= config.services[service].tap do |c|
+        raise UnknownServiceError, service unless c
+      end
     end
 
     def config
