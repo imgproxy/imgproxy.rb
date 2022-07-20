@@ -240,13 +240,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
 
   describe "for custom service" do
     before do
-      Imgproxy.configure do |config|
-        config.services = {
-          custom: {
-            endpoint: "https://custom-service.com/",
-          },
-        }
-      end
+      Imgproxy.config.service(:custom).endpoint = "https://custom-service.com/"
     end
 
     it "builds URL for ActiveStorage::Attached::One" do

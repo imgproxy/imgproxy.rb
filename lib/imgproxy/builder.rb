@@ -25,7 +25,7 @@ module Imgproxy
     def initialize(options = {})
       options = options.dup
 
-      @service = options.delete(:service)&.to_sym
+      @service = options.delete(:service)&.to_sym || :default
 
       extract_builder_options(options)
 
@@ -124,20 +124,14 @@ module Imgproxy
     end
 
     def signature_key
-      return config.raw_key unless service
-
       service_config.raw_key
     end
 
     def signature_salt
-      return config.raw_salt unless service
-
       service_config.raw_salt
     end
 
     def signature_size
-      return config.signature_size unless service
-
       service_config.signature_size
     end
 
@@ -145,13 +139,7 @@ module Imgproxy
       value.nil? ? fallback : value
     end
 
-    def config
-      Imgproxy.config
-    end
-
     def endpoint
-      return config.endpoint unless service
-
       service_config.endpoint
     end
 
@@ -159,6 +147,10 @@ module Imgproxy
       raise UnknownServiceError, service unless config.services[service]
 
       config.services[service]
+    end
+
+    def config
+      Imgproxy.config
     end
   end
 end
