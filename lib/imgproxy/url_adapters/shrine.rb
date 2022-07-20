@@ -8,12 +8,6 @@ module Imgproxy
     #
     #   Imgproxy.url_for(user.avatar)
     class Shrine
-      attr_reader :service_name
-
-      def initialize(service_name)
-        @service_name = service_name
-      end
-
       def applicable?(image)
         image.is_a?(::Shrine::UploadedFile)
       end
@@ -39,7 +33,7 @@ module Imgproxy
       end
 
       def config
-        Imgproxy.config(service_name)
+        Imgproxy.config
       end
     end
   end

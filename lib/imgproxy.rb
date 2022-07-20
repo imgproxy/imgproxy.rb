@@ -1,5 +1,5 @@
 require "imgproxy/version"
-require "imgproxy/configs"
+require "imgproxy/config"
 require "imgproxy/builder"
 
 require "imgproxy/extensions/active_storage"
@@ -11,12 +11,8 @@ module Imgproxy
     # Imgproxy config
     #
     # @return [Config]
-    def config(service_name = nil)
-      services[service_name || :default]
-    end
-
-    def services
-      @services ||= Imgproxy::Configs.new
+    def config
+      @config ||= Imgproxy::Config.new
     end
 
     # Yields Imgproxy config
@@ -30,15 +26,9 @@ module Imgproxy
     #
     # @yieldparam config [Config]
     # @return [Config]
-    def configure(service_name = :default)
-      yield config(service_name)
-
-      if service_name != :default
-        extend_active_storage!
-        extend_shrine!
-      end
-
-      config(service_name)
+    def configure
+      yield config
+      config
     end
 
     # Genrates imgproxy URL
@@ -142,9 +132,7 @@ module Imgproxy
 
       ActiveSupport.on_load(:active_storage_blob) do
         ::ActiveStorage::Blob.include Imgproxy::Extensions::ActiveStorage
-        Imgproxy.services.configs.each do |name, config|
-          config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new(name))
-        end
+        Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::ActiveStorage.new)
       end
     end
 
@@ -154,9 +142,7 @@ module Imgproxy
       return unless defined?(::Shrine::UploadedFile)
 
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
-      Imgproxy.services.configs.each do |name, config|
-        config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new(name))
-      end
+      Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
     end
   end
 end

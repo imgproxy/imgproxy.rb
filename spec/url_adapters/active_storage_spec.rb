@@ -240,39 +240,21 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
 
   describe "for custom service" do
     before do
-      Imgproxy.configure(:custom) do |config|
-        config.endpoint = "https://custom-service.com/"
+      Imgproxy.configure do |config|
+        config.services = {
+          custom: {
+            endpoint: "https://custom-service.com/",
+          },
+        }
       end
     end
 
     it "builds URL for ActiveStorage::Attached::One" do
       expect(Imgproxy.url_for(user.avatar, service: :custom)).to end_with \
         "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}"
-    end
 
-    context "when using gs://... urls" do
-      let(:active_storage_service) do
-        ActiveStorage::Service.configure(
-          :gcs,
-          gcs: {
-            service: "GCS",
-            project: "test",
-            credentials: {},
-            bucket: "uploads",
-          },
-        )
-      end
-
-      before do
-        Imgproxy.config(:custom).use_gcs_urls = true
-        Imgproxy.config(:custom).gcs_bucket = "uploads"
-        Imgproxy.extend_active_storage!
-      end
-
-      it "fethces url for ActiveStorage::Attached::One" do
-        expect(Imgproxy.url_for(user.avatar, service: :custom)).to end_with \
-          "/plain/gs://uploads/#{user.avatar.key}"
-      end
+      expect(Imgproxy.url_for(user.avatar, service: :custom)).to start_with \
+        "https://custom-service.com/"
     end
   end
 end

@@ -18,12 +18,14 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
+    class UnknownServiceError < StandardError; end
+
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
       options = options.dup
 
-      @config = Imgproxy.config(options.delete(:service))
+      @service = options.delete(:service)&.to_sym
 
       extract_builder_options(options)
 
@@ -41,7 +43,7 @@ module Imgproxy
       path = [*processing_options, url(image, ext: @format)].join("/")
       signature = sign_path(path)
 
-      File.join(config.endpoint.to_s, signature, path)
+      File.join(endpoint.to_s, signature, path)
     end
 
     # Genrates imgproxy info URL
@@ -54,12 +56,12 @@ module Imgproxy
       path = url(image)
       signature = sign_path(path)
 
-      File.join(config.endpoint.to_s, "info", signature, path)
+      File.join(endpoint.to_s, "info", signature, path)
     end
 
     private
 
-    attr_reader :config
+    attr_reader :service
 
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
@@ -122,19 +124,41 @@ module Imgproxy
     end
 
     def signature_key
-      config.raw_key
+      return config.raw_key unless service
+
+      service_config.raw_key
     end
 
     def signature_salt
-      config.raw_salt
+      return config.raw_salt unless service
+
+      service_config.raw_salt
     end
 
     def signature_size
-      config.signature_size
+      return config.signature_size unless service
+
+      service_config.signature_size
     end
 
     def not_nil_or(value, fallback)
       value.nil? ? fallback : value
+    end
+
+    def config
+      Imgproxy.config
+    end
+
+    def endpoint
+      return config.endpoint unless service
+
+      service_config.endpoint
+    end
+
+    def service_config
+      raise UnknownServiceError, service unless config.services[service]
+
+      config.services[service]
     end
   end
 end

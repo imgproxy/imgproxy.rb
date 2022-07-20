@@ -1,5 +1,6 @@
 require "anyway_config"
 
+require "imgproxy/service_config"
 require "imgproxy/url_adapters"
 
 module Imgproxy
@@ -63,6 +64,7 @@ module Imgproxy
       use_gcs_urls: false,
       gcs_bucket: nil,
       shrine_host: nil,
+      services: {},
     )
 
     alias_method :set_key, :key=
@@ -93,6 +95,21 @@ module Imgproxy
       value = value&.to_s
       super(value)
       set_salt(value&.unpack("H*")&.first)
+    end
+
+    def service(name)
+      services[name.to_sym] ||= ServiceConfig.new(values)
+      yield services[name.to_sym] if block_given?
+
+      services[name.to_sym]
+    end
+
+    def services
+      @services ||= {}.tap do |s|
+        super.each do |name, data|
+          s[name.to_sym] = ServiceConfig.new(values.merge(data.symbolize_keys))
+        end
+      end
     end
 
     # @deprecated Please use {#key} instead
