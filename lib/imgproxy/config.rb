@@ -43,6 +43,14 @@ module Imgproxy
       services: {},
     )
 
+    coerce_types use_short_options: :boolean,
+                 base64_encode_urls: :boolean,
+                 always_escape_plain_urls: :boolean,
+                 use_s3_urls: :boolean,
+                 use_gcs_urls: :boolean,
+                 gcs_bucket: :string,
+                 shrine_host: :string
+
     def endpoint
       service(:default).endpoint
     end

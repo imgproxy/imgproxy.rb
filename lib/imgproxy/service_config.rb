@@ -36,6 +36,13 @@ module Imgproxy
       signature_size: 32,
     )
 
+    coerce_types endpoint: :string,
+                 key: :string,
+                 salt: :string,
+                 raw_key: :string,
+                 raw_salt: :string,
+                 signature_size: :integer
+
     alias_method :set_key, :key=
     alias_method :set_raw_key, :raw_key=
     alias_method :set_salt, :salt=
