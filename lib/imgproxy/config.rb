@@ -111,9 +111,7 @@ module Imgproxy
         s[:default] = ServiceConfig.new
 
         super.each do |name, data|
-          s[name.to_sym] = ServiceConfig.new(
-            s[:default].to_h.merge(data.symbolize_keys),
-          )
+          s[name.to_sym] = ServiceConfig.new(data.symbolize_keys)
         end
       end
     end
