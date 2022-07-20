@@ -101,4 +101,15 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
       end
     end
   end
+
+  describe "for custom service" do
+    before do
+      Imgproxy.config.service(:custom).endpoint = "https://custom-service.com/"
+    end
+
+    it "builds URL for Shrine::UploadedFile" do
+      expect(Imgproxy.url_for(uploaded_file, service: :custom)).to start_with \
+        "https://custom-service.com/"
+    end
+  end
 end

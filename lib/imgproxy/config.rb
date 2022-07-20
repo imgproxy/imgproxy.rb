@@ -1,28 +1,11 @@
 require "anyway_config"
 
+require "imgproxy/service_config"
 require "imgproxy/url_adapters"
 
 module Imgproxy
   # Imgproxy config
   #
-  # @!attribute endpoint
-  #   imgproxy endpoint
-  #   @return [String]
-  # @!attribute key
-  #   imgproxy hex-encoded signature key
-  #   @return [String]
-  # @!attribute salt
-  #   imgproxy hex-encoded signature salt
-  #   @return [String]
-  # @!attribute raw_key
-  #   Decoded signature key
-  #   @return [String]
-  # @!attribute raw_salt
-  #   Decoded signature salt
-  #   @return [String]
-  # @!attribute signature_size
-  #   imgproxy signature size. Defaults to 32
-  #   @return [String]
   # @!attribute use_short_options
   #   Use short processing option names (+rs+ for +resize+, +g+ for +gravity+, etc).
   #   Defaults to true
@@ -50,12 +33,6 @@ module Imgproxy
   # @see https://github.com/palkan/anyway_config anyway_config
   class Config < Anyway::Config
     attr_config(
-      :endpoint,
-      :key,
-      :salt,
-      :raw_key,
-      :raw_salt,
-      signature_size: 32,
       use_short_options: true,
       base64_encode_urls: false,
       always_escape_plain_urls: false,
@@ -63,36 +40,74 @@ module Imgproxy
       use_gcs_urls: false,
       gcs_bucket: nil,
       shrine_host: nil,
+      services: {},
     )
 
-    alias_method :set_key, :key=
-    alias_method :set_raw_key, :raw_key=
-    alias_method :set_salt, :salt=
-    alias_method :set_raw_salt, :raw_salt=
-    private :set_key, :set_raw_key, :set_salt, :set_raw_salt
+    def endpoint
+      service(:default).endpoint
+    end
+
+    def endpoint=(value)
+      service(:default).endpoint = value
+    end
+
+    def key
+      service(:default).key
+    end
 
     def key=(value)
-      value = value&.to_s
-      super(value)
-      set_raw_key(value && [value].pack("H*"))
+      service(:default).key = value
+    end
+
+    def raw_key
+      service(:default).raw_key
     end
 
     def raw_key=(value)
-      value = value&.to_s
-      super(value)
-      set_key(value&.unpack("H*")&.first)
+      service(:default).raw_key = value
+    end
+
+    def salt
+      service(:default).salt
     end
 
     def salt=(value)
-      value = value&.to_s
-      super(value)
-      set_raw_salt(value && [value].pack("H*"))
+      service(:default).salt = value
+    end
+
+    def raw_salt
+      service(:default).raw_salt
     end
 
     def raw_salt=(value)
-      value = value&.to_s
-      super(value)
-      set_salt(value&.unpack("H*")&.first)
+      service(:default).raw_salt = value
+    end
+
+    def signature_size
+      service(:default).signature_size
+    end
+
+    def signature_size=(value)
+      service(:default).signature_size = value
+    end
+
+    def service(name)
+      services[name.to_sym] ||= ServiceConfig.new(services[:default].to_h)
+      yield services[name.to_sym] if block_given?
+
+      services[name.to_sym]
+    end
+
+    def services
+      @services ||= {}.tap do |s|
+        s[:default] = ServiceConfig.new
+
+        super.each do |name, data|
+          s[name.to_sym] = ServiceConfig.new(
+            s[:default].to_h.merge(data.symbolize_keys),
+          )
+        end
+      end
     end
 
     # @deprecated Please use {#key} instead

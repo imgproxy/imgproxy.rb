@@ -656,5 +656,42 @@ RSpec.describe Imgproxy do
         end
       end
     end
+
+    context "when custom service specified" do
+      let(:options) { { width: 100, height: 100 } }
+
+      before do
+        described_class.configure do |config|
+          config.service(:custom) do |custom|
+            custom.key = "Lorem".unpack1("H*")
+            custom.salt = "Ipsum".unpack1("H*")
+            custom.endpoint = "http://custom-imgproxy.test/"
+          end
+        end
+      end
+
+      it "signs the info URL" do
+        expect(described_class.info_url_for(src_url, service: :custom)).to start_with(
+          "http://custom-imgproxy.test/info/Ce7iwcp9c0K7mvJD9pLbwXmQ-r-rkNJ1jLIPr2sCVv8/",
+        )
+      end
+
+      context "when signature is truncated" do
+        before { described_class.config.service(:custom).signature_size = 5 }
+
+        it "signs the info URL with truncated signature" do
+          expect(described_class.info_url_for(src_url, service: :custom)).to start_with(
+            "http://custom-imgproxy.test/info/Ce7iwco/",
+          )
+        end
+      end
+
+      context "when service is unknown" do
+        it "raises UnknownServiceError" do
+          expect { described_class.info_url_for(src_url, service: :unknown) }
+            .to raise_error(Imgproxy::Builder::UnknownServiceError)
+        end
+      end
+    end
   end
 end

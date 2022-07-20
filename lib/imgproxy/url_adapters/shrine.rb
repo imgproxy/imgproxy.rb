@@ -16,7 +16,7 @@ module Imgproxy
         return s3_url(image) if use_s3_url(image)
 
         opts = {}
-        opts[:host] = Imgproxy.config.shrine_host if Imgproxy.config.shrine_host
+        opts[:host] = config.shrine_host if config.shrine_host
         image.url(**opts)
       end
 
@@ -28,8 +28,12 @@ module Imgproxy
       end
 
       def use_s3_url(image)
-        Imgproxy.config.use_s3_urls &&
+        config.use_s3_urls &&
           image.storage.is_a?(::Shrine::Storage::S3)
+      end
+
+      def config
+        Imgproxy.config
       end
     end
   end

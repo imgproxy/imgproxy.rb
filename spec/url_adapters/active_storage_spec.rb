@@ -237,4 +237,18 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
       end
     end
   end
+
+  describe "for custom service" do
+    before do
+      Imgproxy.config.service(:custom).endpoint = "https://custom-service.com/"
+    end
+
+    it "builds URL for ActiveStorage::Attached::One" do
+      expect(Imgproxy.url_for(user.avatar, service: :custom)).to end_with \
+        "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}"
+
+      expect(Imgproxy.url_for(user.avatar, service: :custom)).to start_with \
+        "https://custom-service.com/"
+    end
+  end
 end

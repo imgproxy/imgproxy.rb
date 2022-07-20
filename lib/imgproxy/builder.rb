@@ -18,6 +18,8 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image1.jpg")
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
+    class UnknownServiceError < StandardError; end
+
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
     def initialize(options = {})
@@ -39,7 +41,7 @@ module Imgproxy
       path = [*processing_options, url(image, ext: @format)].join("/")
       signature = sign_path(path)
 
-      File.join(Imgproxy.config.endpoint.to_s, signature, path)
+      File.join(endpoint.to_s, signature, path)
     end
 
     # Genrates imgproxy info URL
@@ -52,14 +54,18 @@ module Imgproxy
       path = url(image)
       signature = sign_path(path)
 
-      File.join(Imgproxy.config.endpoint.to_s, "info", signature, path)
+      File.join(endpoint.to_s, "info", signature, path)
     end
 
     private
 
+    attr_reader :service
+
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
 
     def extract_builder_options(options)
+      @service = options.delete(:service)&.to_sym || :default
+
       @use_short_options = not_nil_or(options.delete(:use_short_options), config.use_short_options)
       @base64_encode_url = not_nil_or(options.delete(:base64_encode_url), config.base64_encode_urls)
       @escape_plain_url =
@@ -118,23 +124,33 @@ module Imgproxy
     end
 
     def signature_key
-      config.raw_key
+      service_config.raw_key
     end
 
     def signature_salt
-      config.raw_salt
+      service_config.raw_salt
     end
 
     def signature_size
-      config.signature_size
-    end
-
-    def config
-      Imgproxy.config
+      service_config.signature_size
     end
 
     def not_nil_or(value, fallback)
       value.nil? ? fallback : value
+    end
+
+    def endpoint
+      service_config.endpoint
+    end
+
+    def service_config
+      @service_config ||= config.services[service].tap do |c|
+        raise UnknownServiceError, service unless c
+      end
+    end
+
+    def config
+      Imgproxy.config
     end
   end
 end
