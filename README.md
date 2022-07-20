@@ -381,6 +381,34 @@ end
 
 **NOTE:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
 
+## Custom services
+
+If you use more than one instance of imgproxy and they have different endpoints and key/salt configurations you can specify them in `services` option.
+
+```ruby
+Imgproxy.configure do |config|
+  config.endpoint = "https://main.imgproxy.com/"
+  config.service(:pro) do |pro|
+    pro.endpoint = "https://pro.imgproxy.com/"
+    pro.key = ENV["IMGPROXY_PRO_KEY"]
+    pro.salt = ENV["IMGPROXY_PRO_SALT"]
+  end
+end
+```
+
+Or via YAML config:
+
+```yaml
+endpoint: "https://main.imgproxy.com/"
+services:
+  pro:
+    endpoint: "https://pro.imgproxy.com/"
+    key: <%= ENV["IMGPROXY_PRO_KEY"] %>
+    salt: <%= ENV["IMGPROXY_PRO_SALT"] %>
+```
+
+If you don't specify `key`, `salt`, `endpoint`, or `signature_size`, they are inherited from the global configuration.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/imgproxy/imgproxy.rb.
