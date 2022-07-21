@@ -43,6 +43,14 @@ module Imgproxy
       services: {},
     )
 
+    coerce_types use_short_options: :boolean,
+                 base64_encode_urls: :boolean,
+                 always_escape_plain_urls: :boolean,
+                 use_s3_urls: :boolean,
+                 use_gcs_urls: :boolean,
+                 gcs_bucket: :string,
+                 shrine_host: :string
+
     def endpoint
       service(:default).endpoint
     end
@@ -92,23 +100,29 @@ module Imgproxy
     end
 
     def service(name)
-      services[name.to_sym] ||= ServiceConfig.new(services[:default].to_h)
+      services[name.to_sym] ||= services[:default].dup
+
       yield services[name.to_sym] if block_given?
 
       services[name.to_sym]
     end
 
+    # rubocop: disable Metrics/AbcSize
     def services
       @services ||= {}.tap do |s|
         s[:default] = ServiceConfig.new
 
         super.each do |name, data|
-          s[name.to_sym] = ServiceConfig.new(
-            s[:default].to_h.merge(data.symbolize_keys),
-          )
+          config = s[name.to_sym] = s[:default].dup
+
+          data.symbolize_keys.slice(*config.class.config_attributes).each do |key, value|
+            value = config.class.type_caster.coerce(key, value)
+            config.public_send("#{key}=", value)
+          end
         end
       end
     end
+    # rubocop: enable Metrics/AbcSize
 
     # @deprecated Please use {#key} instead
     def hex_key=(value)
