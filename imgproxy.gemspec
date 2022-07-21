@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata = { "rubygems_mfa_required" => "true" }
 
-  spec.add_dependency "anyway_config", ">= 2.0.0"
+  spec.add_dependency "anyway_config", ">= 2.2.0"
 
   spec.add_development_dependency "benchmark-memory", "~> 0.2.0"
   spec.add_development_dependency "pry-byebug", "~> 3.9.0"
