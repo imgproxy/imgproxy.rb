@@ -107,15 +107,22 @@ module Imgproxy
       services[name.to_sym]
     end
 
+    # rubocop: disable Metrics/AbcSize
     def services
       @services ||= {}.tap do |s|
         s[:default] = ServiceConfig.new
 
         super.each do |name, data|
-          s[name.to_sym] = ServiceConfig.new(data.symbolize_keys)
+          config = s[name.to_sym] = s[:default].dup
+
+          data.symbolize_keys.slice(*config.class.config_attributes).each do |key, value|
+            value = config.class.type_caster.coerce(key, value)
+            config.public_send("#{key}=", value)
+          end
         end
       end
     end
+    # rubocop: enable Metrics/AbcSize
 
     # @deprecated Please use {#key} instead
     def hex_key=(value)
