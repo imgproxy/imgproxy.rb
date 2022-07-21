@@ -100,12 +100,7 @@ module Imgproxy
     end
 
     def service(name)
-      services[name.to_sym] ||= ServiceConfig.new(
-        endpoint: endpoint,
-        key: key,
-        salt: salt,
-        signature_size: signature_size,
-      )
+      services[name.to_sym] ||= services[:default].dup
 
       yield services[name.to_sym] if block_given?
 
