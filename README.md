@@ -94,7 +94,7 @@ end
 - **salt** (`IMGPROXY_SALT`) - Hex-encoded signature salt. Default: `nil`.
 - **raw_key** (`IMGPROXY_RAW_KEY`) - Raw (not hex-encoded) signature key. Default: `nil`.
 - **raw_salt** (`IMGPROXY_RAW_SALT`) - Raw (not hex-encoded) signature salt. Default: `nil`.
-- **signature_size** (`IMGPROXY_SIGNATURE_SIZE`) - Signature size. See [URL signature](https://docs.imgproxy.net/#/configuration?id=url-signature) section of imgproxy docs. Default: 32.
+- **signature_size** (`IMGPROXY_SIGNATURE_SIZE`) - Signature size. See [URL signature](https://docs.imgproxy.net/configuration?id=url-signature) section of imgproxy docs. Default: 32.
 - **use_short_options** (`IMGPROXY_USE_SHORT_OPTIONS`) - Use short processing options names (`rs` for `resize`, `g` for `gravity`, etc). Default: true.
 - **base64_encode_urls** (`IMGPROXY_BASE64_ENCODE_URLS`) - Encode source URLs to base64. Default: false.
 - **always_escape_plain_urls** (`IMGPROXY_ALWAYS_ESCAPE_PLAIN_URLS`) - Always escape plain source URLs even when ones don't need to be escaped. Default: false.
@@ -194,51 +194,51 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 
 ### Supported imgproxy processing options
 
-- [resize](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resize)
-- [size](https://docs.imgproxy.net/#/generating_the_url_advanced?id=size)
-- [resizing_type](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resizing-type)
-- [resizing_algorithm](https://docs.imgproxy.net/#/generating_the_url_advanced?id=resizing-algorithm) _(pro)_
-- [width](https://docs.imgproxy.net/#/generating_the_url_advanced?id=width)
-- [height](https://docs.imgproxy.net/#/generating_the_url_advanced?id=height)
-- [dpr](https://docs.imgproxy.net/#/generating_the_url_advanced?id=dpr)
-- [enlarge](https://docs.imgproxy.net/#/generating_the_url_advanced?id=enlarge)
-- [extend](https://docs.imgproxy.net/#/generating_the_url_advanced?id=extend)
-- [gravity](https://docs.imgproxy.net/#/generating_the_url_advanced?id=gravity)
-- [crop](https://docs.imgproxy.net/#/generating_the_url_advanced?id=crop)
-- [padding](https://docs.imgproxy.net/#/generating_the_url_advanced?id=padding)
-- [trim](https://docs.imgproxy.net/#/generating_the_url_advanced?id=trim)
-- [rotate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=rotate)
-- [quality](https://docs.imgproxy.net/#/generating_the_url_advanced?id=quality)
-- [max_bytes](https://docs.imgproxy.net/#/generating_the_url_advanced?id=max-bytes)
-- [background](https://docs.imgproxy.net/#/generating_the_url_advanced?id=background)
-- [background_alpha](https://docs.imgproxy.net/#/generating_the_url_advanced?id=background-alpha) _(pro)_
-- [adjust](https://docs.imgproxy.net/#/generating_the_url_advanced?id=adjust) _(pro)_
-- [brightness](https://docs.imgproxy.net/#/generating_the_url_advanced?id=brightness) _(pro)_
-- [contrast](https://docs.imgproxy.net/#/generating_the_url_advanced?id=contrast) _(pro)_
-- [saturation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=saturation) _(pro)_
-- [blur](https://docs.imgproxy.net/#/generating_the_url_advanced?id=blur)
-- [sharpen](https://docs.imgproxy.net/#/generating_the_url_advanced?id=sharpen)
-- [pixelate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=pixelate) _(pro)_
-- [unsharpening](https://docs.imgproxy.net/#/generating_the_url_advanced?id=unsharpening) _(pro)_
-- [watermark](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark)
-- [watermark_url](https://docs.imgproxy.net/#/generating_the_url_advanced?id=watermark-url) _(pro)_
-- [style](https://docs.imgproxy.net/#/generating_the_url_advanced?id=style) _(pro)_
-- [jpeg_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=jpeg-options) _(pro)_
-- [png_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=png-options) _(pro)_
-- [gif_options](https://docs.imgproxy.net/#/generating_the_url_advanced?id=gif-options) _(pro)_
-- [page](https://docs.imgproxy.net/#/generating_the_url_advanced?id=page) _(pro)_
-- [video_thumbnail_second](https://docs.imgproxy.net/#/generating_the_url_advanced?id=video-thumbnail-second) _(pro)_
-- [preset](https://docs.imgproxy.net/#/generating_the_url_advanced?id=preset)
-- [cachebuster](https://docs.imgproxy.net/#/generating_the_url_advanced?id=cachebuster)
-- [strip_metadata](https://docs.imgproxy.net/#/generating_the_url_advanced?id=strip-metadata)
-- [strip_color_profile](https://docs.imgproxy.net/#/generating_the_url_advanced?id=strip-color-profile)
-- [auto_rotate](https://docs.imgproxy.net/#/generating_the_url_advanced?id=auto-rotate)
-- [filename](https://docs.imgproxy.net/#/generating_the_url_advanced?id=filename)
-- [format](https://docs.imgproxy.net/#/generating_the_url_advanced?id=format)
-- [return_attachment](https://docs.imgproxy.net/#/generating_the_url_advanced?id=return-attachment)
-- [expires](https://docs.imgproxy.net/#/generating_the_url?id=expires)
+- [resize](https://docs.imgproxy.net/generating_the_url?id=resize)
+- [size](https://docs.imgproxy.net/generating_the_url?id=size)
+- [resizing_type](https://docs.imgproxy.net/generating_the_url?id=resizing-type)
+- [resizing_algorithm](https://docs.imgproxy.net/generating_the_url?id=resizing-algorithm) _(pro)_
+- [width](https://docs.imgproxy.net/generating_the_url?id=width)
+- [height](https://docs.imgproxy.net/generating_the_url?id=height)
+- [dpr](https://docs.imgproxy.net/generating_the_url?id=dpr)
+- [enlarge](https://docs.imgproxy.net/generating_the_url?id=enlarge)
+- [extend](https://docs.imgproxy.net/generating_the_url?id=extend)
+- [gravity](https://docs.imgproxy.net/generating_the_url?id=gravity)
+- [crop](https://docs.imgproxy.net/generating_the_url?id=crop)
+- [padding](https://docs.imgproxy.net/generating_the_url?id=padding)
+- [trim](https://docs.imgproxy.net/generating_the_url?id=trim)
+- [rotate](https://docs.imgproxy.net/generating_the_url?id=rotate)
+- [quality](https://docs.imgproxy.net/generating_the_url?id=quality)
+- [max_bytes](https://docs.imgproxy.net/generating_the_url?id=max-bytes)
+- [background](https://docs.imgproxy.net/generating_the_url?id=background)
+- [background_alpha](https://docs.imgproxy.net/generating_the_url?id=background-alpha) _(pro)_
+- [adjust](https://docs.imgproxy.net/generating_the_url?id=adjust) _(pro)_
+- [brightness](https://docs.imgproxy.net/generating_the_url?id=brightness) _(pro)_
+- [contrast](https://docs.imgproxy.net/generating_the_url?id=contrast) _(pro)_
+- [saturation](https://docs.imgproxy.net/generating_the_url?id=saturation) _(pro)_
+- [blur](https://docs.imgproxy.net/generating_the_url?id=blur)
+- [sharpen](https://docs.imgproxy.net/generating_the_url?id=sharpen)
+- [pixelate](https://docs.imgproxy.net/generating_the_url?id=pixelate) _(pro)_
+- [unsharpening](https://docs.imgproxy.net/generating_the_url?id=unsharpening) _(pro)_
+- [watermark](https://docs.imgproxy.net/generating_the_url?id=watermark)
+- [watermark_url](https://docs.imgproxy.net/generating_the_url?id=watermark-url) _(pro)_
+- [style](https://docs.imgproxy.net/generating_the_url?id=style) _(pro)_
+- [jpeg_options](https://docs.imgproxy.net/generating_the_url?id=jpeg-options) _(pro)_
+- [png_options](https://docs.imgproxy.net/generating_the_url?id=png-options) _(pro)_
+- [gif_options](https://docs.imgproxy.net/generating_the_url?id=gif-options) _(pro)_
+- [page](https://docs.imgproxy.net/generating_the_url?id=page) _(pro)_
+- [video_thumbnail_second](https://docs.imgproxy.net/generating_the_url?id=video-thumbnail-second) _(pro)_
+- [preset](https://docs.imgproxy.net/generating_the_url?id=preset)
+- [cachebuster](https://docs.imgproxy.net/generating_the_url?id=cachebuster)
+- [strip_metadata](https://docs.imgproxy.net/generating_the_url?id=strip-metadata)
+- [strip_color_profile](https://docs.imgproxy.net/generating_the_url?id=strip-color-profile)
+- [auto_rotate](https://docs.imgproxy.net/generating_the_url?id=auto-rotate)
+- [filename](https://docs.imgproxy.net/generating_the_url?id=filename)
+- [format](https://docs.imgproxy.net/generating_the_url?id=format)
+- [return_attachment](https://docs.imgproxy.net/generating_the_url?id=return-attachment)
+- [expires](https://docs.imgproxy.net/generating_the_url?id=expires)
 
-_See [imgproxy URL format guide](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options) for more info._
+_See [imgproxy URL format guide](https://docs.imgproxy.net/generating_the_url?id=processing-options) for more info._
 
 ### Complex processing options
 
@@ -264,7 +264,7 @@ Imgproxy.url_for(
 # => .../c:500:600:nowe:10:5/...
 ```
 
-All the arguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/#/generating_the_url_advanced?id=processing-options).
+All the arguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/generating_the_url?id=processing-options).
 
 You can use named arguments even if the processing option is not supported by the gem. In this case the arguments won't be reordered nor formatted, so you should provide them in the same order and right the same way they should appear in the URL:
 
@@ -331,7 +331,7 @@ Imgproxy.url_for(
 
 ## Getting the image info
 
-If you're a happy user of imgproxy Pro, you may find useful it's [Getting the image info](https://docs.imgproxy.net/#/getting_the_image_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
+If you're a happy user of imgproxy Pro, you may find useful it's [Getting the image info](https://docs.imgproxy.net/getting_the_image_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
 
 ```ruby
 # Framework-agnositic way
