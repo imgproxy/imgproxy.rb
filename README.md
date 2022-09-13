@@ -331,8 +331,8 @@ Imgproxy.url_for(
 - `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
 - `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
 - `use_short_options` — per-call redefinition of `use_short_options` config.
-- `encrypt_source_url` - per-call redefinition of `always_encrypt_source_urls` config.
-- `source_url_encryption_iv` - an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
+- `encrypt_source_url` - _(pro)_ per-call redefinition of `always_encrypt_source_urls` config.
+- `source_url_encryption_iv` - _(pro)_ an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
 
 ## Getting the image info
 
