@@ -105,6 +105,8 @@ module Imgproxy
     # @option options [Boolean] :use_short_options
     # @option options [Boolean] :base64_encode_urls
     # @option options [Boolean] :escape_plain_url
+    # @option options [Boolean] :encrypt_source_url
+    # @option options [Boolean] :source_url_encryption_iv
     # @see https://docs.imgproxy.net/generating_the_url_advanced?id=processing-options
     #   Available imgproxy URL processing options and their arguments
     def url_for(image, options = {})

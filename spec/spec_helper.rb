@@ -41,6 +41,8 @@ RSpec.configure do |config|
       c.use_gcs_urls = false
       c.gcs_bucket = nil
       c.shrine_host = nil
+      c.source_url_encryption_key = nil
+      c.always_encrypt_source_urls = false
 
       c.url_adapters.clear!
     end

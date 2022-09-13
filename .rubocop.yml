@@ -29,6 +29,9 @@ Style/DoubleNegation:
 Layout/LineLength:
   Max: 100
 
+Metrics/ClassLength:
+  Max: 120
+
 Metrics/BlockLength:
   Exclude:
     - spec/**/*

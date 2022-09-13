@@ -99,6 +99,30 @@ module Imgproxy
       service(:default).signature_size = value
     end
 
+    def source_url_encryption_key
+      service(:default).source_url_encryption_key
+    end
+
+    def source_url_encryption_key=(value)
+      service(:default).source_url_encryption_key = value
+    end
+
+    def raw_source_url_encryption_key
+      service(:default).raw_source_url_encryption_key
+    end
+
+    def raw_source_url_encryption_key=(value)
+      service(:default).raw_source_url_encryption_key = value
+    end
+
+    def always_encrypt_source_urls
+      service(:default).always_encrypt_source_urls
+    end
+
+    def always_encrypt_source_urls=(value)
+      service(:default).always_encrypt_source_urls = value
+    end
+
     def service(name)
       services[name.to_sym] ||= services[:default].dup
 

@@ -19,6 +19,7 @@ module Imgproxy
   #   builder.url_for("http://images.example.com/images/image2.jpg")
   class Builder
     class UnknownServiceError < StandardError; end
+    class InvalidEncryptionKeyError < StandardError; end
 
     # @param [Hash] options Processing options
     # @see Imgproxy.url_for
@@ -62,7 +63,9 @@ module Imgproxy
     attr_reader :service
 
     NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
+    AES_SIZES = { 32 => 256, 24 => 196, 16 => 128 }.freeze
 
+    # rubocop: disable Metrics/AbcSize
     def extract_builder_options(options)
       @service = options.delete(:service)&.to_sym || :default
 
@@ -70,7 +73,11 @@ module Imgproxy
       @base64_encode_url = not_nil_or(options.delete(:base64_encode_url), config.base64_encode_urls)
       @escape_plain_url =
         not_nil_or(options.delete(:escape_plain_url), config.always_escape_plain_urls)
+      @encrypt_source_url =
+        not_nil_or(options.delete(:encrypt_source_url), service_config.always_encrypt_source_urls)
+      @source_url_encryption_iv = options.delete(:source_url_encryption_iv)
     end
+    # rubocop: enable Metrics/AbcSize
 
     def processing_options
       @processing_options ||= @options.map do |key, value|
@@ -81,7 +88,9 @@ module Imgproxy
     def url(image, ext: nil)
       url = config.url_adapters.url_of(image)
 
-      @base64_encode_url ? base64_url_for(url, ext: ext) : plain_url_for(url, ext: ext)
+      return encrypted_url_for(url, ext: ext) if @encrypt_source_url
+      return base64_url_for(url, ext: ext) if @base64_encode_url
+      plain_url_for(url, ext: ext)
     end
 
     def plain_url_for(url, ext: nil)
@@ -96,8 +105,31 @@ module Imgproxy
       ext ? "#{encoded_url}.#{ext}" : encoded_url
     end
 
+    def encrypted_url_for(url, ext: nil)
+      cipher = build_cipher
+
+      iv = @source_url_encryption_iv || cipher.random_iv
+      cipher.iv = iv
+
+      "enc/#{base64_url_for(iv + cipher.update(url) + cipher.final, ext: ext)}"
+    end
+
     def need_escape_url?(url)
       @escape_plain_url || url.match?(NEED_ESCAPE_RE)
+    end
+
+    def build_cipher
+      key = encryption_key.to_s
+
+      aes_size = AES_SIZES.fetch(key.length) do
+        raise InvalidEncryptionKeyError,
+              "Encryption key should be 16/24/32 bytes long, now - #{key.length}"
+      end
+
+      OpenSSL::Cipher::AES.new(aes_size, :CBC).tap do |cipher|
+        cipher.encrypt
+        cipher.key = key
+      end
     end
 
     def option_alias(name)
@@ -133,6 +165,10 @@ module Imgproxy
 
     def signature_size
       service_config.signature_size
+    end
+
+    def encryption_key
+      service_config.raw_source_url_encryption_key
     end
 
     def not_nil_or(value, fallback)

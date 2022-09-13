@@ -98,6 +98,9 @@ end
 - **use_short_options** (`IMGPROXY_USE_SHORT_OPTIONS`) - Use short processing options names (`rs` for `resize`, `g` for `gravity`, etc). Default: true.
 - **base64_encode_urls** (`IMGPROXY_BASE64_ENCODE_URLS`) - Encode source URLs to base64. Default: false.
 - **always_escape_plain_urls** (`IMGPROXY_ALWAYS_ESCAPE_PLAIN_URLS`) - Always escape plain source URLs even when ones don't need to be escaped. Default: false.
+- **source_url_encryption_key** (`IMGPROXY_SOURCE_URL_ENCRYPTION_KEY`) - Hex-encoded source URL encryption key. Default: `nil`.
+- **raw_source_url_encryption_key** (`IMGPROXY_RAW_SOURCE_URL_ENCRYPTION_KEY`) - Raw (not hex-encoded) source URL encryption key. Default: `nil`.
+- **always_encrypt_source_urls** (`IMGPROXY_ALWAYS_ENCRYPT_SOURCE_URLS`) - Always encrypt source URLs. Default: false.
 - **use_s3_urls** (`IMGPROXY_USE_S3_URLS`) - Use `s3://...` source URLs for Active Storage and Shrine attachments stored in Amazon S3. Default: false.
 - **use_gcs_urls** (`IMGPROXY_USE_GCS_URLS`) - Use `gs://...` source URLs for Active Storage and Shrine attachments stored in Google Cloud Storage. Default: false.
 - **gcs_bucket** (`IMGPROXY_GCS_BUCKET`) - Google Cloud Storage bucket name. Default: `nil`.
@@ -328,6 +331,8 @@ Imgproxy.url_for(
 - `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
 - `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
 - `use_short_options` — per-call redefinition of `use_short_options` config.
+- `encrypt_source_url` - per-call redefinition of `always_encrypt_source_urls` config.
+- `source_url_encryption_iv` - an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
 
 ## Getting the image info
 
@@ -392,6 +397,8 @@ Imgproxy.configure do |config|
     pro.endpoint = "https://pro.imgproxy.com/"
     pro.key = ENV["IMGPROXY_PRO_KEY"]
     pro.salt = ENV["IMGPROXY_PRO_SALT"]
+    pro.source_url_encryption_key = ENV["IMGPROXY_PRO_ENCRYPTION_KEY"]
+    pro.always_encrypt_source_urls = true
   end
 end
 ```
@@ -405,9 +412,11 @@ services:
     endpoint: "https://pro.imgproxy.com/"
     key: <%= ENV["IMGPROXY_PRO_KEY"] %>
     salt: <%= ENV["IMGPROXY_PRO_SALT"] %>
+    source_url_encryption_key: ENV["IMGPROXY_PRO_ENCRYPTION_KEY"]
+    always_encrypt_source_urls: true
 ```
 
-If you don't specify `key`, `salt`, `endpoint`, or `signature_size`, they are inherited from the global configuration.
+If you don't specify `key`, `salt`, `endpoint`, `signature_size`, `source_url_encryption_key`, or `always_encrypt_source_urls`, they are inherited from the global configuration.
 
 Pass the `service` option to `url_for` and `info_url_for`:
 

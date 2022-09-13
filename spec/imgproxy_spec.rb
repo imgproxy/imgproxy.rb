@@ -122,6 +122,7 @@ RSpec.describe Imgproxy do
         format: :webp,
         return_attachment: true,
         expires: Time.at(4810374983),
+        source_url_encryption_iv: "1234567890123456",
       }
     end
 
@@ -592,6 +593,72 @@ RSpec.describe Imgproxy do
 
         it "signs the URL with truncated signature" do
           expect(url).to start_with "http://imgproxy.test/6PuaY-c/"
+        end
+      end
+    end
+
+    context "when always_encrypt_source_urls config is true" do
+      before do
+        described_class.config.source_url_encryption_key =
+          "1eb5b0e971ad7f45324c1bb15c947cb207c43152fa5c6c7f35c4f36e0c18e0f1"
+        described_class.config.always_encrypt_source_urls = true
+      end
+
+      it "encrypts source URL" do
+        expect(url).to end_with(
+          "/enc/MTIzNDU2Nzg5MDEy/MzQ1Np6L0YlR92XD/i3aaVA5KINDMHKXf/LUaQ1N0ae5N7JjBZ.webp",
+        )
+      end
+
+      context "without encryption key specified" do
+        before { described_class.config.source_url_encryption_key = nil }
+
+        it "rises an error" do
+          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+        end
+      end
+
+      context "with encryption key of invalid length" do
+        before do
+          described_class.config.source_url_encryption_key =
+            "1eb5b0e971ad7f45324c1bb15c947cb207c43152fa5c6c7f35c4f36e0c18"
+        end
+
+        it "rises an error" do
+          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+        end
+      end
+    end
+
+    context "when encrypt_source_url option is true" do
+      before do
+        described_class.config.source_url_encryption_key =
+          "1eb5b0e971ad7f45324c1bb15c947cb207c43152fa5c6c7f35c4f36e0c18e0f1"
+        options[:encrypt_source_url] = true
+      end
+
+      it "encrypts source URL" do
+        expect(url).to end_with(
+          "/enc/MTIzNDU2Nzg5MDEy/MzQ1Np6L0YlR92XD/i3aaVA5KINDMHKXf/LUaQ1N0ae5N7JjBZ.webp",
+        )
+      end
+
+      context "without encryption key specified" do
+        before { described_class.config.source_url_encryption_key = nil }
+
+        it "rises an error" do
+          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+        end
+      end
+
+      context "with encryption key of invalid length" do
+        before do
+          described_class.config.source_url_encryption_key =
+            "1eb5b0e971ad7f45324c1bb15c947cb207c43152fa5c6c7f35c4f36e0c18"
+        end
+
+        it "rises an error" do
+          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
         end
       end
     end
