@@ -27,6 +27,7 @@ module Imgproxy
     unsharpening: :ush,
     watermark: :wm,
     watermark_url: :wmu,
+    watermark_text: :wmt,
     style: :st,
     jpeg_options: :jpego,
     png_options: :pngo,

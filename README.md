@@ -225,6 +225,7 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 - [unsharpening](https://docs.imgproxy.net/generating_the_url?id=unsharpening) _(pro)_
 - [watermark](https://docs.imgproxy.net/generating_the_url?id=watermark)
 - [watermark_url](https://docs.imgproxy.net/generating_the_url?id=watermark-url) _(pro)_
+- [watermark_text](https://docs.imgproxy.net/generating_the_url?id=watermark-text) _(pro)_
 - [style](https://docs.imgproxy.net/generating_the_url?id=style) _(pro)_
 - [jpeg_options](https://docs.imgproxy.net/generating_the_url?id=jpeg-options) _(pro)_
 - [png_options](https://docs.imgproxy.net/generating_the_url?id=png-options) _(pro)_

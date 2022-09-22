@@ -93,6 +93,7 @@ RSpec.describe Imgproxy do
           scale: 0.1,
         },
         watermark_url: "https://images.test/wm.svg",
+        watermark_text: "the watermark",
         style: "color: rgba(255, 255, 255, .5)",
         jpeg_options: {
           progressive: true,
@@ -156,6 +157,7 @@ RSpec.describe Imgproxy do
         "ush:always",
         "wm:0.5:noea:10:5:0.1",
         "wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc",
+        "wmt:dGhlIHdhdGVybWFyaw",
         "st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp",
         "jpego:1:0:1:0:1:5",
         "pngo:0:1:128",
@@ -203,6 +205,7 @@ RSpec.describe Imgproxy do
         "unsharpening:always",
         "watermark:0.5:noea:10:5:0.1",
         "watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc",
+        "watermark_text:dGhlIHdhdGVybWFyaw",
         "style:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp",
         "jpeg_options:1:0:1:0:1:5",
         "png_options:0:1:128",

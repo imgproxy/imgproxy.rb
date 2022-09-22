@@ -87,6 +87,7 @@ module Imgproxy
     # @option options [String] :unsharpening supported only by imgproxy pro
     # @option options [Hash|Array|Float|String] :watermark
     # @option options [String] :watermark_url supported only by imgproxy pro
+    # @option options [String] :watermark_text supported only by imgproxy pro
     # @option options [String] :style supported only by imgproxy pro
     # @option options [Hash|Array|String] :jpeg_options supported only by imgproxy pro
     # @option options [Hash|Array|String] :png_options supported only by imgproxy pro
