@@ -51,6 +51,7 @@ module Imgproxy
       unsharpening:           Imgproxy::OptionsCasters::String,
       watermark:              Imgproxy::OptionsCasters::Watermark,
       watermark_url:          Imgproxy::OptionsCasters::Base64,
+      watermark_text:         Imgproxy::OptionsCasters::Base64,
       style:                  Imgproxy::OptionsCasters::Base64,
       jpeg_options:           Imgproxy::OptionsCasters::JpegOptions,
       png_options:            Imgproxy::OptionsCasters::PngOptions,
