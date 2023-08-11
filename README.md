@@ -1,9 +1,21 @@
-# imgproxy.rb
+<p align="center">
+  <a href="https://imgproxy.net">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/imgproxy/imgproxy/master/assets/logo-dark.svg?sanitize=true">
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/imgproxy/imgproxy/master/assets/logo-light.svg?sanitize=true">
+      <img alt="imgproxy logo" src="https://raw.githubusercontent.com/imgproxy/imgproxy/master/assets/logo-light.svg?sanitize=true">
+    </picture>
+  </a>
+</p>
 
-<img align="right" width="200" height="200" title="imgproxy logo"
-     src="https://cdn.rawgit.com/DarthSim/imgproxy/master/logo.svg">
+<p align="center">
+<a href="https://github.com/imgproxy/imgproxy.rb/actions"><img alt="GH Test" src="https://img.shields.io/github/actions/workflow/status/imgproxy/imgproxy.rb/test.yml?branch=master&label=Test&style=for-the-badge"/></a>
+<a href="https://github.com/imgproxy/imgproxy.rb/actions"><img alt="GH Lint" src="https://img.shields.io/github/actions/workflow/status/imgproxy/imgproxy.rb/lint.yml?branch=master&label=Lint&style=for-the-badge"/></a>
+<a href="https://rubygems.org/gems/imgproxy"><img alt="Gem" src="https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge"/></a>
+<a href="https://www.rubydoc.info/gems/imgproxy"><img alt="rubydoc.org" src="https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge"/></a>
+</p>
 
-[![GH Test](https://img.shields.io/github/workflow/status/imgproxy/imgproxy.rb/Test?label=Test&logo=github&style=for-the-badge)](https://github.com/imgproxy/imgproxy.rb/actions) [![GH Lint](https://img.shields.io/github/workflow/status/imgproxy/imgproxy.rb/Lint?label=Lint&logo=github&style=for-the-badge)](https://github.com/imgproxy/imgproxy.rb/actions) [![Gem](https://img.shields.io/gem/v/imgproxy.svg?style=for-the-badge)](https://rubygems.org/gems/imgproxy) [![rubydoc.org](https://img.shields.io/badge/rubydoc-reference-blue.svg?style=for-the-badge)](https://www.rubydoc.info/gems/imgproxy)
+---
 
 **[imgproxy](https://github.com/imgproxy/imgproxy)** is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
 
@@ -438,4 +450,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Security Contact
 
-To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
+To report a security vulnerability, please contact us at security@imgproxy.net. We will coordinate the fix and disclosure.
