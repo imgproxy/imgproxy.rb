@@ -32,7 +32,7 @@ module Imgproxy
       @format = @options.delete(:format)
     end
 
-    # Genrates imgproxy URL
+    # Generates imgproxy URL
     #
     # @return [String] imgproxy URL
     # @param [String,URI, Object] image Source image URL or object applicable for
@@ -45,14 +45,14 @@ module Imgproxy
       File.join(endpoint.to_s, signature, path)
     end
 
-    # Genrates imgproxy info URL
+    # Generates imgproxy info URL
     #
     # @return [String] imgproxy info URL
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
     # @see Imgproxy.info_url_for
     def info_url_for(image)
-      path = url(image)
+      path = [*processing_options, url(image)].join("/")
       signature = sign_path(path)
 
       File.join(endpoint.to_s, "info", signature, path)

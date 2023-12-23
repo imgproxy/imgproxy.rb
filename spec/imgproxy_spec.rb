@@ -678,6 +678,11 @@ RSpec.describe Imgproxy do
       )
     end
 
+    it "adds options to the info URL" do
+      options = { palette: 2 }
+      expect(described_class.info_url_for(src_url, options)).to include("palette:2")
+    end
+
     context "when base64_encode_urls is true" do
       before { described_class.config.base64_encode_urls = true }
 

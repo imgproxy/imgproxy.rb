@@ -31,7 +31,7 @@ module Imgproxy
       config
     end
 
-    # Genrates imgproxy URL
+    # Generates imgproxy URL
     #
     #   Imgproxy.url_for(
     #     "http://images.example.com/images/image.jpg",
@@ -114,7 +114,7 @@ module Imgproxy
       Imgproxy::Builder.new(options).url_for(image)
     end
 
-    # Genrates imgproxy info URL. Supported only by imgproxy pro
+    # Generates imgproxy info URL. Supported only by imgproxy pro
     #
     #   Imgproxy.info_url_for("http://images.example.com/images/image.jpg")
     #
