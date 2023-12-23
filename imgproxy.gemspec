@@ -22,9 +22,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "anyway_config", ">= 2.2.0"
 
   spec.add_development_dependency "benchmark-memory", "~> 0.2.0"
-  spec.add_development_dependency "pry-byebug", "~> 3.9.0"
+  spec.add_development_dependency "combustion", ">= 1.1"
   spec.add_development_dependency "rspec", "~> 3.11.0"
-  spec.add_development_dependency "rspec_junit_formatter", "~> 0.5.1"
+  spec.add_development_dependency "rspec-rails", ">= 4.0"
   spec.add_development_dependency "rubocop", "~> 1.30.1"
   spec.add_development_dependency "rubocop-rspec", "~> 2.11.1"
 

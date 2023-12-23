@@ -1,58 +1,26 @@
-require "spec_helper"
-
-require_relative "../dummy/config/environment"
-
-require "active_support"
-require "active_job"
-require "active_storage"
-require "global_id"
-require "fileutils"
-
-ActiveJob::Base.queue_adapter = :test
-ActiveJob::Base.logger = ActiveSupport::Logger.new(nil)
-
-ActiveStorage.logger = ActiveSupport::Logger.new(nil)
-ActiveStorage.verifier = ActiveSupport::MessageVerifier.new("Testing")
-
-GlobalID.app = "ActiveStorageExampleApp"
-ActiveRecord::Base.include GlobalID::Identification
-
-Rails.application.routes.default_url_options[:host] = "example.com"
-
-require_relative "../support/active_record"
+require "rails_helper"
 
 RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
-  let(:active_storage_service) do
-    ActiveStorage::Service.configure(
-      :local,
-      local: {
-        service: "Disk",
-        root: "tmp/active_storage_tests",
-      },
-    )
-  end
+  let(:active_storage_service_name) { :local }
 
   let(:user) do
-    User.create!.tap do |user|
+    User.create.tap do |user|
       user.avatar.attach(
-        io: StringIO.new("AVATAR"), filename: "avatar.jpg", content_type: "image/jpeg",
+        io: StringIO.new("AVATAR"),
+        filename: "avatar.jpg",
+        content_type: "image/jpeg",
       )
     end
   end
 
-  before(:all) { setup_database }
-
   before do
-    ActiveStorage::Current.url_options = { host: "https://example.com" }
-    ActiveStorage::Blob.service = active_storage_service
-    ActiveStorage::Blob.services = { active_storage_service.name.to_s => active_storage_service }
+    ActiveStorage::Blob.service = active_storage_service_name
 
+    active_storage_service = ActiveStorage::Blob.services.fetch(active_storage_service_name)
     allow(active_storage_service).to receive(:upload).and_return(nil)
 
     Imgproxy.extend_active_storage!
   end
-
-  after { ActiveStorage::Current.reset }
 
   it "builds URL for ActiveStorage::Attached::One" do
     expect(Imgproxy.url_for(user.avatar)).to end_with \
@@ -70,20 +38,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   end
 
   context "with mirror" do
-    let(:active_storage_service) do
-      ActiveStorage::Service.configure(
-        :mirror,
-        mirror: {
-          service: "Mirror",
-          primary: :local,
-          mirrors: [],
-        },
-        local: {
-          service: "Disk",
-          root: "tmp/active_storage_tests",
-        },
-      )
-    end
+    let(:active_storage_service_name) { :mirror_local }
 
     it "uses primary service to build URL" do
       expect(Imgproxy.url_for(user.avatar)).to end_with \
@@ -108,18 +63,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   end
 
   context "when using s3://... urls" do
-    let(:active_storage_service) do
-      ActiveStorage::Service.configure(
-        :s3,
-        s3: {
-          service: "S3",
-          access_key_id: "access",
-          secret_access_key: "secret",
-          region: "us-east-1",
-          bucket: "uploads",
-        },
-      )
-    end
+    let(:active_storage_service_name) { :s3 }
 
     before { Imgproxy.config.use_s3_urls = true }
 
@@ -139,23 +83,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
     end
 
     context "with mirror" do
-      let(:active_storage_service) do
-        ActiveStorage::Service.configure(
-          :mirror,
-          mirror: {
-            service: "Mirror",
-            primary: :s3,
-            mirrors: [],
-          },
-          s3: {
-            service: "S3",
-            access_key_id: "access",
-            secret_access_key: "secret",
-            region: "us-east-1",
-            bucket: "uploads",
-          },
-        )
-      end
+      let(:active_storage_service_name) { :mirror_s3 }
 
       it "uses primary service to build URL" do
         expect(Imgproxy.url_for(user.avatar)).to end_with \
@@ -173,17 +101,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
   end
 
   context "when using gs://... urls" do
-    let(:active_storage_service) do
-      ActiveStorage::Service.configure(
-        :gcs,
-        gcs: {
-          service: "GCS",
-          project: "test",
-          credentials: {},
-          bucket: "uploads",
-        },
-      )
-    end
+    let(:active_storage_service_name) { :gcs }
 
     before do
       Imgproxy.config.use_gcs_urls = true
@@ -206,22 +124,7 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
     end
 
     context "with mirror" do
-      let(:active_storage_service) do
-        ActiveStorage::Service.configure(
-          :mirror,
-          mirror: {
-            service: "Mirror",
-            primary: :gcs,
-            mirrors: [],
-          },
-          gcs: {
-            service: "GCS",
-            project: "test",
-            credentials: {},
-            bucket: "uploads",
-          },
-        )
-      end
+      let(:active_storage_service_name) { :mirror_gcs }
 
       it "uses primary service to build URL" do
         expect(Imgproxy.url_for(user.avatar)).to end_with \

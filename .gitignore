@@ -4,7 +4,9 @@ tmp/
 
 *.gem
 *.log
-*.sqlite3
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 Gemfile.lock
 .ruby-version

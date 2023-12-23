@@ -1,0 +1,31 @@
+local:
+  service: Disk
+  root: /tmp
+
+s3:
+  service: S3
+  access_key_id: access
+  secret_access_key: secret
+  region: us-east-1
+  bucket: uploads
+
+gcs:
+  service: GCS
+  project: test
+  credentials: {}
+  bucket: uploads
+
+mirror_local:
+  service: Mirror
+  primary: local
+  mirrors: []
+
+mirror_s3:
+  service: Mirror
+  primary: s3
+  mirrors: []
+
+mirror_gcs:
+  service: Mirror
+  primary: gcs
+  mirrors: []
