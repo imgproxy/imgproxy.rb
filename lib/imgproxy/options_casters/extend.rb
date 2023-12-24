@@ -4,7 +4,7 @@ require "imgproxy/options_casters/gravity"
 
 module Imgproxy
   module OptionsCasters
-    # Casts extend option
+    # Casts `extend` processing option
     module Extend
       CASTER = Imgproxy::OptionsCasters::Group.new(
         extend: Imgproxy::OptionsCasters::Bool,

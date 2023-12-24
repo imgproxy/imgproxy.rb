@@ -482,7 +482,7 @@ RSpec.describe Imgproxy do
           },
           crop: {
             width: 100,
-            height: 200,
+            gravity: :sm,
           },
           trim: {
             threshold: 10,
@@ -502,7 +502,7 @@ RSpec.describe Imgproxy do
       it "ommits unset arguments and trims trailing ones" do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/"\
-          "ex:1/g:nowe::10/c:100:200/t:10::1/a::0.5/wm:0.5::10:5/"\
+          "ex:1/g:nowe::10/c:100:0:sm/t:10::1/a::0.5/wm:0.5::10:5/"\
           "plain/https://images.test/image.jpg",
         )
       end
@@ -594,6 +594,8 @@ RSpec.describe Imgproxy do
       context "when signature is truncated" do
         before { described_class.config.signature_size = 5 }
 
+        after { described_class.config.signature_size = 32 }
+
         it "signs the URL with truncated signature" do
           expect(url).to start_with "http://imgproxy.test/6PuaY-c/"
         end
@@ -617,7 +619,7 @@ RSpec.describe Imgproxy do
         before { described_class.config.source_url_encryption_key = nil }
 
         it "rises an error" do
-          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+          expect { url }.to raise_error(Imgproxy::UrlBuilders::InvalidEncryptionKeyError)
         end
       end
 
@@ -628,7 +630,7 @@ RSpec.describe Imgproxy do
         end
 
         it "rises an error" do
-          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+          expect { url }.to raise_error(Imgproxy::UrlBuilders::InvalidEncryptionKeyError)
         end
       end
     end
@@ -650,7 +652,7 @@ RSpec.describe Imgproxy do
         before { described_class.config.source_url_encryption_key = nil }
 
         it "rises an error" do
-          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
+          expect { url }.to raise_error(Imgproxy::UrlBuilders::InvalidEncryptionKeyError)
         end
       end
 
@@ -661,68 +663,7 @@ RSpec.describe Imgproxy do
         end
 
         it "rises an error" do
-          expect { url }.to raise_error(Imgproxy::Builder::InvalidEncryptionKeyError)
-        end
-      end
-    end
-  end
-
-  describe ".info_url_for" do
-    let(:options) { {} }
-
-    subject(:url) { described_class.info_url_for(src_url, options) }
-
-    it "builds info URL" do
-      expect(described_class.info_url_for(src_url)).to eq(
-        "http://imgproxy.test/info/unsafe/plain/https://images.test/image.jpg",
-      )
-    end
-
-    context "when base64_encode_urls is true" do
-      before { described_class.config.base64_encode_urls = true }
-
-      it "builds info URL with base64 URL" do
-        expect(url).to eq(
-          "http://imgproxy.test/info/unsafe/"\
-          "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}",
-        )
-      end
-    end
-
-    context "when base64_encode_url option true" do
-      before { options[:base64_encode_url] = true }
-
-      it "builds info URL with base64 URL" do
-        expect(url).to eq(
-          "http://imgproxy.test/info/unsafe/"\
-          "#{Base64.urlsafe_encode64(src_url).tr('=', '').scan(/.{1,16}/).join('/')}",
-        )
-      end
-    end
-
-    context "when key and salt are provided" do
-      let(:options) { { width: 100, height: 100 } }
-
-      before do
-        described_class.configure do |config|
-          config.key = "Hello".unpack1("H*")
-          config.salt = "World".unpack1("H*")
-        end
-      end
-
-      it "signs the info URL" do
-        expect(described_class.info_url_for(src_url)).to start_with(
-          "http://imgproxy.test/info/1KMMwfiizRxXf-H63Dkb3FsQ46DKtL1S94ocezxg-8k/",
-        )
-      end
-
-      context "when signature is truncated" do
-        before { described_class.config.signature_size = 5 }
-
-        it "signs the info URL with truncated signature" do
-          expect(described_class.info_url_for(src_url)).to start_with(
-            "http://imgproxy.test/info/1KMMwfg/",
-          )
+          expect { url }.to raise_error(Imgproxy::UrlBuilders::InvalidEncryptionKeyError)
         end
       end
     end
@@ -740,26 +681,28 @@ RSpec.describe Imgproxy do
         end
       end
 
-      it "signs the info URL" do
-        expect(described_class.info_url_for(src_url, service: :custom)).to start_with(
-          "http://custom-imgproxy.test/info/Ce7iwcp9c0K7mvJD9pLbwXmQ-r-rkNJ1jLIPr2sCVv8/",
+      it "signs the URL using custom service key/salt" do
+        expect(described_class.url_for(src_url, service: :custom)).to start_with(
+          "http://custom-imgproxy.test/Ce7iwcp9c0K7mvJD9pLbwXmQ-r-rkNJ1jLIPr2sCVv8/",
         )
       end
 
       context "when signature is truncated" do
         before { described_class.config.service(:custom).signature_size = 5 }
 
-        it "signs the info URL with truncated signature" do
-          expect(described_class.info_url_for(src_url, service: :custom)).to start_with(
-            "http://custom-imgproxy.test/info/Ce7iwco/",
+        after { described_class.config.service(:custom).signature_size = 32 }
+
+        it "signs the URL with truncated signature using custom service key/salt" do
+          expect(described_class.url_for(src_url, service: :custom)).to start_with(
+            "http://custom-imgproxy.test/Ce7iwco/",
           )
         end
       end
 
       context "when service is unknown" do
         it "raises UnknownServiceError" do
-          expect { described_class.info_url_for(src_url, service: :unknown) }
-            .to raise_error(Imgproxy::Builder::UnknownServiceError)
+          expect { described_class.url_for(src_url, service: :unknown) }
+            .to raise_error(Imgproxy::UrlBuilders::UnknownServiceError)
         end
       end
     end

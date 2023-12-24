@@ -3,7 +3,7 @@ require "imgproxy/options_casters/bool"
 
 module Imgproxy
   module OptionsCasters
-    # Casts gif_options option
+    # Casts `gif_options` processing option
     module GifOptions
       CASTER = Imgproxy::OptionsCasters::Group.new(
         optimize_frames: Imgproxy::OptionsCasters::Bool,

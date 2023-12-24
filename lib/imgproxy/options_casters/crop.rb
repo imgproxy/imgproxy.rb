@@ -4,7 +4,7 @@ require "imgproxy/options_casters/gravity"
 
 module Imgproxy
   module OptionsCasters
-    # Casts crop option
+    # Casts `crop` processing/info option
     module Crop
       using TrimArray
 

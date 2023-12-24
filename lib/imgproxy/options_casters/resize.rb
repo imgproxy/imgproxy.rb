@@ -4,7 +4,7 @@ require "imgproxy/options_casters/size"
 
 module Imgproxy
   module OptionsCasters
-    # Casts resize option
+    # Casts `resize` processing option
     module Resize
       using TrimArray
 

@@ -4,7 +4,7 @@ require "imgproxy/options_casters/integer"
 
 module Imgproxy
   module OptionsCasters
-    # Casts png_options option
+    # Casts `png_options` processing option
     module PngOptions
       CASTER = Imgproxy::OptionsCasters::Group.new(
         interlaced: Imgproxy::OptionsCasters::Bool,

@@ -5,7 +5,7 @@ require "imgproxy/options_casters/extend"
 
 module Imgproxy
   module OptionsCasters
-    # Casts size option
+    # Casts `size` processing option
     module Size
       using TrimArray
 

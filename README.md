@@ -75,9 +75,9 @@ production:
 - With environment variables:
 
 ```bash
-IMGPROXY_ENDPOINT="http://imgproxy.example.com"\
-IMGPROXY_KEY="your_key"\
-IMGPROXY_SALT="your_salt"\
+IMGPROXY_ENDPOINT="http://imgproxy.example.com" \
+IMGPROXY_KEY="your_key" \
+IMGPROXY_SALT="your_salt" \
 rails s
 ```
 
@@ -95,7 +95,7 @@ Imgproxy.configure do |config|
 end
 ```
 
-#### Configuration options
+### Configuration options
 
 - **endpoint** (`IMGPROXY_ENDPOINT`) - Full URL to your imgproxy instance. Default: `nil`.
 - **key** (`IMGPROXY_KEY`) - Hex-encoded signature key. Default: `nil`.
@@ -129,10 +129,18 @@ Imgproxy.extend_active_storage!
 Now, to add imgproxy processing to your image attachments, just use the `imgproxy_url` method:
 
 ```ruby
-user.avatar.imgproxy_url(width: 250, height: 250)
+user.avatar.imgproxy_url(width: 500, height: 400, resizing_type: :fill)
 ```
 
-This method will return an URL to your user's avatar, resized to 250x250px on the fly.
+This method will return a URL to your user's avatar, resized to fill 500x400px on the fly.
+
+If you're a happy user of [imgproxy Pro](https://imgproxy.net#pro), you may find useful it's [Getting an image info](https://docs.imgproxy.net/usage/getting_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
+
+```ruby
+user.avatar.imgproxy_info_url(detect_objects: true, palette: 128)
+```
+
+This method will return a URL to the JSON with the requested info about your user's avatar.
 
 #### Amazon S3
 
@@ -157,10 +165,18 @@ Imgproxy.extend_shrine!
 Now you can use `imgproxy_url` method of `Shrine::UploadedFile`:
 
 ```ruby
-user.avatar.imgproxy_url(width: 250, height: 250)
+user.avatar.imgproxy_url(width: 500, height: 400, resizing_type: :fill)
 ```
 
-This method will return an URL to your user's avatar, resized to 250x250px on the fly.
+This method will return a URL to your user's avatar, resized to fill 500x400px on the fly.
+
+If you're a happy user of [imgproxy Pro](https://imgproxy.net#pro), you may find useful it's [Getting an image info](https://docs.imgproxy.net/usage/getting_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
+
+```ruby
+user.avatar.imgproxy_info_url(detect_objects: true, palette: 128)
+```
+
+This method will return a URL to the JSON with the requested info about your user's avatar.
 
 **NOTE:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `shrine_host` config.
 
@@ -183,16 +199,28 @@ Imgproxy.url_for(
   "http://images.example.com/images/image.jpg",
   width: 500,
   height: 400,
-  resizing_type: :fill,
-  sharpen: 0.5
+  resizing_type: :fill
 )
-# => http://imgproxy.example.com/2tjGMpWqjO/rs:fill:500:400/sh:0.5/plain/http://images.example.com/images/image.jpg
 ```
+
+This method will return a URL to the image, resized to fill 500x400px on the fly.
+
+If you're a happy user of [imgproxy Pro](https://imgproxy.net#pro), you may find useful it's [Getting an image info](https://docs.imgproxy.net/usage/getting_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
+
+```ruby
+Imgproxy.info_url_for(
+  "http://images.example.com/images/image.jpg",
+  detect_objects: true,
+  palette: 128
+)
+```
+
+This method will return a URL to the JSON with the requested info about the image.
 
 You can reuse processing options by using `Imgproxy::Builder`:
 
 ```ruby
-builder = Imgproxy::Builder.new(
+builder = Imgproxy::UrlBuilders::Processing.new(
   width: 500,
   height: 400,
   resizing_type: :fill,
@@ -201,9 +229,27 @@ builder = Imgproxy::Builder.new(
 
 builder.url_for("http://images.example.com/images/image1.jpg")
 builder.url_for("http://images.example.com/images/image2.jpg")
+
+info_builder = Imgproxy::UrlBuilders::Info.new(
+  detect_objects: true,
+  palette: 128
+)
+
+info_builder.url_for("http://images.example.com/images/image1.jpg")
+info_builder.url_for("http://images.example.com/images/image2.jpg")
 ```
 
-### Supported imgproxy processing options
+## Supported imgproxy options
+
+### Common options
+
+- `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
+- `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
+- `use_short_options` — per-call redefinition of `use_short_options` config.
+- `encrypt_source_url` - _(pro)_ per-call redefinition of `always_encrypt_source_urls` config.
+- `source_url_encryption_iv` - _(pro)_ an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
+
+### Processing options
 
 - [resize](https://docs.imgproxy.net/usage/processing#resize)
 - [size](https://docs.imgproxy.net/usage/processing#size)
@@ -250,11 +296,41 @@ builder.url_for("http://images.example.com/images/image2.jpg")
 - [return_attachment](https://docs.imgproxy.net/usage/processing#return-attachment)
 - [expires](https://docs.imgproxy.net/usage/processing#expires)
 
-_See [imgproxy URL format guide](https://docs.imgproxy.net/usage/processing#processing-options) for more info._
+_See [imgproxy processing options guide](https://docs.imgproxy.net/usage/processing#processing-options) for more info._
+
+### Info options (pro)
+
+- [size](https://docs.imgproxy.net/usage/getting_info#size)
+- [format](https://docs.imgproxy.net/usage/getting_info#format)
+- [dimensions](https://docs.imgproxy.net/usage/getting_info#dimensions)
+- [video_meta](https://docs.imgproxy.net/usage/getting_info#video_meta)
+- [detect_objects](https://docs.imgproxy.net/usage/getting_info#detect_objects)
+- [colorspace](https://docs.imgproxy.net/usage/getting_info#colorspace)
+- [bands](https://docs.imgproxy.net/usage/getting_info#bands)
+- [sample_format](https://docs.imgproxy.net/usage/getting_info#sample_format)
+- [pages_number](https://docs.imgproxy.net/usage/getting_info#pages_number)
+- [alpha](https://docs.imgproxy.net/usage/getting_info#alpha)
+- [crop](https://docs.imgproxy.net/usage/getting_info#crop)
+- [palette](https://docs.imgproxy.net/usage/getting_info#palette)
+- [average](https://docs.imgproxy.net/usage/getting_info#average)
+- [dominant_colors](https://docs.imgproxy.net/usage/getting_info#dominant_colors)
+- [blurhash](https://docs.imgproxy.net/usage/getting_info#blurhash)
+- [calc_hashsum](https://docs.imgproxy.net/usage/getting_info#calc_hashsum)
+- [page](https://docs.imgproxy.net/usage/getting_info#page)
+- [video_thumbnail_second](https://docs.imgproxy.net/usage/getting_info#video_thumbnail_second)
+- [video_thumbnail_keyframes](https://docs.imgproxy.net/usage/getting_info#video_thumbnail_keyframes)
+- [cachebuster](https://docs.imgproxy.net/usage/getting_info#cachebuster)
+- [expires](https://docs.imgproxy.net/usage/getting_info#expires)
+- [preset](https://docs.imgproxy.net/usage/getting_info#preset)
+- [hashsum](https://docs.imgproxy.net/usage/getting_info#hashsum)
+- [max_src_resolution](https://docs.imgproxy.net/usage/getting_info#max_src_resolution)
+- [max_src_file_size](https://docs.imgproxy.net/usage/getting_info#max_src_file_size)
+
+_See [imgproxy info options guide](https://docs.imgproxy.net/usage/getting_info#info-options) for more info._
 
 ### Complex processing options
 
-Some of the processing options like `crop` or `gravity` may have multiple arguments, and you can define these arguments multiple ways:
+Some of the processing and info options like `crop` or `gravity` may have multiple arguments, and you can define these arguments multiple ways:
 
 #### Named arguments
 
@@ -333,35 +409,6 @@ Imgproxy.url_for(
   style: "color: rgba(255, 255, 255, .5)"
 )
 # => .../wmu:aHR0cDovL2V4YW1wbGUuY29tL3dhdGVybWFyay5qcGc/st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp/...
-```
-
-### Special options:
-
-- `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
-- `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
-- `use_short_options` — per-call redefinition of `use_short_options` config.
-- `encrypt_source_url` - _(pro)_ per-call redefinition of `always_encrypt_source_urls` config.
-- `source_url_encryption_iv` - _(pro)_ an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
-
-## Getting the image info
-
-If you're a happy user of imgproxy Pro, you may find useful it's [Getting the image info](https://docs.imgproxy.net/usage/getting_info) feature. imgproxy.rb allows you to easily generate info URLs for your images:
-
-```ruby
-# Framework-agnositic way
-Imgproxy.info_url_for("http://images.example.com/images/image.jpg")
-# Using Active Storage or Shrine
-user.avatar.imgproxy_info_url
-
-# You can also use base64_encode_url or escape_plain_url options
-Imgproxy.info_url_for(
-  "http://images.example.com/images/image.jpg",
-  base64_encode_url: true
-)
-Imgproxy.info_url_for(
-  "http://images.example.com/images/image.jpg",
-  escape_plain_url: true
-)
 ```
 
 ## URL adapters

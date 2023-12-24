@@ -5,7 +5,7 @@ require "imgproxy/options_casters/integer"
 
 module Imgproxy
   module OptionsCasters
-    # Casts string option
+    # Casts `watermark` processing option
     module Watermark
       CASTER = Imgproxy::OptionsCasters::Group.new(
         opacity: Imgproxy::OptionsCasters::Float,

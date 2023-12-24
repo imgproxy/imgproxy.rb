@@ -5,7 +5,7 @@ require "imgproxy/options_casters/bool"
 
 module Imgproxy
   module OptionsCasters
-    # Casts trim option
+    # Casts `trim` processing option
     module Trim
       CASTER = Imgproxy::OptionsCasters::Group.new(
         threshold: Imgproxy::OptionsCasters::Float,

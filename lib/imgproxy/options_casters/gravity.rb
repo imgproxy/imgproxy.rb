@@ -4,7 +4,7 @@ require "imgproxy/options_casters/float"
 
 module Imgproxy
   module OptionsCasters
-    # Casts gravity option
+    # Casts `gravity` processing option
     module Gravity
       CASTER = Imgproxy::OptionsCasters::Group.new(
         type: Imgproxy::OptionsCasters::String,

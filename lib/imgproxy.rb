@@ -1,6 +1,7 @@
 require "imgproxy/version"
 require "imgproxy/config"
-require "imgproxy/builder"
+require "imgproxy/url_builders/processing"
+require "imgproxy/url_builders/info"
 
 require "imgproxy/extensions/active_storage"
 require "imgproxy/extensions/shrine"
@@ -59,73 +60,31 @@ module Imgproxy
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
     # @param [Hash] options Processing options
-    # @option options [Hash|Array|String] :resize
-    # @option options [Hash|Array|String] :size
-    # @option options [String] :resizing_type
-    # @option options [String] :resizing_algorithm supported only by imgproxy pro
-    # @option options [Integer] :width
-    # @option options [Integer] :height
-    # @option options [Float] :dpr
-    # @option options [Boolean] :enlarge
-    # @option options [Hash|Array|Boolean|String] :extend
-    # @option options [Hash|Array|String] :gravity
-    # @option options [Hash|Array|String] :crop
-    # @option options [Array] :padding
-    # @option options [Hash|Array|String] :trim
-    # @option options [Integer] :rotate
-    # @option options [Integer] :quality
-    # @option options [Integer] :max_bytes
-    # @option options [Array|String] :background
-    # @option options [Float] :background_alpha supported only by imgproxy pro
-    # @option options [Hash|Array|String] :adjust
-    # @option options [Integer] :brightness supported only by imgproxy pro
-    # @option options [Float] :contrast supported only by imgproxy pro
-    # @option options [Float] :saturation supported only by imgproxy pro
-    # @option options [Float] :blur
-    # @option options [Float] :sharpen
-    # @option options [Integer] :pixelate supported only by imgproxy pro
-    # @option options [String] :unsharpening supported only by imgproxy pro
-    # @option options [Hash|Array|Float|String] :watermark
-    # @option options [String] :watermark_url supported only by imgproxy pro
-    # @option options [String] :watermark_text supported only by imgproxy pro
-    # @option options [String] :style supported only by imgproxy pro
-    # @option options [Hash|Array|String] :jpeg_options supported only by imgproxy pro
-    # @option options [Hash|Array|String] :png_options supported only by imgproxy pro
-    # @option options [Hash|Array|String] :gif_options supported only by imgproxy pro
-    # @option options [Integer] :page supported only by imgproxy pro
-    # @option options [Integer] :video_thumbnail_second supported only by imgproxy pro
-    # @option options [Array] :preset
-    # @option options [String] :cachebuster
-    # @option options [Boolean] :strip_metadata
-    # @option options [Boolean] :strip_color_profile
-    # @option options [Boolean] :auto_rotate
-    # @option options [String] :filename
-    # @option options [String] :format
-    # @option options [Boolean] :return_attachment
-    # @option options [Integer] :expires
-    # @option options [Boolean] :use_short_options
-    # @option options [Boolean] :base64_encode_urls
-    # @option options [Boolean] :escape_plain_url
-    # @option options [Boolean] :encrypt_source_url
-    # @option options [Boolean] :source_url_encryption_iv
-    # @see https://docs.imgproxy.net/generating_the_url_advanced?id=processing-options
-    #   Available imgproxy URL processing options and their arguments
+    # @see https://github.com/imgproxy/imgproxy.rb#processing-options
+    #   Supported processing options
     def url_for(image, options = {})
-      Imgproxy::Builder.new(options).url_for(image)
+      Imgproxy::UrlBuilders::Processing.new(options).url_for(image)
     end
 
-    # Genrates imgproxy info URL. Supported only by imgproxy pro
+    # Genrates imgproxy info URL. Supported only by imgproxy Pro
     #
-    #   Imgproxy.info_url_for("http://images.example.com/images/image.jpg")
+    #   Imgproxy.info_url_for(
+    #     "http://images.example.com/images/image.jpg",
+    #     alpha: {
+    #       alpha: true,
+    #       check_transparency: true
+    #     },
+    #     palette: 128,
+    #   )
     #
     # @return [String] imgproxy info URL
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
-    # @param [Hash] options Processing options
-    # @option options [Boolean] :base64_encode_urls
-    # @option options [Boolean] :escape_plain_url
+    # @param [Hash] options Info options
+    # @see https://github.com/imgproxy/imgproxy.rb#info-options
+    #   Supported info options
     def info_url_for(image, options = {})
-      Imgproxy::Builder.new(options).info_url_for(image)
+      Imgproxy::UrlBuilders::Info.new(options).url_for(image)
     end
 
     # Extends +ActiveStorage::Blob+ with {Imgproxy::Extensions::ActiveStorage.imgproxy_url} method
