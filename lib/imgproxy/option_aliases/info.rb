@@ -19,7 +19,7 @@ module Imgproxy
       calc_hashsum: :chs,
       page: :pg,
       video_thumbnail_second: :vts,
-      video_thumbnail_keyframes: :vts,
+      video_thumbnail_keyframes: :vtk,
       cachebuster: :cb,
       expires: :exp,
       preset: :pr,

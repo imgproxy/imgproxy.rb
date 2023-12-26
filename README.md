@@ -17,7 +17,7 @@
 
 ---
 
-**[imgproxy](https://github.com/imgproxy/imgproxy)** is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
+**[imgproxy](https://imgproxy.net)** is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
 
 imgproxy can be used to provide a fast and secure way to _get rid of all the image resizing code_ in your web application (like calling ImageMagick or GraphicsMagick, or using libraries), while also being able to resize everything on the fly on a separate server that only you control. imgproxy is fast, easy to use, and requires zero processing power or storage from the main application. imgproxy is indispensable when handling image resizing of epic proportions, especially when original images are coming from a remote source.
 
@@ -251,82 +251,11 @@ info_builder.url_for("http://images.example.com/images/image2.jpg")
 
 ### Processing options
 
-- [resize](https://docs.imgproxy.net/usage/processing#resize)
-- [size](https://docs.imgproxy.net/usage/processing#size)
-- [resizing_type](https://docs.imgproxy.net/usage/processing#resizing-type)
-- [resizing_algorithm](https://docs.imgproxy.net/usage/processing#resizing-algorithm) _(pro)_
-- [width](https://docs.imgproxy.net/usage/processing#width)
-- [height](https://docs.imgproxy.net/usage/processing#height)
-- [dpr](https://docs.imgproxy.net/usage/processing#dpr)
-- [enlarge](https://docs.imgproxy.net/usage/processing#enlarge)
-- [extend](https://docs.imgproxy.net/usage/processing#extend)
-- [gravity](https://docs.imgproxy.net/usage/processing#gravity)
-- [crop](https://docs.imgproxy.net/usage/processing#crop)
-- [padding](https://docs.imgproxy.net/usage/processing#padding)
-- [trim](https://docs.imgproxy.net/usage/processing#trim)
-- [rotate](https://docs.imgproxy.net/usage/processing#rotate)
-- [quality](https://docs.imgproxy.net/usage/processing#quality)
-- [max_bytes](https://docs.imgproxy.net/usage/processing#max-bytes)
-- [background](https://docs.imgproxy.net/usage/processing#background)
-- [background_alpha](https://docs.imgproxy.net/usage/processing#background-alpha) _(pro)_
-- [adjust](https://docs.imgproxy.net/usage/processing#adjust) _(pro)_
-- [brightness](https://docs.imgproxy.net/usage/processing#brightness) _(pro)_
-- [contrast](https://docs.imgproxy.net/usage/processing#contrast) _(pro)_
-- [saturation](https://docs.imgproxy.net/usage/processing#saturation) _(pro)_
-- [blur](https://docs.imgproxy.net/usage/processing#blur)
-- [sharpen](https://docs.imgproxy.net/usage/processing#sharpen)
-- [pixelate](https://docs.imgproxy.net/usage/processing#pixelate) _(pro)_
-- [unsharpening](https://docs.imgproxy.net/usage/processing#unsharpening) _(pro)_
-- [watermark](https://docs.imgproxy.net/usage/processing#watermark)
-- [watermark_url](https://docs.imgproxy.net/usage/processing#watermark-url) _(pro)_
-- [watermark_text](https://docs.imgproxy.net/usage/processing#watermark-text) _(pro)_
-- [style](https://docs.imgproxy.net/usage/processing#style) _(pro)_
-- [jpeg_options](https://docs.imgproxy.net/usage/processing#jpeg-options) _(pro)_
-- [png_options](https://docs.imgproxy.net/usage/processing#png-options) _(pro)_
-- [gif_options](https://docs.imgproxy.net/usage/processing#gif-options) _(pro)_
-- [page](https://docs.imgproxy.net/usage/processing#page) _(pro)_
-- [video_thumbnail_second](https://docs.imgproxy.net/usage/processing#video-thumbnail-second) _(pro)_
-- [preset](https://docs.imgproxy.net/usage/processing#preset)
-- [cachebuster](https://docs.imgproxy.net/usage/processing#cachebuster)
-- [strip_metadata](https://docs.imgproxy.net/usage/processing#strip-metadata)
-- [strip_color_profile](https://docs.imgproxy.net/usage/processing#strip-color-profile)
-- [auto_rotate](https://docs.imgproxy.net/usage/processing#auto-rotate)
-- [filename](https://docs.imgproxy.net/usage/processing#filename)
-- [format](https://docs.imgproxy.net/usage/processing#format)
-- [return_attachment](https://docs.imgproxy.net/usage/processing#return-attachment)
-- [expires](https://docs.imgproxy.net/usage/processing#expires)
-
-_See [imgproxy processing options guide](https://docs.imgproxy.net/usage/processing#processing-options) for more info._
+See [Supported processing options](docs/processing_options.md) for the supported processing options list and their arguments.
 
 ### Info options (pro)
 
-- [size](https://docs.imgproxy.net/usage/getting_info#size)
-- [format](https://docs.imgproxy.net/usage/getting_info#format)
-- [dimensions](https://docs.imgproxy.net/usage/getting_info#dimensions)
-- [video_meta](https://docs.imgproxy.net/usage/getting_info#video_meta)
-- [detect_objects](https://docs.imgproxy.net/usage/getting_info#detect_objects)
-- [colorspace](https://docs.imgproxy.net/usage/getting_info#colorspace)
-- [bands](https://docs.imgproxy.net/usage/getting_info#bands)
-- [sample_format](https://docs.imgproxy.net/usage/getting_info#sample_format)
-- [pages_number](https://docs.imgproxy.net/usage/getting_info#pages_number)
-- [alpha](https://docs.imgproxy.net/usage/getting_info#alpha)
-- [crop](https://docs.imgproxy.net/usage/getting_info#crop)
-- [palette](https://docs.imgproxy.net/usage/getting_info#palette)
-- [average](https://docs.imgproxy.net/usage/getting_info#average)
-- [dominant_colors](https://docs.imgproxy.net/usage/getting_info#dominant_colors)
-- [blurhash](https://docs.imgproxy.net/usage/getting_info#blurhash)
-- [calc_hashsum](https://docs.imgproxy.net/usage/getting_info#calc_hashsum)
-- [page](https://docs.imgproxy.net/usage/getting_info#page)
-- [video_thumbnail_second](https://docs.imgproxy.net/usage/getting_info#video_thumbnail_second)
-- [video_thumbnail_keyframes](https://docs.imgproxy.net/usage/getting_info#video_thumbnail_keyframes)
-- [cachebuster](https://docs.imgproxy.net/usage/getting_info#cachebuster)
-- [expires](https://docs.imgproxy.net/usage/getting_info#expires)
-- [preset](https://docs.imgproxy.net/usage/getting_info#preset)
-- [hashsum](https://docs.imgproxy.net/usage/getting_info#hashsum)
-- [max_src_resolution](https://docs.imgproxy.net/usage/getting_info#max_src_resolution)
-- [max_src_file_size](https://docs.imgproxy.net/usage/getting_info#max_src_file_size)
-
-_See [imgproxy info options guide](https://docs.imgproxy.net/usage/getting_info#info-options) for more info._
+See [Supported info options](docs/info_options.md) for the supported info options list and their arguments.
 
 ### Complex processing options
 
@@ -352,9 +281,11 @@ Imgproxy.url_for(
 # => .../c:500:600:nowe:10:5/...
 ```
 
-All the arguments have the same names as in [imgproxy documentation](https://docs.imgproxy.net/usage/processing#processing-options).
+You can find argument names on the [Supported processing options](docs/processing_options.md) and [Supported info options](docs/info_options.md) pages.
 
-You can use named arguments even if the processing option is not supported by the gem. In this case the arguments won't be reordered nor formatted, so you should provide them in the same order and right the same way they should appear in the URL:
+##### Using named arguments with usupported options
+
+You can use named arguments even if the option is not supported by the gem. In this case the arguments won't be reordered nor formatted, so you should provide them in the same order and right the same way they should appear in the URL:
 
 ```ruby
 Imgproxy.url_for(
@@ -374,20 +305,20 @@ Imgproxy.url_for(
 
 #### Unnamed arguments
 
-The arguments of the complex options can be provided as an array of formatted values or even as a colon-separated string:
+The arguments of the complex options can be provided as an array of formatted values:
 
 ```ruby
 Imgproxy.url_for(
   "http://images.example.com/images/image.jpg",
   crop: [500, 600, :nowe, 10, 5],
-  trim: "10:aabbcc:1:1"
+  trim: [10, "aabbcc", 1. 1]
 )
 # => .../c:500:600:nowe:10:5/t:10:aabbcc:1:1/...
 ```
 
 #### Single required argument
 
-If a complex option has a single required argument, and you don't want to use the optional ones, you can just use its value:
+If a complex option has a single required argument, and you don't want to use the optional ones, you can just use the required argument value:
 
 ```ruby
 Imgproxy.url_for(
@@ -438,9 +369,9 @@ Imgproxy.configure do |config|
 end
 ```
 
-**NOTE:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
-
 **NOTE:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
+
+**NOTE:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
 
 ## Custom services
 
@@ -485,7 +416,7 @@ Imgproxy.info_url_for(image, service: :pro)
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/imgproxy/imgproxy.rb.
 
-If you are having any problems with image processing of imgproxy itself, be sure to visit https://github.com/imgproxy/imgproxy first and check out the docs at https://github.com/imgproxy/imgproxy/blob/master/docs/.
+If you are having any problems with image processing of imgproxy itself, be sure to visit https://github.com/imgproxy/imgproxy first and check out the docs at https://docs.imgproxy.net/.
 
 ## License
 

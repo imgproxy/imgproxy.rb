@@ -1,19 +1,18 @@
-require "imgproxy/trim_array"
+require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/integer"
 
 module Imgproxy
   module OptionsCasters
     # Casts `blurhash` info option
     module Blurhash
-      using TrimArray
+      CASTER = Imgproxy::OptionsCasters::Group.new(
+        x_components: Imgproxy::OptionsCasters::Integer,
+        y_components: Imgproxy::OptionsCasters::Integer,
+      ).freeze
 
       def self.cast(raw)
         return raw unless raw.is_a?(Hash)
-
-        [
-          Imgproxy::OptionsCasters::Integer.cast(raw[:x_components]),
-          Imgproxy::OptionsCasters::Integer.cast(raw[:y_components]),
-        ].trim!
+        CASTER.cast(raw)
       end
     end
   end

@@ -1,11 +1,14 @@
-require "imgproxy/trim_array"
+require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/bool"
 
 module Imgproxy
   module OptionsCasters
     # Casts `average` info option
     module Average
-      using TrimArray
+      CASTER = Imgproxy::OptionsCasters::Group.new(
+        average: Imgproxy::OptionsCasters::Bool,
+        ignore_transparent: Imgproxy::OptionsCasters::Bool,
+      ).freeze
 
       def self.cast(raw)
         # Allow average to be just a boolean
@@ -14,10 +17,7 @@ module Imgproxy
         return raw unless raw.is_a?(Hash)
         return if raw[:average].nil?
 
-        values = [
-          Imgproxy::OptionsCasters::Bool.cast(raw[:average]),
-          Imgproxy::OptionsCasters::Bool.cast(raw[:ignore_transparent]),
-        ].trim!
+        values = CASTER.cast(raw)
         values[0].zero? ? 0 : values
       end
     end

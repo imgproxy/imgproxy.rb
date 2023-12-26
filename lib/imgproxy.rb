@@ -59,9 +59,8 @@ module Imgproxy
     # @return [String] imgproxy URL
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
-    # @param [Hash] options Processing options
-    # @see https://github.com/imgproxy/imgproxy.rb#processing-options
-    #   Supported processing options
+    # @param [Hash] options Processing options.
+    #   See: {file:docs/processing_options.md Supported processing options}
     def url_for(image, options = {})
       Imgproxy::UrlBuilders::Processing.new(options).url_for(image)
     end
@@ -80,9 +79,8 @@ module Imgproxy
     # @return [String] imgproxy info URL
     # @param [String,URI, Object] image Source image URL or object applicable for
     #   the configured URL adapters
-    # @param [Hash] options Info options
-    # @see https://github.com/imgproxy/imgproxy.rb#info-options
-    #   Supported info options
+    # @param [Hash] options Info options.
+    #   See: {file:docs/info_options.md Supported info options}
     def info_url_for(image, options = {})
       Imgproxy::UrlBuilders::Info.new(options).url_for(image)
     end

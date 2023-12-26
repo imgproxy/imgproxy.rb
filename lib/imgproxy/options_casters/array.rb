@@ -5,7 +5,7 @@ module Imgproxy
       def self.cast(raw)
         return if raw.nil?
 
-        raw.is_a?(Array) ? raw : [raw]
+        raw.is_a?(::Array) ? raw : [raw]
       end
     end
   end

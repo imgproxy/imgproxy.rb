@@ -1,13 +1,12 @@
 require "imgproxy/options_casters/group"
-require "imgproxy/options_casters/bool"
+require "imgproxy/options_casters/string"
 
 module Imgproxy
   module OptionsCasters
-    # Casts `gif_options` processing option
-    module GifOptions
+    # Casts `webp_options` processing option
+    module WebpOptions
       CASTER = Imgproxy::OptionsCasters::Group.new(
-        optimize_frames: Imgproxy::OptionsCasters::Bool,
-        optimize_transparency: Imgproxy::OptionsCasters::Bool,
+        compression: Imgproxy::OptionsCasters::String,
       ).freeze
 
       def self.cast(raw)

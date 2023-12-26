@@ -46,9 +46,16 @@ RSpec.describe Imgproxy do
         calc_hashsum: %w[md5 sha1],
         page: 42,
         video_thumbnail_second: 15,
+        video_thumbnail_keyframes: true,
         cachebuster: "qwerty",
         expires: Time.at(4810374983),
         preset: %i[preset1 preset2],
+        hashsum: {
+          hashsum_type: "md5",
+          hashsum: "12345678901234567890123456789012",
+        },
+        max_src_resolution: 1.5,
+        max_src_file_size: 1024,
         source_url_encryption_iv: "1234567890123456",
       }
     end
@@ -75,9 +82,13 @@ RSpec.describe Imgproxy do
         "chs:md5:sha1",
         "pg:42",
         "vts:15",
+        "vtk:1",
         "cb:qwerty",
         "exp:4810374983",
         "pr:preset1:preset2",
+        "hs:md5:12345678901234567890123456789012",
+        "msr:1.5",
+        "msfs:1024",
       ].join("/")
     end
 
@@ -103,9 +114,13 @@ RSpec.describe Imgproxy do
         "calc_hashsum:md5:sha1",
         "page:42",
         "video_thumbnail_second:15",
+        "video_thumbnail_keyframes:1",
         "cachebuster:qwerty",
         "expires:4810374983",
         "preset:preset1:preset2",
+        "hashsum:md5:12345678901234567890123456789012",
+        "max_src_resolution:1.5",
+        "max_src_file_size:1024",
       ].join("/")
     end
 

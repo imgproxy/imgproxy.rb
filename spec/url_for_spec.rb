@@ -37,6 +37,12 @@ RSpec.describe Imgproxy do
         resizing_algorithm: :cubic,
         width: "200",
         height: 300,
+        "min-width": 50,
+        "min-height": 60,
+        zoom: {
+          zoom_x: 0.5,
+          zoom_y: 0.75,
+        },
         dpr: 2,
         enlarge: true,
         extend: {
@@ -45,6 +51,14 @@ RSpec.describe Imgproxy do
             type: :nowe,
             x_offset: 5,
             y_offset: 6,
+          },
+        },
+        extend_aspect_ratio: {
+          extend: true,
+          gravity: {
+            type: :soea,
+            x_offset: 0.1,
+            y_offset: 0.2,
           },
         },
         gravity: {
@@ -61,17 +75,25 @@ RSpec.describe Imgproxy do
             y_offset: 0.65,
           },
         },
-        padding: [10, 20],
         trim: {
           threshold: 10,
           color: "ffffff",
           equal_hor: true,
           equal_ver: false,
         },
+        padding: {
+          top: 10,
+          right: 20,
+          bottom: 30,
+          left: 40,
+        },
+        auto_rotate: true,
         rotate: 90,
-        quality: 80,
-        max_bytes: 1024,
-        background: "abcdfe",
+        background: {
+          r: 10,
+          g: 20,
+          b: 30,
+        },
         background_alpha: 0.5,
         adjust: {
           brightness: -10,
@@ -84,7 +106,26 @@ RSpec.describe Imgproxy do
         blur: 0.5,
         sharpen: 0.7,
         pixelate: 10,
-        unsharpening: :always,
+        unsharp_masking: {
+          mode: :always,
+          weight: 10,
+          divider: 20,
+        },
+        blur_detections: {
+          sigma: 10,
+          class_names: %w[class1 class2],
+        },
+        draw_detections: {
+          draw: true,
+          class_names: %w[class1 class2],
+        },
+        gradient: {
+          opacity: 0.5,
+          color: "ffffff",
+          direction: "down",
+          start: 0.25,
+          stop: 0.75,
+        },
         watermark: {
           opacity: 0.5,
           position: :noea,
@@ -94,7 +135,31 @@ RSpec.describe Imgproxy do
         },
         watermark_url: "https://images.test/wm.svg",
         watermark_text: "the watermark",
+        watermark_size: {
+          width: 256,
+          height: 1024,
+        },
+        watermark_shadow: 15,
         style: "color: rgba(255, 255, 255, .5)",
+        strip_metadata: true,
+        keep_copyright: true,
+        dpi: 72,
+        strip_color_profile: false,
+        enforce_thumbnail: true,
+        quality: 80,
+        format_quality: {
+          jpeg: 85,
+          webp: 75,
+          avif: 65,
+        },
+        autoquality: {
+          method: "dssim",
+          target: 0.01,
+          min_quality: 50,
+          max_quality: 90,
+          allowed_error: 0.001,
+        },
+        max_bytes: 1024,
         jpeg_options: {
           progressive: true,
           no_subsample: false,
@@ -108,21 +173,43 @@ RSpec.describe Imgproxy do
           quantize: true,
           quantization_colors: 128,
         },
-        gif_options: {
-          optimize_frames: true,
-          optimize_transparency: false,
+        webp_options: {
+          compression: "lossless",
         },
-        page: 42,
-        video_thumbnail_second: 15,
-        preset: %i[preset1 preset2],
-        cachebuster: "qwerty",
-        strip_metadata: true,
-        strip_color_profile: false,
-        auto_rotate: true,
-        filename: "the_image.jpg",
         format: :webp,
-        return_attachment: true,
+        page: 42,
+        pages: 2,
+        disable_animation: true,
+        video_thumbnail_second: 15,
+        video_thumbnail_keyframes: true,
+        video_thumbnail_tile: {
+          step: 1.5,
+          columns: 2,
+          rows: 3,
+          tile_width: 200,
+          tile_height: 100,
+          extend_tile: true,
+          trim: true,
+        },
+        fallback_image_url: "https://images.test/fallback.jpg",
+        skip_processing: %w[gif svg],
+        raw: true,
+        cachebuster: "qwerty",
         expires: Time.at(4810374983),
+        filename: {
+          filename: "the_image.jpg",
+          encoded: true,
+        },
+        return_attachment: true,
+        preset: %i[preset1 preset2],
+        hashsum: {
+          hashsum_type: "md5",
+          hashsum: "4810374983",
+        },
+        max_src_resolution: 1.5,
+        max_src_file_size: 1024,
+        max_animation_frames: 10,
+        max_animation_frame_resolution: 2.5,
         source_url_encryption_iv: "1234567890123456",
       }
     end
@@ -135,17 +222,20 @@ RSpec.describe Imgproxy do
         "ra:cubic",
         "w:200",
         "h:300",
+        "mw:50",
+        "mh:60",
+        "z:0.5:0.75",
         "dpr:2",
         "el:1",
         "ex:1:nowe:5:6",
+        "exar:1:soea:0.1:0.2",
         "g:fp:0.25:0.75",
         "c:500:100:ce:0.35:0.65",
-        "pd:10:20",
         "t:10:ffffff:1:0",
+        "pd:10:20:30:40",
+        "ar:1",
         "rot:90",
-        "q:80",
-        "mb:1024",
-        "bg:abcdfe",
+        "bg:10:20:30",
         "bga:0.5",
         "a:-10:0.5:2",
         "br:10",
@@ -154,24 +244,47 @@ RSpec.describe Imgproxy do
         "bl:0.5",
         "sh:0.7",
         "pix:10",
-        "ush:always",
+        "ush:always:10:20",
+        "bd:10:class1:class2",
+        "dd:1:class1:class2",
+        "gr:0.5:ffffff:down:0.25:0.75",
         "wm:0.5:noea:10:5:0.1",
         "wmu:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc",
         "wmt:dGhlIHdhdGVybWFyaw",
+        "wms:256:1024",
+        "wmsh:15",
         "st:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp",
+        "sm:1",
+        "kcr:1",
+        "dpi:72",
+        "scp:0",
+        "eth:1",
+        "q:80",
+        "fq:jpeg:85:webp:75:avif:65",
+        "aq:dssim:0.01:50:90:0.001",
+        "mb:1024",
         "jpego:1:0:1:0:1:5",
         "pngo:0:1:128",
-        "gifo:1:0",
+        "webpo:lossless",
         "pg:42",
+        "pgs:2",
+        "da:1",
         "vts:15",
-        "pr:preset1:preset2",
+        "vtk:1",
+        "vtt:1.5:2:3:200:100:1:1",
+        "fiu:aHR0cHM6Ly9pbWFnZXMudGVzdC9mYWxsYmFjay5qcGc",
+        "skp:gif:svg",
+        "raw:1",
         "cb:qwerty",
-        "sm:1",
-        "scp:0",
-        "ar:1",
-        "fn:the_image.jpg",
-        "att:1",
         "exp:4810374983",
+        "fn:dGhlX2ltYWdlLmpwZw:1",
+        "att:1",
+        "pr:preset1:preset2",
+        "hs:md5:4810374983",
+        "msr:1.5",
+        "msfs:1024",
+        "maf:10",
+        "mafr:2.5",
       ].join("/")
     end
 
@@ -183,17 +296,20 @@ RSpec.describe Imgproxy do
         "resizing_algorithm:cubic",
         "width:200",
         "height:300",
+        "min-width:50",
+        "min-height:60",
+        "zoom:0.5:0.75",
         "dpr:2",
         "enlarge:1",
         "extend:1:nowe:5:6",
+        "extend_aspect_ratio:1:soea:0.1:0.2",
         "gravity:fp:0.25:0.75",
         "crop:500:100:ce:0.35:0.65",
-        "padding:10:20",
         "trim:10:ffffff:1:0",
+        "padding:10:20:30:40",
+        "auto_rotate:1",
         "rotate:90",
-        "quality:80",
-        "max_bytes:1024",
-        "background:abcdfe",
+        "background:10:20:30",
         "background_alpha:0.5",
         "adjust:-10:0.5:2",
         "brightness:10",
@@ -202,24 +318,47 @@ RSpec.describe Imgproxy do
         "blur:0.5",
         "sharpen:0.7",
         "pixelate:10",
-        "unsharpening:always",
+        "unsharp_masking:always:10:20",
+        "blur_detections:10:class1:class2",
+        "draw_detections:1:class1:class2",
+        "gradient:0.5:ffffff:down:0.25:0.75",
         "watermark:0.5:noea:10:5:0.1",
         "watermark_url:aHR0cHM6Ly9pbWFnZXMudGVzdC93bS5zdmc",
         "watermark_text:dGhlIHdhdGVybWFyaw",
+        "watermark_size:256:1024",
+        "watermark_shadow:15",
         "style:Y29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgLjUp",
+        "strip_metadata:1",
+        "keep_copyright:1",
+        "dpi:72",
+        "strip_color_profile:0",
+        "enforce_thumbnail:1",
+        "quality:80",
+        "format_quality:jpeg:85:webp:75:avif:65",
+        "autoquality:dssim:0.01:50:90:0.001",
+        "max_bytes:1024",
         "jpeg_options:1:0:1:0:1:5",
         "png_options:0:1:128",
-        "gif_options:1:0",
+        "webp_options:lossless",
         "page:42",
+        "pages:2",
+        "disable_animation:1",
         "video_thumbnail_second:15",
-        "preset:preset1:preset2",
+        "video_thumbnail_keyframes:1",
+        "video_thumbnail_tile:1.5:2:3:200:100:1:1",
+        "fallback_image_url:aHR0cHM6Ly9pbWFnZXMudGVzdC9mYWxsYmFjay5qcGc",
+        "skip_processing:gif:svg",
+        "raw:1",
         "cachebuster:qwerty",
-        "strip_metadata:1",
-        "strip_color_profile:0",
-        "auto_rotate:1",
-        "filename:the_image.jpg",
-        "return_attachment:1",
         "expires:4810374983",
+        "filename:dGhlX2ltYWdlLmpwZw:1",
+        "return_attachment:1",
+        "preset:preset1:preset2",
+        "hashsum:md5:4810374983",
+        "max_src_resolution:1.5",
+        "max_src_file_size:1024",
+        "max_animation_frames:10",
+        "max_animation_frame_resolution:2.5",
       ].join("/")
     end
 
@@ -384,23 +523,13 @@ RSpec.describe Imgproxy do
       end
     end
 
-    describe "crop casting" do
-      context "when both crop width and height aren't set" do
-        let(:options) { { crop: { gravity: { type: "ce" } } } }
+    describe "zoom casting" do
+      context "when the 'zoom_x_y' argument is set" do
+        let(:options) { { zoom: { zoom_x_y: 10, zoom_x: 20, zoom_y: 30 } } }
 
-        it "omits crop" do
+        it "ignores 'zoom_x' and 'zoom_y'" do
           expect(url).to eq(
-            "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
-          )
-        end
-      end
-
-      context "when crop width or height aren't set" do
-        let(:options) { { crop: { width: 300 } } }
-
-        it "replaces missed side with zero" do
-          expect(url).to eq(
-            "http://imgproxy.test/unsafe/c:300:0/plain/https://images.test/image.jpg",
+            "http://imgproxy.test/unsafe/z:10/plain/https://images.test/image.jpg",
           )
         end
       end
@@ -438,6 +567,185 @@ RSpec.describe Imgproxy do
       end
     end
 
+    describe "gravity casting" do
+      context "when 'mode' argument is 'sm'" do
+        let(:options) do
+          {
+            gravity: {
+              type: :sm,
+              x_offset: 10,
+              y_offset: 5,
+              class_names: %w[class1 class2],
+            },
+          }
+        end
+
+        it "ignores offsets and class names" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/g:sm/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when 'mode' argument is 'obj'" do
+        let(:options) do
+          {
+            gravity: {
+              type: :obj,
+              x_offset: 10,
+              y_offset: 5,
+              class_names: %w[class1 class2],
+            },
+          }
+        end
+
+        it "ignores offsets and uses class names" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/g:obj:class1:class2/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when 'mode' argument is not 'sm' or 'obj'" do
+        let(:options) do
+          {
+            gravity: {
+              type: :nowe,
+              x_offset: 10,
+              y_offset: 5,
+              class_names: %w[class1 class2],
+            },
+          }
+        end
+
+        it "ignores class names and uses offsets" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/g:nowe:10:5/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "crop casting" do
+      context "when both crop width and height aren't set" do
+        let(:options) { { crop: { gravity: { type: "ce" } } } }
+
+        it "omits crop" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when crop width or height aren't set" do
+        let(:options) { { crop: { width: 300 } } }
+
+        it "replaces missed side with zero" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/c:300:0/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "padding casting" do
+      context "when all arguments are equal" do
+        let(:options) { { padding: { top: 10, right: 10, bottom: 10, left: 10 } } }
+
+        it "compacts arguments" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/pd:10/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when right equals left" do
+        let(:options) { { padding: { top: 10, right: 10, bottom: 20, left: 10 } } }
+
+        it "compacts arguments" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/pd:10:10:20/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when top equals bottom and right equals left" do
+        let(:options) { { padding: { top: 10, right: 20, bottom: 10, left: 20 } } }
+
+        it "compacts arguments" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/pd:10:20/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "background casting" do
+      context "when 'hex_color' argument is defined" do
+        let(:options) { { background: { hex_color: "123456", R: 10, G: 20, b: 30 } } }
+
+        it "ignores other arguments" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/bg:123456/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when defined as an array" do
+        let(:options) { { background: %w[10a 20b 30c] } }
+
+        it "casts values to int" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/bg:10:20:30/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "blur_detections casting" do
+      context "when 'class_names' argument is not defined" do
+        let(:options) { { blur_detections: { sigma: 10 } } }
+
+        it "ignores 'class_names' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/bd:10/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when 'class_names' argument is empty" do
+        let(:options) { { blur_detections: { sigma: 10, class_names: [] } } }
+
+        it "ignores 'class_names' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/bd:10/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "draw_detections casting" do
+      context "when 'class_names' argument is not defined" do
+        let(:options) { { draw_detections: { draw: true } } }
+
+        it "ignores 'class_names' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/dd:1/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when 'class_names' argument is empty" do
+        let(:options) { { draw_detections: { draw: true, class_names: [] } } }
+
+        it "ignores 'class_names' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/dd:1/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
     describe "watermark casting" do
       context "when the 'opacity' argument is not set" do
         let(:options) { { watermark: { position: "no" } } }
@@ -458,13 +766,69 @@ RSpec.describe Imgproxy do
           )
         end
       end
+    end
 
-      context "when a numeric value is used" do
-        let(:options) { { watermark: 0.5 } }
+    describe "format_quality casting" do
+      context "when some qualities are nil" do
+        let(:options) { { format_quality: { jpeg: 80, webp: nil, avif: 70 } } }
 
-        it "casts number" do
+        it "ignores nil qualities" do
           expect(url).to eq(
-            "http://imgproxy.test/unsafe/wm:0.5/plain/https://images.test/image.jpg",
+            "http://imgproxy.test/unsafe/fq:jpeg:80:avif:70/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "video_thumbnail_tile casting" do
+      context "when the 'step' argument is zero" do
+        let(:options) do
+          {
+            video_thumbnail_tile: {
+              step: 0,
+              columns: 2,
+              rows: 3,
+              tile_width: 200,
+              tile_height: 100,
+            }
+          }
+        end
+
+        it "ignores all other arguments" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/vtt:0/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+    end
+
+    describe "filename casting" do
+      context "when the 'encoded' argument is false" do
+        let(:options) { { filename: { filename: "the_image.jpg", encoded: false } } }
+
+        it "doesn't encode 'filename' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/fn:the_image.jpg/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when the 'encoded' argument is omitted" do
+        let(:options) { { filename: { filename: "the_image.jpg" } } }
+
+        it "doesn't encode 'filename' argument" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/fn:the_image.jpg/plain/https://images.test/image.jpg",
+          )
+        end
+      end
+
+      context "when defined as a string" do
+        let(:options) { { filename: "the_image.jpg" } }
+
+        it "uses the value as is" do
+          expect(url).to eq(
+            "http://imgproxy.test/unsafe/fn:the_image.jpg/plain/https://images.test/image.jpg",
           )
         end
       end
@@ -491,6 +855,9 @@ RSpec.describe Imgproxy do
           adjust: {
             contrast: 0.5,
           },
+          unsharp_masking: {
+            weight: 10,
+          },
           watermark: {
             opacity: 0.5,
             x_offset: 10,
@@ -502,7 +869,7 @@ RSpec.describe Imgproxy do
       it "ommits unset arguments and trims trailing ones" do
         expect(url).to eq(
           "http://imgproxy.test/unsafe/"\
-          "ex:1/g:nowe::10/c:100:0:sm/t:10::1/a::0.5/wm:0.5::10:5/"\
+          "ex:1/g:nowe::10/c:100:0:sm/t:10::1/a::0.5/ush::10/wm:0.5::10:5/"\
           "plain/https://images.test/image.jpg",
         )
       end

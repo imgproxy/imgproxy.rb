@@ -1,0 +1,6 @@
+--asset logo:logo
+--load docs/yard/fix_pictures.rb
+--load docs/yard/relative_markdown_links.rb
+-
+2.0-Upgrade.md
+docs/*.md

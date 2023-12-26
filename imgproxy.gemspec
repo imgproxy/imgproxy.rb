@@ -12,7 +12,10 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/imgproxy/imgproxy.rb"
   spec.license     = "MIT"
 
-  spec.files         = `git ls-files README.md LICENSE CHANGELOG.md lib`.split
+  spec.files = Dir.glob("lib/**/*") +
+               Dir.glob("docs/**/*") +
+               Dir.glob("logo/**/*") +
+               %w[README.md LICENSE CHANGELOG.md 2.0-Upgrade.md]
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.5"

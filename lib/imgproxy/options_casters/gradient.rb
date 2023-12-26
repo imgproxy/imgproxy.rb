@@ -4,22 +4,22 @@ require "imgproxy/options_casters/string"
 
 module Imgproxy
   module OptionsCasters
-    # Casts `watermark` processing option
-    module Watermark
+    # Casts `gradient` processing option
+    module Gradient
       CASTER = Imgproxy::OptionsCasters::Group.new(
         opacity: Imgproxy::OptionsCasters::Float,
-        position: Imgproxy::OptionsCasters::String,
-        x_offset: Imgproxy::OptionsCasters::Float,
-        y_offset: Imgproxy::OptionsCasters::Float,
-        scale: Imgproxy::OptionsCasters::Float,
+        color: Imgproxy::OptionsCasters::String,
+        direction: Imgproxy::OptionsCasters::String,
+        start: Imgproxy::OptionsCasters::Float,
+        stop: Imgproxy::OptionsCasters::Float,
       ).freeze
 
       def self.cast(raw)
-        # Allow watermark to be just a numeric
+        # Allow gradient to be just a numeric
         return Imgproxy::OptionsCasters::Float.cast(raw) if raw.is_a?(Numeric)
 
         return raw unless raw.is_a?(Hash)
-        return unless raw[:opacity]
+        return if raw[:opacity].nil?
 
         values = CASTER.cast(raw)
         values[0].zero? ? 0 : values
