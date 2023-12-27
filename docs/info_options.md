@@ -1,3 +1,6 @@
+<!--
+# @title Supported info options
+-->
 # Supported info options
 
 ### [size](https://docs.imgproxy.net/usage/getting_info#size)

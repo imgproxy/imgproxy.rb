@@ -1,6 +1,8 @@
 --asset logo:logo
 --load docs/yard/fix_pictures.rb
 --load docs/yard/relative_markdown_links.rb
+--load docs/yard/github_alerts.rb
 -
-2.0-Upgrade.md
+CHANGELOG.md
+UPGRADE.md
 docs/*.md

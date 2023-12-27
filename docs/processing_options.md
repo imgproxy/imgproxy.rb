@@ -1,3 +1,6 @@
+<!--
+# @title Supported processing options
+-->
 # Supported processing options
 
 ### [resize](https://docs.imgproxy.net/usage/processing#resize)

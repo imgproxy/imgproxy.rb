@@ -17,13 +17,19 @@
 
 ---
 
-**[imgproxy](https://imgproxy.net)** is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
+[imgproxy](https://imgproxy.net) is a fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security. It is a Go application, ready to be installed and used in any Unix environment—also ready to be containerized using Docker.
 
 imgproxy can be used to provide a fast and secure way to _get rid of all the image resizing code_ in your web application (like calling ImageMagick or GraphicsMagick, or using libraries), while also being able to resize everything on the fly on a separate server that only you control. imgproxy is fast, easy to use, and requires zero processing power or storage from the main application. imgproxy is indispensable when handling image resizing of epic proportions, especially when original images are coming from a remote source.
 
 [imgproxy.rb](https://github.com/imgproxy/imgproxy.rb) is a framework-agnostic Ruby Gem for imgproxy that includes proper support for Ruby on Rails' most popular image attachment options: [Active Storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) and [Shrine](https://github.com/shrinerb/shrine).
 
-**NOTE:** this readme shows documentation for 2.x version. For version 1.x see the [v1.2.0](https://github.com/imgproxy/imgproxy.rb/tree/v1.2.0) tag. See [2.0-Upgrade.md](2.0-Upgrade.md) for the upgrade guide.
+> [!IMPORTANT]
+> This readme shows documentation for version 3.x.
+>
+> * For version 2.x see the [v2.1.0](https://github.com/imgproxy/imgproxy.rb/tree/v2.1.0) tag
+> * For version 1.x see the [v1.2.0](https://github.com/imgproxy/imgproxy.rb/tree/v1.2.0) tag
+>
+> See [Upgrading imgproxy.rb](UPGRADE.md) for the upgrade guide.
 
 ## Installation
 
@@ -35,7 +41,7 @@ gem "imgproxy"
 
 or install system-wide:
 
-```
+```bash
 gem install imgproxy
 ```
 
@@ -43,7 +49,7 @@ gem install imgproxy
 
 imgproxy.rb uses [anyway_config](https://github.com/palkan/anyway_config) to load configuration, so you can configure it in different ways.
 
-- With a separate config file:
+With a separate config file:
 
 ```yaml
 # <Rails root>/config/imgproxy.yml
@@ -57,7 +63,7 @@ production: ...
 test: ...
 ```
 
-- With a `secrets.yml` entry for imgproxy:
+With a `secrets.yml` entry for imgproxy:
 
 ```yaml
 # secrets.yml
@@ -72,7 +78,7 @@ production:
 ...
 ```
 
-- With environment variables:
+With environment variables:
 
 ```bash
 IMGPROXY_ENDPOINT="http://imgproxy.example.com" \
@@ -81,7 +87,7 @@ IMGPROXY_SALT="your_salt" \
 rails s
 ```
 
-- ...or right in your application code:
+...or right in your application code:
 
 ```ruby
 # config/initializers/imgproxy.rb
@@ -97,22 +103,22 @@ end
 
 ### Configuration options
 
-- **endpoint** (`IMGPROXY_ENDPOINT`) - Full URL to your imgproxy instance. Default: `nil`.
-- **key** (`IMGPROXY_KEY`) - Hex-encoded signature key. Default: `nil`.
-- **salt** (`IMGPROXY_SALT`) - Hex-encoded signature salt. Default: `nil`.
-- **raw_key** (`IMGPROXY_RAW_KEY`) - Raw (not hex-encoded) signature key. Default: `nil`.
-- **raw_salt** (`IMGPROXY_RAW_SALT`) - Raw (not hex-encoded) signature salt. Default: `nil`.
-- **signature_size** (`IMGPROXY_SIGNATURE_SIZE`) - Signature size. See [URL signature](https://docs.imgproxy.net/configuration/options#url-signature) section of imgproxy docs. Default: 32.
-- **use_short_options** (`IMGPROXY_USE_SHORT_OPTIONS`) - Use short processing options names (`rs` for `resize`, `g` for `gravity`, etc). Default: true.
-- **base64_encode_urls** (`IMGPROXY_BASE64_ENCODE_URLS`) - Encode source URLs to base64. Default: false.
-- **always_escape_plain_urls** (`IMGPROXY_ALWAYS_ESCAPE_PLAIN_URLS`) - Always escape plain source URLs even when ones don't need to be escaped. Default: false.
-- **source_url_encryption_key** (`IMGPROXY_SOURCE_URL_ENCRYPTION_KEY`) - Hex-encoded source URL encryption key. Default: `nil`.
-- **raw_source_url_encryption_key** (`IMGPROXY_RAW_SOURCE_URL_ENCRYPTION_KEY`) - Raw (not hex-encoded) source URL encryption key. Default: `nil`.
-- **always_encrypt_source_urls** (`IMGPROXY_ALWAYS_ENCRYPT_SOURCE_URLS`) - Always encrypt source URLs. Default: false.
-- **use_s3_urls** (`IMGPROXY_USE_S3_URLS`) - Use `s3://...` source URLs for Active Storage and Shrine attachments stored in Amazon S3. Default: false.
-- **use_gcs_urls** (`IMGPROXY_USE_GCS_URLS`) - Use `gs://...` source URLs for Active Storage and Shrine attachments stored in Google Cloud Storage. Default: false.
-- **gcs_bucket** (`IMGPROXY_GCS_BUCKET`) - Google Cloud Storage bucket name. Default: `nil`.
-- **shrine_host** (`IMGPROXY_SHRINE_HOST`) - Shrine host for locally stored files.
+* `endpoint` (`IMGPROXY_ENDPOINT`) - Full URL to your imgproxy instance. Default: `nil`.
+* `key` (`IMGPROXY_KEY`) - Hex-encoded signature key. Default: `nil`.
+* `salt` (`IMGPROXY_SALT`) - Hex-encoded signature salt. Default: `nil`.
+* `raw_key` (`IMGPROXY_RAW_KEY`) - Raw (not hex-encoded) signature key. Default: `nil`.
+* `raw_salt` (`IMGPROXY_RAW_SALT`) - Raw (not hex-encoded) signature salt. Default: `nil`.
+* `signature_size` (`IMGPROXY_SIGNATURE_SIZE`) - Signature size. See [URL signature](https://docs.imgproxy.net/configuration/options#url-signature) section of imgproxy docs. Default: 32.
+* `use_short_options` (`IMGPROXY_USE_SHORT_OPTIONS`) - Use short processing options names (`rs` for `resize`, `g` for `gravity`, etc). Default: true.
+* `base64_encode_urls` (`IMGPROXY_BASE64_ENCODE_URLS`) - Encode source URLs to base64. Default: false.
+* `always_escape_plain_urls` (`IMGPROXY_ALWAYS_ESCAPE_PLAIN_URLS`) - Always escape plain source URLs even when ones don't need to be escaped. Default: false.
+* `source_url_encryption_key` (`IMGPROXY_SOURCE_URL_ENCRYPTION_KEY`) - Hex-encoded source URL encryption key. Default: `nil`.
+* `raw_source_url_encryption_key` (`IMGPROXY_RAW_SOURCE_URL_ENCRYPTION_KEY`) - Raw (not hex-encoded) source URL encryption key. Default: `nil`.
+* `always_encrypt_source_urls` (`IMGPROXY_ALWAYS_ENCRYPT_SOURCE_URLS`) - Always encrypt source URLs. Default: false.
+* `use_s3_urls` (`IMGPROXY_USE_S3_URLS`) - Use `s3://...` source URLs for Active Storage and Shrine attachments stored in Amazon S3. Default: false.
+* `use_gcs_urls` (`IMGPROXY_USE_GCS_URLS`) - Use `gs://...` source URLs for Active Storage and Shrine attachments stored in Google Cloud Storage. Default: false.
+* `gcs_bucket` (`IMGPROXY_GCS_BUCKET`) - Google Cloud Storage bucket name. Default: `nil`.
+* `shrine_host` (`IMGPROXY_SHRINE_HOST`) - Shrine host for locally stored files.
 
 ## Usage
 
@@ -150,7 +156,8 @@ If you have configured both your imgproxy server and Active Storage to work with
 
 You can also enable `gs://...` URLs usage for the files stored in Google Cloud Storage with `use_gcs_urls` and `gcs_bucket` config options (or `IMGPROXY_USE_GCS_URLS` and `IMGPROXY_GCS_BUCKET` env variables).
 
-**NOTE** that you need to explicitly provide GCS bucket name since Active Storage "hides" the GCS config.
+> [!IMPORTANT]
+> You need to explicitly provide GCS bucket name since Active Storage "hides" the GCS config.
 
 ### Using with Shrine
 
@@ -178,13 +185,14 @@ user.avatar.imgproxy_info_url(detect_objects: true, palette: 128)
 
 This method will return a URL to the JSON with the requested info about your user's avatar.
 
-**NOTE:** If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `shrine_host` config.
-
-Alternatively, you can launch your imgproxy server with the `IMGPROXY_BASE_URL` setting:
-
-```
-IMGPROXY_BASE_URL="http://your-host.test" imgproxy
-```
+> [!IMPORTANT]
+> If you use `Shrine::Storage::FileSystem` as storage, uploaded file URLs won't include the hostname, so imgproxy server won't be able to access them. To fix this, use `shrine_host` config.
+>
+> Alternatively, you can launch your imgproxy server with the `IMGPROXY_BASE_URL` setting:
+>
+> ```
+> IMGPROXY_BASE_URL="http://your-host.test" imgproxy
+> ```
 
 #### Amazon S3
 
@@ -243,11 +251,11 @@ info_builder.url_for("http://images.example.com/images/image2.jpg")
 
 ### Common options
 
-- `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
-- `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
-- `use_short_options` — per-call redefinition of `use_short_options` config.
-- `encrypt_source_url` - _(pro)_ per-call redefinition of `always_encrypt_source_urls` config.
-- `source_url_encryption_iv` - _(pro)_ an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
+* `base64_encode_url` — per-call redefinition of `base64_encode_urls` config.
+* `escape_plain_url` — per-call redefinition of `always_escape_plain_urls` config.
+* `use_short_options` — per-call redefinition of `use_short_options` config.
+* `encrypt_source_url` - _(pro)_ per-call redefinition of `always_encrypt_source_urls` config.
+* `source_url_encryption_iv` - _(pro)_ an initialization vector (IV) to be used for the source URL encryption if encryption is needed. If not specified, a random IV is used.
 
 ### Processing options
 
@@ -331,7 +339,7 @@ Imgproxy.url_for(
 
 ### Base64 processing options arguments
 
-Some of the processing options like `watermark_url` or `style` require their arguments to be base64-encoded. Good news is that imgproxy gem will encode them for you:
+Some of the processing options like `watermark_url` or `style` require their arguments to be base64-encoded. Good news is that imgproxy.rb will encode them for you:
 
 ```ruby
 Imgproxy.url_for(
@@ -345,6 +353,9 @@ Imgproxy.url_for(
 ## URL adapters
 
 By default, `Imgproxy.url_for` accepts only `String` and `URI` as the source URL, but you can extend that behavior by using URL adapters.
+
+> [!TIP]
+> imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
 
 URL adapter is a simple class that implements `applicable?` and `url` methods. See the example below:
 
@@ -369,11 +380,10 @@ Imgproxy.configure do |config|
 end
 ```
 
-**NOTE:** imgproxy.rb provides built-in adapters for Active Storage and Shrine that are automatically added when Active Storage or Shrine support is enabled.
+> [!NOTE]
+> `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
 
-**NOTE:** `Imgproxy` will use the first applicable URL adapter. If you need to add your adapter to the beginning of the list, use the `prepend` method instead of `add`.
-
-## Custom services
+## Extra services
 
 If you use more than one instance of imgproxy and they have different endpoints and key/salt configurations you can specify them in `services` option.
 
