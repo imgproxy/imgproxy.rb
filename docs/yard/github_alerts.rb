@@ -3,7 +3,6 @@
 require "uri"
 require "yard"
 
-# rubocop:disable Style/Documentation
 module YARD
   # Add some formatting to the GitHub alert tags since they are not supported
   # by YARD
@@ -15,4 +14,3 @@ module YARD
 
   Templates::Template.extra_includes << GithubAlerts
 end
-# rubocop:enable Style/Documentation

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 require "shrine"
@@ -27,21 +29,21 @@ RSpec.describe Imgproxy::UrlAdapters::Shrine do
 
   it "builds URL for Shrine::UploadedFile" do
     expect(Imgproxy.url_for(uploaded_file)).to end_with \
-      "/plain/#{uploaded_file.url(host: 'http://example.com')}"
+      "/plain/#{uploaded_file.url(host: "http://example.com")}"
   end
 
   describe "extension" do
     it "builds URL with Shrine extension" do
       expect(uploaded_file.imgproxy_url(width: 200)).to eq(
         "http://imgproxy.test/unsafe/w:200" \
-        "/plain/#{uploaded_file.url(host: 'http://example.com')}",
+        "/plain/#{uploaded_file.url(host: "http://example.com")}",
       )
     end
 
     it "builds info URL with Shrine extension" do
       expect(uploaded_file.imgproxy_info_url).to eq(
         "http://imgproxy.test/info/unsafe" \
-        "/plain/#{uploaded_file.url(host: 'http://example.com')}",
+        "/plain/#{uploaded_file.url(host: "http://example.com")}",
       )
     end
   end

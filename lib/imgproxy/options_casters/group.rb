@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/trim_array"
 
 module Imgproxy

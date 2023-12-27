@@ -1,40 +1,24 @@
-require: rubocop-rspec
+require:
+  - standard/cop/block_single_line_braces
+  - rubocop-rspec
+
+inherit_gem:
+  standard: config/base.yml
 
 AllCops:
-  TargetRubyVersion: 2.5
   Exclude:
-    - 'spec/dummy/**/*'
-    - 'vendor/**/*'
     - 'tmp/**/*'
+    - '.github/**/*'
+  DisplayCopNames: true
+  SuggestExtensions: false
   NewCops: enable
+  TargetRubyVersion: 2.7
 
-Gemspec/RequiredRubyVersion:
+Standard/BlockSingleLineBraces:
   Enabled: false
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-
-Style/NumericLiterals:
-  Enabled: false
-
-Style/Alias:
-  Enabled: false # `alias_method` and `alias` have diferent behaviour
 
 Style/FrozenStringLiteralComment:
-  Enabled: false # not to be used before migration to Ruby 3+
-
-Style/DoubleNegation:
-  Enabled: false
-
-Layout/LineLength:
-  Max: 100
-
-Metrics/ClassLength:
-  Max: 120
-
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*
+  Enabled: true
 
 Style/TrailingCommaInArguments:
   Enabled: true
@@ -48,58 +32,7 @@ Style/TrailingCommaInArrayLiteral:
   Enabled: true
   EnforcedStyleForMultiline: comma
 
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Naming/FileName:
-  Exclude:
-    - "*file" # Rakefile, etc
-
-Layout/HashAlignment:
-  Enabled: false
-
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: true
-
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
-
-Style/ExponentialNotation:
-  Enabled: true
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
-Style/SlicingWithRange:
-  Enabled: true
-
 RSpec/FilePath:
   Enabled: false
-RSpec/LeadingSubject:
+RSpec/SpecFilePathFormat:
   Enabled: false
-RSpec/NamedSubject:
-  Enabled: false
-RSpec/NestedGroups:
-  Max: 4
-RSpec/SubjectStub:
-  Enabled: false # Need this ime by time
-RSpec/MultipleExpectations:
-  Max: 5
-RSpec/ExampleLength:
-  Max: 10
-RSpec/EmptyLineAfterFinalLet:
-  Enabled: false # This works wrong somatimes
-RSpec/BeforeAfterAll:
-  Enabled: false # Not suitable here

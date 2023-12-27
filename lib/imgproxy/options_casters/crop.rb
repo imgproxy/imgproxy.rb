@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/trim_array"
 require "imgproxy/options_casters/float"
 require "imgproxy/options_casters/gravity"

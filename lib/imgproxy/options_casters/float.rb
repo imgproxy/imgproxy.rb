@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgproxy
   module OptionsCasters
     # Casts float option
@@ -8,7 +10,7 @@ module Imgproxy
         raw&.to_f&.then do |f|
           # Convert integral value to Integer so to_s won't give us trailing zero
           i = f.to_i
-          i == f ? i : f
+          (i == f) ? i : f
         end
       end
     end

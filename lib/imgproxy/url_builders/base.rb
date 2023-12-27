@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "openssl"
 require "base64"
 require "erb"
@@ -7,6 +9,7 @@ require "imgproxy/options_builders/base"
 module Imgproxy
   module UrlBuilders
     class UnknownServiceError < StandardError; end
+
     class InvalidEncryptionKeyError < StandardError; end
 
     # Builds imgproxy URL
@@ -51,9 +54,8 @@ module Imgproxy
       attr_reader :service
 
       NEED_ESCAPE_RE = /[@?% ]|[^\p{Ascii}]/.freeze
-      AES_SIZES = { 32 => 256, 24 => 196, 16 => 128 }.freeze
+      AES_SIZES = {32 => 256, 24 => 196, 16 => 128}.freeze
 
-      # rubocop: disable Metrics/AbcSize
       def extract_builder_options(options)
         @service = options.delete(:service)&.to_sym || :default
 
@@ -67,7 +69,6 @@ module Imgproxy
           not_nil_or(options.delete(:encrypt_source_url), service_config.always_encrypt_source_urls)
         @source_url_encryption_iv = options.delete(:source_url_encryption_iv)
       end
-      # rubocop: enable Metrics/AbcSize
 
       def option_strings
         @option_strings ||= @options.map do |key, value|
@@ -113,7 +114,7 @@ module Imgproxy
 
         aes_size = AES_SIZES.fetch(key.length) do
           raise Imgproxy::UrlBuilders::InvalidEncryptionKeyError,
-                "Encryption key should be 16/24/32 bytes long, now - #{key.length}"
+            "Encryption key should be 16/24/32 bytes long, now - #{key.length}"
         end
 
         OpenSSL::Cipher::AES.new(aes_size, :CBC).tap do |cipher|

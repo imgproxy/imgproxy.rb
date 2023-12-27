@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/string"
 require "imgproxy/options_casters/integer"
@@ -19,7 +21,7 @@ module Imgproxy
         return raw unless raw.is_a?(Hash)
 
         values = CASTER.cast(raw)
-        values[0] == "none" ? "none" : values
+        (values[0] == "none") ? "none" : values
       end
     end
   end

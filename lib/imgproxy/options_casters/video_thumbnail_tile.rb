@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/float"
 require "imgproxy/options_casters/integer"

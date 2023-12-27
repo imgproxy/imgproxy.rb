@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "anyway_config"
 
 require "imgproxy/service_config"
@@ -43,13 +45,15 @@ module Imgproxy
       services: {},
     )
 
-    coerce_types use_short_options: :boolean,
-                 base64_encode_urls: :boolean,
-                 always_escape_plain_urls: :boolean,
-                 use_s3_urls: :boolean,
-                 use_gcs_urls: :boolean,
-                 gcs_bucket: :string,
-                 shrine_host: :string
+    coerce_types(
+      use_short_options: :boolean,
+      base64_encode_urls: :boolean,
+      always_escape_plain_urls: :boolean,
+      use_s3_urls: :boolean,
+      use_gcs_urls: :boolean,
+      gcs_bucket: :string,
+      shrine_host: :string,
+    )
 
     def endpoint
       service(:default).endpoint
@@ -131,7 +135,6 @@ module Imgproxy
       services[name.to_sym]
     end
 
-    # rubocop: disable Metrics/AbcSize
     def services
       @services ||= {}.tap do |s|
         s[:default] = ServiceConfig.new
@@ -146,7 +149,6 @@ module Imgproxy
         end
       end
     end
-    # rubocop: enable Metrics/AbcSize
 
     # @deprecated Please use {#key} instead
     def hex_key=(value)

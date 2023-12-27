@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/integer"
 
@@ -23,7 +25,6 @@ module Imgproxy
         compact CASTER.cast(raw)
       end
 
-      # rubocop:disable Metrics/AbcSize
       def self.compact(values)
         if values[0] == values[1] && values[0] == values[2] && values[0] == values[3]
           return values[0]
@@ -35,7 +36,6 @@ module Imgproxy
 
         values
       end
-      # rubocop:enable Metrics/AbcSize
     end
   end
 end

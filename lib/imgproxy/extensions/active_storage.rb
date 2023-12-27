@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgproxy
   module Extensions
     # Extension for ActiveStorage

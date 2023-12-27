@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/option_aliases/info"
 require "imgproxy/options_builders/info"
 require "imgproxy/url_builders/base"

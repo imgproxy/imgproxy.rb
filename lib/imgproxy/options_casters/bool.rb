@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgproxy
   module OptionsCasters
     # Casts boolean option
@@ -5,7 +7,7 @@ module Imgproxy
       def self.cast(raw)
         return if raw.nil?
 
-        raw && raw != 0 && raw != "0" ? 1 : 0
+        (raw && raw != 0 && raw != "0") ? 1 : 0
       end
     end
   end

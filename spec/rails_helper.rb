@@ -9,7 +9,7 @@ begin
     config.logger = Logger.new(nil)
     config.log_level = :fatal
   end
-rescue StandardError => e
+rescue => e
   $stdout.puts "Failed to load the app: #{e.message}\n#{e.backtrace.take(5).join("\n")}"
   exit(1)
 end

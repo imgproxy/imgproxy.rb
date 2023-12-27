@@ -2,7 +2,6 @@
 
 require "yard"
 
-# rubocop:disable Style/Documentation, Metrics/MethodLength, Metrics/AbcSize
 module YARD
   # Fixes relative links in markdown files.
   module RelativeMarkdownLinks
@@ -12,7 +11,7 @@ module YARD
       filenames = options.files.each_with_object({}) do |file, fns|
         fn = file.filename
         fns[fn] = fn
-        fns["#{fn.tr('.', '_')}.html"] = fn
+        fns["#{fn.tr(".", "_")}.html"] = fn
       end
 
       # puts text
@@ -30,4 +29,3 @@ module YARD
 
   Templates::Template.extra_includes << RelativeMarkdownLinks
 end
-# rubocop:enable Style/Documentation, Metrics/MethodLength, Metrics/AbcSize

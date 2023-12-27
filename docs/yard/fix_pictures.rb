@@ -3,7 +3,6 @@
 require "uri"
 require "yard"
 
-# rubocop:disable Style/Documentation
 module YARD
   # Replaces <picture> tags with <img> and relative src with absolute ones
   module ReplacePicture
@@ -24,4 +23,3 @@ module YARD
 
   Templates::Template.extra_includes << ReplacePicture
 end
-# rubocop:enable Style/Documentation

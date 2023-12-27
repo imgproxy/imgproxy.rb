@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/url_adapters/active_storage"
 require "imgproxy/url_adapters/shrine"
 
@@ -11,6 +13,7 @@ module Imgproxy
   #   Imgproxy.url_for(user.avatar)
   class UrlAdapters
     class NotFound < StandardError; end
+
     class NotConfigured < StandardError; end
 
     # @return [Array] Currently added adapters

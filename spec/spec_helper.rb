@@ -2,7 +2,7 @@
 
 begin
   require "debug" unless ENV["CI"]
-rescue LoadError # rubocop:disable Lint/SuppressedException
+rescue LoadError
 end
 
 ENV["RAILS_ENV"] = "test"

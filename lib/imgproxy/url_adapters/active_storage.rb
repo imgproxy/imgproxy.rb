@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgproxy
   class UrlAdapters
     # Adapter for ActiveStorage

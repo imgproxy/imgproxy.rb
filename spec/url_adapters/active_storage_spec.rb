@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
@@ -147,11 +149,11 @@ RSpec.describe Imgproxy::UrlAdapters::ActiveStorage do
     end
 
     it "builds URL for ActiveStorage::Attached::One" do
-      expect(Imgproxy.url_for(user.avatar, service: :custom)).to end_with \
-        "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}"
-
-      expect(Imgproxy.url_for(user.avatar, service: :custom)).to start_with \
-        "https://custom-service.com/"
+      expect(Imgproxy.url_for(user.avatar, service: :custom)).to end_with(
+        "/plain/#{Rails.application.routes.url_helpers.url_for(user.avatar)}",
+      ).and start_with(
+        "https://custom-service.com/",
+      )
     end
   end
 end

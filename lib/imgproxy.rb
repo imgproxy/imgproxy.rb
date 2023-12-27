@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/version"
 require "imgproxy/config"
 require "imgproxy/url_builders/processing"

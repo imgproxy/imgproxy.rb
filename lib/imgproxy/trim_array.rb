@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgproxy
   # `Array.trim!` refinement
   module TrimArray

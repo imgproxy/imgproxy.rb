@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "imgproxy/options_casters/group"
 require "imgproxy/options_casters/string"
 
@@ -15,7 +17,7 @@ module Imgproxy
         return if raw[:hashsum_type].nil?
 
         values = CASTER.cast(raw)
-        values[0] == "none" ? "none" : values
+        (values[0] == "none") ? "none" : values
       end
     end
   end
