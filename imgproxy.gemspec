@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rails", "~> 7.0.3"
   spec.add_development_dependency "shrine", "~> 3.0"
   spec.add_development_dependency "sqlite3", "~>1.4.1"
+  spec.add_development_dependency "carrierwave"
 end

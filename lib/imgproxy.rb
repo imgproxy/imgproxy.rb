@@ -4,6 +4,7 @@ require "imgproxy/builder"
 
 require "imgproxy/extensions/active_storage"
 require "imgproxy/extensions/shrine"
+require "imgproxy/extensions/carrierwave"
 
 # @see Imgproxy::ClassMethods
 module Imgproxy
@@ -147,8 +148,18 @@ module Imgproxy
       ::Shrine::UploadedFile.include Imgproxy::Extensions::Shrine
       Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::Shrine.new)
     end
+
+    # Extends +CarrierWave::Uploader::Base+ with {Imgproxy::Extensions::Carrierwave.imgproxy_url} method
+    # and adds URL adapters for Shrine
+    def extend_carrierwave!
+      return unless defined?(::CarrierWave::Uploader::Base)
+
+      ::CarrierWave::Uploader::Base.include Imgproxy::Extensions::Carrierwave
+      Imgproxy.config.url_adapters.add(Imgproxy::UrlAdapters::Carrierwave.new)
+    end
   end
 end
 
 Imgproxy.extend_active_storage!
 Imgproxy.extend_shrine!
+Imgproxy.extend_carrierwave!
