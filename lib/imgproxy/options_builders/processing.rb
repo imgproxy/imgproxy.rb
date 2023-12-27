@@ -110,6 +110,19 @@ module Imgproxy
 
       META = %i[size resize adjust].freeze
 
+      def initialize(options)
+        super
+
+        # Legacy name for unsharp_masking
+        if options.key?(:unsharpening)
+          warn "[DEPRECATION] `unsharpening` option is deprecated. Please use `unsharp_masking` instead."
+          delete(:unsharpening)
+          unless self.key?(:unsharp_masking)
+            self[:unsharp_masking] = CASTERS[:unsharp_masking].cast(options[:unsharpening])
+          end
+        end
+      end
+
       private
 
       def group_opts
