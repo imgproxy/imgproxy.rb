@@ -9,6 +9,7 @@ AllCops:
   Exclude:
     - 'tmp/**/*'
     - '.github/**/*'
+    - 'vendor/**/*'
   DisplayCopNames: true
   SuggestExtensions: false
   NewCops: enable
