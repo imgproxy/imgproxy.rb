@@ -3,7 +3,7 @@
 -->
 # Changelog
 
-## [Unreleased]
+## [3.0.0] - 2023-12-28
 
 ⚠️ This is a major release. See [the migration guide](https://github.com/imgproxy/imgproxy.rb/blob/master/UPGRADE.md). ⚠️
 
