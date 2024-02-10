@@ -9,6 +9,7 @@ module Imgproxy
     module WebpOptions
       CASTER = Imgproxy::OptionsCasters::Group.new(
         compression: Imgproxy::OptionsCasters::String,
+        smart_subsample: Imgproxy::OptionsCasters::Bool,
       ).freeze
 
       def self.cast(raw)
