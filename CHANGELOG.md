@@ -7,6 +7,10 @@
 ### Added
 - Add `smart_subsample` argument to the `webp_options` processing option.
 
+### Fixed
+
+- Fix `calc_hashsums` info option name.
+
 ## [3.0.0] - 2023-12-28
 
 ⚠️ This is a major release. See [the migration guide](https://github.com/imgproxy/imgproxy.rb/blob/master/UPGRADE.md). ⚠️

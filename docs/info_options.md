@@ -139,11 +139,11 @@
 }
 ```
 
-### [calc_hashsum](https://docs.imgproxy.net/usage/getting_info#calc_hashsum)
+### [calc_hashsums](https://docs.imgproxy.net/usage/getting_info#calc_hashsums)
 
 ```ruby
 {
-  calc_hashsum: Array[String || Symbol]
+  calc_hashsums: Array[String || Symbol]
 }
 ```
 

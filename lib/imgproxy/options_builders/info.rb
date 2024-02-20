@@ -36,7 +36,7 @@ module Imgproxy
         average: Imgproxy::OptionsCasters::Average,
         dominant_colors: Imgproxy::OptionsCasters::DominantColors,
         blurhash: Imgproxy::OptionsCasters::Blurhash,
-        calc_hashsum: Imgproxy::OptionsCasters::Array,
+        calc_hashsums: Imgproxy::OptionsCasters::Array,
         page: Imgproxy::OptionsCasters::Integer,
         video_thumbnail_second: Imgproxy::OptionsCasters::Integer,
         video_thumbnail_keyframes: Imgproxy::OptionsCasters::Bool,

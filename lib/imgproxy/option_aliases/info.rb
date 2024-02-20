@@ -18,7 +18,7 @@ module Imgproxy
       average: :avg,
       dominant_colors: :dc,
       blurhash: :bh,
-      calc_hashsum: :chs,
+      calc_hashsums: :chs,
       page: :pg,
       video_thumbnail_second: :vts,
       video_thumbnail_keyframes: :vtk,
