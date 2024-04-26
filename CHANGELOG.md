@@ -7,6 +7,7 @@
 ### Added
 - Add `smart_subsample` argument to the `webp_options` processing option.
 - Add `watermark_rotate` processing option support.
+- Add `fill`, `focus_x`, and `focus_y` arguments to the `video_thumbnail_tile` processing option.
 
 ### Fixed
 

@@ -17,6 +17,9 @@ module Imgproxy
         tile_height: Imgproxy::OptionsCasters::Integer,
         extend_tile: Imgproxy::OptionsCasters::Bool,
         trim: Imgproxy::OptionsCasters::Bool,
+        fill: Imgproxy::OptionsCasters::Bool,
+        focus_x: Imgproxy::OptionsCasters::Float,
+        focus_y: Imgproxy::OptionsCasters::Float,
       ).freeze
 
       def self.cast(raw)
