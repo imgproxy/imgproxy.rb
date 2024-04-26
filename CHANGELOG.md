@@ -6,6 +6,7 @@
 ## [Unreleased]
 ### Added
 - Add `smart_subsample` argument to the `webp_options` processing option.
+- Add `watermark_rotate` processing option support.
 
 ### Fixed
 

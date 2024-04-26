@@ -74,6 +74,7 @@ module Imgproxy
         watermark_url: Imgproxy::OptionsCasters::Base64,
         watermark_text: Imgproxy::OptionsCasters::Base64,
         watermark_size: Imgproxy::OptionsCasters::WatermarkSize,
+        watermark_rotate: Imgproxy::OptionsCasters::Float,
         watermark_shadow: Imgproxy::OptionsCasters::Float,
         style: Imgproxy::OptionsCasters::Base64,
         strip_metadata: Imgproxy::OptionsCasters::Bool,

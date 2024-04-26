@@ -38,6 +38,7 @@ module Imgproxy
       watermark_url: :wmu,
       watermark_text: :wmt,
       watermark_size: :wms,
+      watermark_rotate: :wmr,
       watermark_shadow: :wmsh,
       style: :st,
       strip_metadata: :sm,
