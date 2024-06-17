@@ -76,11 +76,11 @@ module Imgproxy
         end
       end
 
-      def sourcce_url(image, ext: nil)
+      def source_url(image, ext: nil)
         url = config.url_adapters.url_of(image)
 
-        return encrypted_sourcce_url_for(url, ext: ext) if @encrypt_source_url
-        return base64_sourcce_url_for(url, ext: ext) if @base64_encode_url
+        return encrypted_source_url_for(url, ext: ext) if @encrypt_source_url
+        return base64_source_url_for(url, ext: ext) if @base64_encode_url
         plain_url_for(url, ext: ext)
       end
 
@@ -90,19 +90,19 @@ module Imgproxy
         ext ? "plain/#{escaped_url}@#{ext}" : "plain/#{escaped_url}"
       end
 
-      def base64_sourcce_url_for(url, ext: nil)
+      def base64_source_url_for(url, ext: nil)
         encoded_url = Base64.urlsafe_encode64(url).tr("=", "").scan(/.{1,16}/).join("/")
 
         ext ? "#{encoded_url}.#{ext}" : encoded_url
       end
 
-      def encrypted_sourcce_url_for(url, ext: nil)
+      def encrypted_source_url_for(url, ext: nil)
         cipher = build_cipher
 
         iv = @source_url_encryption_iv || cipher.random_iv
         cipher.iv = iv
 
-        "enc/#{base64_sourcce_url_for(iv + cipher.update(url) + cipher.final, ext: ext)}"
+        "enc/#{base64_source_url_for(iv + cipher.update(url) + cipher.final, ext: ext)}"
       end
 
       def need_escape_url?(url)
