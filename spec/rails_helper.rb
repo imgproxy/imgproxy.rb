@@ -26,7 +26,6 @@ Rails.application.routes.default_url_options[:host] = "http://example.com"
 active_storage_path = Gem::Specification.find_by_name("activestorage").gem_dir
 ActiveRecord::MigrationContext.new(
   File.join(active_storage_path, "db/migrate"),
-  ActiveRecord::SchemaMigration,
 ).migrate
 
 RSpec.configure do |config|

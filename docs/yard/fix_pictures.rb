@@ -7,17 +7,17 @@ module YARD
   # Replaces <picture> tags with <img> and relative src with absolute ones
   module ReplacePicture
     def html_markup_markdown(text)
-      text = text.gsub(%r{<picture>.*(<img [^>]*>).*</picture>}m) do
+      new_text = text.gsub(%r{<picture>.*(<img [^>]*>).*</picture>}m) do
         Regexp.last_match(1)
       end
 
-      text = text.gsub(/<img [^>]*src="(([^>?]+)(\?[^>]*)?)"[^>]*>/m) do |str|
+      new_text = new_text.gsub(/<img [^>]*src="(([^>?]+)(\?[^>]*)?)"[^>]*>/m) do |str|
         src = Regexp.last_match(1)
         next str unless URI.parse(src).relative?
         str.gsub(src, url_for_file(Regexp.last_match(2)))
       end
 
-      super(text)
+      super(new_text)
     end
   end
 

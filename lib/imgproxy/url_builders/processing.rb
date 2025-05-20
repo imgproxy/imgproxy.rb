@@ -24,7 +24,7 @@ module Imgproxy
       # @param [Hash] options Processing options
       # @see Imgproxy.url_for
       def initialize(options = {})
-        super(options)
+        super
 
         @format = @options.delete(:format)
       end

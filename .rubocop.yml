@@ -1,5 +1,7 @@
 require:
   - standard/cop/block_single_line_braces
+
+plugins:
   - rubocop-rspec
 
 inherit_gem:
@@ -33,7 +35,5 @@ Style/TrailingCommaInArrayLiteral:
   Enabled: true
   EnforcedStyleForMultiline: comma
 
-RSpec/FilePath:
-  Enabled: false
 RSpec/SpecFilePathFormat:
   Enabled: false

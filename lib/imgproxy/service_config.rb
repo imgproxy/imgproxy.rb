@@ -73,39 +73,39 @@ module Imgproxy
       :set_source_url_encryption_key, :set_raw_source_url_encryption_key
 
     def key=(value)
-      value = value&.to_s
-      super(value)
-      set_raw_key(value && [value].pack("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_raw_key(str_value && [str_value].pack("H*"))
     end
 
     def raw_key=(value)
-      value = value&.to_s
-      super(value)
-      set_key(value&.unpack!("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_key(str_value&.unpack!("H*"))
     end
 
     def salt=(value)
-      value = value&.to_s
-      super(value)
-      set_raw_salt(value && [value].pack("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_raw_salt(str_value && [str_value].pack("H*"))
     end
 
     def raw_salt=(value)
-      value = value&.to_s
-      super(value)
-      set_salt(value&.unpack1("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_salt(str_value&.unpack1("H*"))
     end
 
     def source_url_encryption_key=(value)
-      value = value&.to_s
-      super(value)
-      set_raw_source_url_encryption_key(value && [value].pack("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_raw_source_url_encryption_key(str_value && [str_value].pack("H*"))
     end
 
     def raw_source_url_encryption_key=(value)
-      value = value&.to_s
-      super(value)
-      set_source_url_encryption_key(value&.unpack1("H*"))
+      str_value = value&.to_s
+      super(str_value)
+      set_source_url_encryption_key(str_value&.unpack1("H*"))
     end
   end
 end

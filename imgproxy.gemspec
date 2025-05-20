@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "combustion", "~> 1.3"
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rspec-rails", "~> 6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.11"
+  spec.add_development_dependency "rubocop-rspec", "~> 3.6"
   spec.add_development_dependency "standard", "~> 1.0"
 
   spec.add_development_dependency "aws-sdk-s3", "~> 1.64"
